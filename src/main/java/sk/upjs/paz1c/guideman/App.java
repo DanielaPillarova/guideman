@@ -13,6 +13,7 @@ public class App {
 		UserDao userDao = DaoFactory.INSTANCE.getUserDao();
 		List<User> users = userDao.getAll();
 		System.out.println(users);
+		System.out.println("halo");
 		
 	}
 
