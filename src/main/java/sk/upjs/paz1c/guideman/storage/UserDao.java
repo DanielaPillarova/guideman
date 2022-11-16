@@ -1,9 +1,17 @@
 package sk.upjs.paz1c.guideman.storage;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface UserDao {
-	
+
 	List<User> getAll();
+
+	User getById(long id) throws NoSuchElementException;
+	
+	// okomentovanie metody
+	User save(User user) throws NullPointerException, EntityNotFoundException;
+
+	User delete(User user) throws EntityNotFoundException;
 
 }

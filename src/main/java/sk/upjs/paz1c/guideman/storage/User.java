@@ -12,7 +12,7 @@ public class User {
 	private String telNumber;
 
 	// birthdate DATE ?
-	private Date birthdate;
+	private Date birthdate; // prerobit na localdate
 
 	private String login;
 	private String password;
