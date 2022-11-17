@@ -1,6 +1,6 @@
 package sk.upjs.paz1c.guideman.storage;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.sql.Blob;
 
 public class User {
@@ -12,7 +12,7 @@ public class User {
 	private String telNumber;
 
 	// birthdate DATE ?
-	private Date birthdate; // prerobit na localdate
+	private LocalDate birthdate;
 
 	private String login;
 	private String password;
@@ -28,7 +28,40 @@ public class User {
 		this.password = password;
 	}
 
-	public User(Long id, String name, String surname, String email, String telNumber, Date birthdate, String login,
+	public User(Long id, String name, String surname, String email, String telNumber, LocalDate birthdate, Blob image) {
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.telNumber = telNumber;
+		this.birthdate = birthdate;
+		this.image = image;
+	}
+	
+
+	public User(String name, String surname, String email, String telNumber, LocalDate birthdate, Blob image) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.telNumber = telNumber;
+		this.birthdate = birthdate;
+		this.image = image;
+	}
+	
+
+	public User(String name, String surname, String email, String telNumber, LocalDate birthdate, String login,
+			String password, Blob image) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.telNumber = telNumber;
+		this.birthdate = birthdate;
+		this.login = login;
+		this.password = password;
+		this.image = image;
+	}
+
+	public User(Long id, String name, String surname, String email, String telNumber, LocalDate birthdate, String login,
 			String password, Blob image) {
 		this.id = id;
 		this.name = name;
@@ -81,11 +114,11 @@ public class User {
 		this.telNumber = telNumber;
 	}
 
-	public Date getBirthdate() {
+	public LocalDate getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthdate(Date birthdate) {
+	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
 	}
 

@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class MysqlUserDao implements UserDao {
 				String surname = rs.getString("surname");
 				String email = rs.getString("email");
 				String telNumber = rs.getString("tel_number"); // moze byt null
-				Date birthdate = rs.getDate("birthdate");
+				LocalDate birthdate = rs.getTimestamp("birthdate").toLocalDateTime().toLocalDate();
 				// treba nam pamatat si login a heslo tuto? nestaci to riesit pri prihlasovani?
 				String login = rs.getString("login");
 				String password = rs.getString("password");
@@ -49,7 +50,8 @@ public class MysqlUserDao implements UserDao {
 
 	@Override
 	public User getById(long id) throws EntityNotFoundException {
-		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image WHERE id = " + id;
+		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user WHERE id = "
+				+ id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new UserRowMapper());
 		} catch (EmptyResultDataAccessException e) {
@@ -88,7 +90,8 @@ public class MysqlUserDao implements UserDao {
 			sjdbInsert.withTableName("user");
 			sjdbInsert.usingGeneratedKeyColumns("id");
 			// tel number a image mozu byt null
-			sjdbInsert.usingColumns("name", "surname", "email", "tel_number", "birthdate", "login", "password", "image");
+			sjdbInsert.usingColumns("name", "surname", "email", "tel_number", "birthdate", "login", "password",
+					"image");
 
 			Map<String, Object> values = new HashMap<>();
 			values.put("name", user.getName());
@@ -110,22 +113,11 @@ public class MysqlUserDao implements UserDao {
 					user.getBirthdate(), user.getLogin(), user.getPassword(), user.getImage());
 
 		} else { // UPDATE
-			int changedTelNumber = 0;
-			int changedImage = 0;
-			if (user.getTelNumber() != null) { // ked chcem pridat tel number
-				String sqlTelNumber = "UPDATE user SET tel_number=?";
-				changedTelNumber = jdbcTemplate.update(sqlTelNumber, user.getTelNumber());
-			}
-			if (user.getImage() != null) { // ked chcem pridat image
-				String sqlImage = "UPDATE user SET image=?";
-				changedImage = jdbcTemplate.update(sqlImage, user.getImage());
-			}
-
-			String sql = "UPDATE user SET name=?, surname=?, email=?, birthdate=?, login=?, password=? WHERE id = "
+			String sql = "UPDATE user SET name=?, surname=?, email=?, tel_number=?, birthdate=?, login=?, password=?, image=? WHERE id = "
 					+ user.getId();
-			int changed = jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getEmail(), user.getBirthdate(),
-					user.getLogin(), user.getPassword());
-			if (changedTelNumber == 1 || changedImage == 1 || changed == 1) {
+			int changed = jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getEmail(),
+					user.getTelNumber(), user.getBirthdate(), user.getLogin(), user.getPassword(), user.getImage());
+			if (changed == 1) {
 				return user;
 			}
 			throw new EntityNotFoundException("User with id " + user.getId() + " not found");
@@ -134,9 +126,9 @@ public class MysqlUserDao implements UserDao {
 	}
 
 	@Override
-	public User delete(User user) throws EntityNotFoundException {
-
-		return null; // user
+	public boolean delete(long id) throws EntityNotFoundException {
+		int changed = jdbcTemplate.update("DELETE FROM user WHERE id = " + id);
+		return changed == 1;
 	}
 
 	private class UserRowMapper implements RowMapper<User> {
@@ -149,8 +141,8 @@ public class MysqlUserDao implements UserDao {
 			user.setSurname(rs.getString("surname"));
 			user.setEmail(rs.getString("email"));
 			user.setTelNumber(rs.getString("tel_number"));
-			user.setBirthdate(rs.getDate("birthdate"));
-			// asi netreba login a password
+			user.setBirthdate(rs.getTimestamp("birthdate").toLocalDateTime().toLocalDate());
+			// asi netreba login a password, neviem som confusion
 			user.setLogin(rs.getString("login"));
 			user.setPassword(rs.getString("password"));
 			user.setImage(rs.getBlob("image"));

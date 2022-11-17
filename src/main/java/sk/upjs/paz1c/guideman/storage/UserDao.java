@@ -8,10 +8,10 @@ public interface UserDao {
 	List<User> getAll();
 
 	User getById(long id) throws NoSuchElementException;
-	
+
 	// okomentovanie metody
 	User save(User user) throws NullPointerException, EntityNotFoundException;
 
-	User delete(User user) throws EntityNotFoundException;
+	boolean delete(long id) throws EntityNotFoundException;
 
 }
