@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `guideman_test` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_slovak_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `guideman_test`;
+CREATE DATABASE  IF NOT EXISTS `guideman` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_slovak_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `guideman`;
 -- MySQL dump 10.13  Distrib 8.0.30, for macos12 (x86_64)
 --
 -- Host: localhost    Database: guideman
@@ -118,7 +118,7 @@ CREATE TABLE `user` (
   `tel_number` varchar(20) COLLATE utf8mb3_slovak_ci DEFAULT NULL,
   `birthdate` date NOT NULL,
   `login` varchar(45) COLLATE utf8mb3_slovak_ci NOT NULL,
-  `password` varchar(45) COLLATE utf8mb3_slovak_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8mb3_slovak_ci NOT NULL,
   `image` blob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
@@ -200,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-15 22:56:59
+-- Dump completed on 2022-11-18 11:12:58

@@ -1,19 +1,18 @@
 package sk.upjs.paz1c.guideman.storage;
 
 import java.sql.Blob;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class MysqlUserDao implements UserDao {
 
@@ -76,8 +75,6 @@ public class MysqlUserDao implements UserDao {
 		if (user.getBirthdate() == null) {
 			throw new NullPointerException("Birthdate cannot be null");
 		}
-		// tu si potrebujeme pamatat login a password pretoze toto vyuzijeme pri
-		// registracii
 		if (user.getLogin() == null) {
 			throw new NullPointerException("Login cannot be null");
 		}
@@ -86,27 +83,29 @@ public class MysqlUserDao implements UserDao {
 		}
 
 		if (user.getId() == null) { // INSERT
+//			String salt = BCrypt.gensalt();
+//            user.setPassword(BCrypt.hashpw(user.getPassword(), salt));
+			
 			SimpleJdbcInsert sjdbInsert = new SimpleJdbcInsert(jdbcTemplate);
 			sjdbInsert.withTableName("user");
 			sjdbInsert.usingGeneratedKeyColumns("id");
 			// tel number a image mozu byt null
-			sjdbInsert.usingColumns("name", "surname", "email", "tel_number", "birthdate", "login", "password",
-					"image");
+			sjdbInsert.usingColumns("name", "surname", "email", "tel_number", "birthdate", "login", "password", "image");
 
 			Map<String, Object> values = new HashMap<>();
 			values.put("name", user.getName());
 			values.put("surname", user.getSurname());
 			values.put("email", user.getEmail());
 			values.put("name", user.getName());
-			if (user.getTelNumber() != null) {
+			//if (user.getTelNumber() != null) {
 				values.put("tel_number", user.getTelNumber());
-			}
+			//}
 			values.put("birthdate", user.getBirthdate());
 			values.put("login", user.getLogin());
 			values.put("password", user.getPassword());
-			if (user.getImage() != null) {
+			//if (user.getImage() != null) {
 				values.put("image", user.getImage());
-			}
+			//}
 
 			long id = sjdbInsert.executeAndReturnKey(values).longValue();
 			return new User(id, user.getName(), user.getSurname(), user.getEmail(), user.getTelNumber(),
