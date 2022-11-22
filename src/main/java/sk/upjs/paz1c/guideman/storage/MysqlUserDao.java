@@ -33,13 +33,12 @@ public class MysqlUserDao implements UserDao {
 				String name = rs.getString("name");
 				String surname = rs.getString("surname");
 				String email = rs.getString("email");
-				String telNumber = rs.getString("tel_number"); // moze byt null
+				String telNumber = rs.getString("tel_number");
 				LocalDate birthdate = rs.getTimestamp("birthdate").toLocalDateTime().toLocalDate();
-				// treba nam pamatat si login a heslo tuto? nestaci to riesit pri prihlasovani?
 				String login = rs.getString("login");
 				String password = rs.getString("password");
 				// https://stackoverflow.com/questions/14610011/reading-a-blob-from-mysql-with-java
-				Blob image = rs.getBlob("image"); // moze byt null
+				Blob image = rs.getBlob("image");
 
 				return new User(id, name, surname, email, telNumber, birthdate, login, password, image);
 			}
@@ -83,13 +82,13 @@ public class MysqlUserDao implements UserDao {
 		}
 
 		if (user.getId() == null) { // INSERT
-//			String salt = BCrypt.gensalt();
-//            user.setPassword(BCrypt.hashpw(user.getPassword(), salt));
+			String salt = BCrypt.gensalt();
+            user.setPassword(BCrypt.hashpw(user.getPassword(), salt));
 			
 			SimpleJdbcInsert sjdbInsert = new SimpleJdbcInsert(jdbcTemplate);
 			sjdbInsert.withTableName("user");
 			sjdbInsert.usingGeneratedKeyColumns("id");
-			// tel number a image mozu byt null
+			
 			sjdbInsert.usingColumns("name", "surname", "email", "tel_number", "birthdate", "login", "password", "image");
 
 			Map<String, Object> values = new HashMap<>();
@@ -97,15 +96,11 @@ public class MysqlUserDao implements UserDao {
 			values.put("surname", user.getSurname());
 			values.put("email", user.getEmail());
 			values.put("name", user.getName());
-			//if (user.getTelNumber() != null) {
-				values.put("tel_number", user.getTelNumber());
-			//}
+			values.put("tel_number", user.getTelNumber());
 			values.put("birthdate", user.getBirthdate());
 			values.put("login", user.getLogin());
 			values.put("password", user.getPassword());
-			//if (user.getImage() != null) {
-				values.put("image", user.getImage());
-			//}
+			values.put("image", user.getImage());
 
 			long id = sjdbInsert.executeAndReturnKey(values).longValue();
 			return new User(id, user.getName(), user.getSurname(), user.getEmail(), user.getTelNumber(),
@@ -141,7 +136,6 @@ public class MysqlUserDao implements UserDao {
 			user.setEmail(rs.getString("email"));
 			user.setTelNumber(rs.getString("tel_number"));
 			user.setBirthdate(rs.getTimestamp("birthdate").toLocalDateTime().toLocalDate());
-			// asi netreba login a password, neviem som confusion
 			user.setLogin(rs.getString("login"));
 			user.setPassword(rs.getString("password"));
 			user.setImage(rs.getBlob("image"));

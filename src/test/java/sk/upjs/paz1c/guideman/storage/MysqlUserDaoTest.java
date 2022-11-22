@@ -33,8 +33,6 @@ class MysqlUserDaoTest {
 		user.setBirthdate(LocalDate.parse("2022-02-02"));
 		user.setLogin("test.testing");
 		user.setPassword("testtesting");
-		String salt = BCrypt.gensalt();
-        user.setPassword(BCrypt.hashpw("testtesting", salt));
 		user.setImage(null);
 		size = userDao.getAll().size(); // pocet userov pred pridanim noveho
 		savedUser = userDao.save(user);
