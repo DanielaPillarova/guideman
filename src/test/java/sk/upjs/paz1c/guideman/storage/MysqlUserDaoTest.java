@@ -68,10 +68,10 @@ class MysqlUserDaoTest {
 	@Test
 	void insertTest() {
 		assertThrows(NullPointerException.class, () -> userDao.save(null), "Cannot save null");
-		
+
 		User saved2 = userDao.getById(savedUser.getId());
 		assertTrue(BCrypt.checkpw("testtesting", saved2.getPassword()));
-				
+
 		assertEquals(size + 1, userDao.getAll().size());
 		assertNotNull(savedUser.getId());
 		assertEquals(savedUser.getName(), saved2.getName());
@@ -80,7 +80,8 @@ class MysqlUserDaoTest {
 		assertThrows(NullPointerException.class, () -> userDao.save(new User("testTesting", "password")),
 				"This username is already used");
 
-		// blob sa bude nejako nacitavat ako poly bytov, cez nejaky File.InputStream alebo take srandy
+		// blob sa bude nejako nacitavat ako poly bytov, cez nejaky File.InputStream
+		// alebo take srandy
 		// blob image treba nejako otestovat, vlastne ako to bude vyzerat, aj ten
 		// LocalDate ako to bude clovek tukat do db
 		// treba otestovat aj ze heslo je zahashovane?
@@ -96,8 +97,8 @@ class MysqlUserDaoTest {
 				"Email address cannot be null");
 		assertThrows(NullPointerException.class,
 				() -> userDao.save(new User("name", "surname", "email", null, null, null)), "Birthdate cannot be null");
-		assertThrows(NullPointerException.class, () -> userDao.save(					  
-				new User("name", "surname", "email", null, LocalDate.parse("2022-02-02"), null, "password", null)), 
+		assertThrows(NullPointerException.class, () -> userDao.save(
+				new User("name", "surname", "email", null, LocalDate.parse("2022-02-02"), null, "password", null)),
 				"Login cannot be null");
 		assertThrows(NullPointerException.class,
 				() -> userDao.save(
@@ -129,7 +130,7 @@ class MysqlUserDaoTest {
 		userToDelete.setLogin("test.delete");
 		userToDelete.setPassword("testingdelete");
 		String salt = BCrypt.gensalt();
-        userToDelete.setPassword(BCrypt.hashpw("testDelete", salt));
+		userToDelete.setPassword(BCrypt.hashpw("testDelete", salt));
 		userToDelete.setImage(null);
 		User saved = userDao.save(userToDelete);
 		int sizeDelete = userDao.getAll().size();

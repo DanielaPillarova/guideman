@@ -10,18 +10,27 @@ public enum DaoFactory {
 
 	private JdbcTemplate jdbcTemplate;
 	private UserDao userDao;
+	private LocationDao locationDao;
 	private boolean testing = false;
-	
+
 	public void testing() {
 		testing = true;
 	}
-	
+
 	public UserDao getUserDao() {
 		if (userDao == null) {
 			userDao = new MysqlUserDao(getJdbcTemplate());
 		}
 		return userDao;
-		
+
+	}
+
+	public LocationDao getLocationDao() {
+		if (locationDao == null) {
+			locationDao = new MysqlLocationDao(getJdbcTemplate());
+		}
+		return locationDao;
+
 	}
 
 	private JdbcTemplate getJdbcTemplate() {
@@ -38,6 +47,5 @@ public enum DaoFactory {
 		}
 		return jdbcTemplate;
 	}
-	
 
 }
