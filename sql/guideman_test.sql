@@ -30,6 +30,8 @@ CREATE TABLE `event` (
   `duration` time NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `tour_id` int NOT NULL,
+  `rating` int DEFAULT NULL,
+  `review` varchar(1000) COLLATE utf8mb3_slovak_ci DEFAULT NULL,
   PRIMARY KEY (`id`,`tour_id`),
   KEY `fk_event_tour1_idx` (`tour_id`),
   CONSTRAINT `fk_event_tour1` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`)
@@ -122,7 +124,7 @@ CREATE TABLE `user` (
   `image` blob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_slovak_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_slovak_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +133,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Janko','Mrkvička','jankomrkvicka@gmail.com','0949332211','1990-03-02','janko.mrkvicka','jankomrkvicka',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,8 +146,6 @@ DROP TABLE IF EXISTS `user_has_event`;
 CREATE TABLE `user_has_event` (
   `user_id` int NOT NULL,
   `event_id` int NOT NULL,
-  `rating` int DEFAULT NULL,
-  `review` varchar(1000) COLLATE utf8mb3_slovak_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`,`event_id`),
   KEY `fk_user_has_event_event1_idx` (`event_id`),
   KEY `fk_user_has_event_user1_idx` (`user_id`),
@@ -200,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-18 11:12:58
+-- Dump completed on 2022-11-28 11:51:46
