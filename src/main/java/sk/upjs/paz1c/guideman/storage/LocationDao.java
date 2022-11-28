@@ -11,6 +11,6 @@ public interface LocationDao {
 	
 	Location save(Location location) throws NullPointerException, EntityNotFoundException;
 	
-	Location delete(Long id) throws EntityNotFoundException;
+	boolean delete(long id) throws EntityNotFoundException;
 	
 }

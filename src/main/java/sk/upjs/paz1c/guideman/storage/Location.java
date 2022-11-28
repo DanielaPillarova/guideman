@@ -19,7 +19,7 @@ public class Location {
 		this.street = street;
 		this.street_number = street_number;
 	}
-	
+
 	public Location(String country, String city, String street, Long street_number) {
 		this.country = country;
 		this.city = city;
@@ -27,22 +27,17 @@ public class Location {
 		this.street_number = street_number;
 	}
 
-	// konstruktor bez ulice
-	public Location(Long id, String country, String city) {
+	public Location(Long id, String country, String city, String street) {
 		this.id = id;
-		this.country = country;
-		this.city = city;
-	}
-	
-	public Location(String country, String city, String street) {
 		this.country = country;
 		this.city = city;
 		this.street = street;
 	}
-	
-	public Location(String country, String city) {
+
+	public Location(String country, String city, String street) {
 		this.country = country;
 		this.city = city;
+		this.street = street;
 	}
 
 	public Long getId() {
@@ -90,8 +85,5 @@ public class Location {
 		return "Location [id=" + id + ", country=" + country + ", city=" + city + ", street=" + street
 				+ ", street_number=" + street_number + "]";
 	}
-	
-	
-	
 
 }
