@@ -14,4 +14,8 @@ public interface UserDao {
 
 	boolean delete(long id) throws EntityNotFoundException;
 
+	List<User> getAllTourists(long eventId);
+
+	List<User> getAllFavouriteGuidemans(long userId);
+
 }

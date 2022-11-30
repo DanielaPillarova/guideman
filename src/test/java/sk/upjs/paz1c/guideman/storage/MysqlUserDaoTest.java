@@ -64,6 +64,17 @@ class MysqlUserDaoTest {
 			}
 		});
 	}
+	
+	@Test
+	void getAllTouristsTest() {
+		assertEquals(userDao.getAllTourists(1).size(), 2);
+		//assertEquals(userDao.getAllTourists(10).size(), 2);
+	}
+	
+	void getAllFavouriteGuidemansTest() {
+		assertEquals(userDao.getAllFavouriteGuidemans(8).size(), 2);
+		assertEquals(userDao.getAllFavouriteGuidemans(9).size(), 1);
+	}
 
 	@Test
 	void insertTest() {
