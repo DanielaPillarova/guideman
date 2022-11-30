@@ -61,9 +61,6 @@ public class MysqlLocationDao implements LocationDao {
 		if (location.getStreet() == null) {
 			throw new NullPointerException("Street address cannot be null");
 		}
-		if (location.getStreet_number() == null) {
-			throw new NullPointerException("Street number cannot be null");
-		}
 
 		if (location.getId() == null) { // INSERT
 			SimpleJdbcInsert sjdbInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -93,12 +90,12 @@ public class MysqlLocationDao implements LocationDao {
 			throw new EntityNotFoundException("Location with id " + location.getId() + " not found");
 		}
 	}
-
-	public Location delete(Long id) throws EntityNotFoundException {
-		Location location = getById(id);
-		String sql = "DELETE FROM user WHERE id = " + id;
-		jdbcTemplate.update(sql);
-		return location;
+	
+	@Override
+	public boolean delete(long id) throws EntityNotFoundException {
+		String sql = "DELETE FROM location WHERE id = " + id;
+		int changed = jdbcTemplate.update(sql);
+		return changed == 1;
 	}
 
 	private class LocationRowMapper implements RowMapper<Location> {
@@ -115,5 +112,6 @@ public class MysqlLocationDao implements LocationDao {
 			return location;
 		}
 	}
+
 
 }
