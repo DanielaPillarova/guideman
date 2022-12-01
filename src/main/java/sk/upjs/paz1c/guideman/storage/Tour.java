@@ -7,7 +7,7 @@ public class Tour {
 	private Long id;
 	private String title;
 	private String bio; // idk, mozno String? text je interface a take nechceme
-	private int maxSlots;
+	private Integer maxSlots;
 	private Blob image;
 	private Long guidemanId;
 	// private Location location;

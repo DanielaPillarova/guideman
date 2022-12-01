@@ -137,12 +137,14 @@ class MysqlLocationDaoTest {
 		location3.setStreet("Rudolfovo námestie");
 		location3.setStreet_number((long) 1);
 
-
 		int test = 0;
 		test = test - size;
 		test = test + locationDao.getAll().size();
 
+		// test
+
 		assertEquals(test, locationDao.getAllByCountry("Random").size());
+		assertNotEquals(test, locationDao.getAllByCountry("Amerika").size());
 
 		locationDao.delete(location1.getId());
 		locationDao.delete(location2.getId());

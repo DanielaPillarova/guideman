@@ -20,6 +20,13 @@ public class MysqlLocationDao implements LocationDao {
 	}
 
 	@Override
+	public List<Location> getAllByCountry(String searchedCountry) {
+		String sql = "SELECT id, country, city, street, street_number FROM location WHERE country like " + "'"
+				+ searchedCountry + "'";
+		return jdbcTemplate.query(sql, new LocationRowMapper());
+	}
+
+	@Override
 	public List<Location> getAll() {
 		return jdbcTemplate.query("SELECT id, country, city, street, street_number FROM location",
 				new LocationRowMapper());
@@ -27,7 +34,7 @@ public class MysqlLocationDao implements LocationDao {
 	}
 
 	@Override
-	public Location getById(long id) throws EntityNotFoundException {
+	public Location getById(long id) {
 		String sql = "SELECT id, country, city, street, street_number FROM location " + "WHERE id = " + id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new LocationRowMapper());
@@ -81,7 +88,7 @@ public class MysqlLocationDao implements LocationDao {
 	}
 
 	@Override
-	public boolean delete(long id) throws EntityNotFoundException {
+	public boolean delete(long id) {
 		String sql = "DELETE FROM location WHERE id = " + id;
 		int changed = jdbcTemplate.update(sql);
 		return changed == 1;
@@ -100,13 +107,6 @@ public class MysqlLocationDao implements LocationDao {
 
 			return location;
 		}
-	}
-
-	@Override
-	public List<Location> getAllByCountry(String searchedCountry) throws EntityNotFoundException {
-		String sql = "SELECT id, country, city, street, street_number FROM location WHERE country like " + "'" + searchedCountry + "'";
-		return jdbcTemplate.query(sql,
-				new LocationRowMapper());
 	}
 
 }
