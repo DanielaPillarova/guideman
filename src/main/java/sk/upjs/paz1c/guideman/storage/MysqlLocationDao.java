@@ -21,7 +21,7 @@ public class MysqlLocationDao implements LocationDao {
 
 	@Override
 	public List<Location> getAll() {
-		return jdbcTemplate.query("SELECT id, country, city, street, street_number FROM Location",
+		return jdbcTemplate.query("SELECT id, country, city, street, street_number FROM location",
 				new LocationRowMapper());
 
 	}
