@@ -30,8 +30,6 @@ CREATE TABLE `event` (
   `duration` time NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `tour_id` int NOT NULL,
-  `rating` int DEFAULT NULL,
-  `review` varchar(1000) COLLATE utf8mb3_slovak_ci DEFAULT NULL,
   PRIMARY KEY (`id`,`tour_id`),
   KEY `fk_event_tour1_idx` (`tour_id`),
   CONSTRAINT `fk_event_tour1` FOREIGN KEY (`tour_id`) REFERENCES `tour` (`id`)
@@ -146,6 +144,8 @@ DROP TABLE IF EXISTS `user_has_event`;
 CREATE TABLE `user_has_event` (
   `user_id` int NOT NULL,
   `event_id` int NOT NULL,
+  `rating` int DEFAULT NULL,
+  `review` varchar(1000) COLLATE utf8mb3_slovak_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`,`event_id`),
   KEY `fk_user_has_event_event1_idx` (`event_id`),
   KEY `fk_user_has_event_user1_idx` (`user_id`),
@@ -199,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-28 11:51:46
+-- Dump completed on 2022-12-01 12:09:56

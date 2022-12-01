@@ -29,8 +29,21 @@ public class MysqlEventDao implements EventDao {
 //			@Override
 //			public List<Event> extractData(ResultSet rs) throws SQLException, DataAccessException {
 //				List<Event> events = new ArrayList<>();
-//				// bude nejaky cyklus pre vsetky eventy
-//				List<User> allTourists = DaoFactory.INSTANCE.getUserDao().getAllTourists(??? event id);
+//				
+//				Event lastEvent = null;
+//				while(rs.next()) {
+//					long id = rs.getLong("id");
+//					if (lastEvent == null || lastEvent.getId() != id) {
+//						lastEvent = new Event();
+//						lastEvent.setId(id);
+//						lastEvent.setDateOfTour(rs.getTimestamp("date_of_tour").toLocalDateTime());
+//						lastEvent.setDuration(rs.getTimestamp("duration").toLocalDateTime().toLocalTime());
+//						lastEvent.setPrice(rs.getFloat("price"));
+//						lastEvent
+//					}
+//				}
+//				
+//				//List<User> allTourists = DaoFactory.INSTANCE.getUserDao().getAllTourists(??? event id);
 //						
 //				// potrebujem vratit vsetky eventy podla 1 tour id, kazdy event ma mat aj svoj list so svojimi tourists(users)
 //				// v triede tour bude matoda, ktora vrati vsetky tour s konkretnym userom(guidemanom)

@@ -13,8 +13,6 @@ public class Event {
 	private LocalDateTime dateOfTour;
 	private LocalTime duration;
 	private float price;
-	private int rating;
-	private String review;
 	private Tour tour;
 	private List<User> tourists;
 	
@@ -35,19 +33,14 @@ public class Event {
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
-		this.rating = rating;
-		this.review = review;
 	}
 		
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, float price, int rating, String review,
-			Tour tour, List<User> tourists) {
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, float price, Tour tour, List<User> tourists) {
 		super();
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
-		this.rating = rating;
-		this.review = review;
 		this.tour = tour;
 		if (tourists != null) {
 			this.tourists = tourists;			
@@ -84,22 +77,6 @@ public class Event {
 
 	public void setPrice(float price) {
 		this.price = price;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public String getReview() {
-		return review;
-	}
-
-	public void setReview(String review) {
-		this.review = review;
 	}
 
 	public Tour getTour() {

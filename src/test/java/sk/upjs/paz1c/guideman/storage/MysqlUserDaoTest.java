@@ -72,8 +72,8 @@ class MysqlUserDaoTest {
 	}
 	
 	void getAllFavouriteGuidemansTest() {
-		assertEquals(userDao.getAllFavouriteGuidemans(8).size(), 2);
-		assertEquals(userDao.getAllFavouriteGuidemans(9).size(), 1);
+		assertEquals(userDao.getAllFavouriteGuidemans(1).size(), 2);
+		assertEquals(userDao.getAllFavouriteGuidemans(2).size(), 1);
 	}
 
 	@Test
