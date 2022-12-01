@@ -13,4 +13,5 @@ public interface LocationDao {
 	
 	boolean delete(long id) throws EntityNotFoundException;
 	
+	List<Location> getAllByCountry(String country) throws NullPointerException;
 }

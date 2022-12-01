@@ -22,19 +22,8 @@ public class MysqlLocationDao implements LocationDao {
 	@Override
 	public List<Location> getAll() {
 		return jdbcTemplate.query("SELECT id, country, city, street, street_number FROM Location",
-				new RowMapper<Location>() {
+				new LocationRowMapper());
 
-					@Override
-					public Location mapRow(ResultSet rs, int rowNum) throws SQLException {
-						long id = rs.getLong("id");
-						String country = rs.getString("country");
-						String city = rs.getString("city");
-						String street = rs.getString("street");
-						long street_number = rs.getLong("street_number");
-
-						return new Location(id, country, city, street, street_number);
-					}
-				});
 	}
 
 	@Override
@@ -43,7 +32,7 @@ public class MysqlLocationDao implements LocationDao {
 		try {
 			return jdbcTemplate.queryForObject(sql, new LocationRowMapper());
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("User with id " + id + " not found");
+			throw new EntityNotFoundException("Location with id " + id + " not found");
 		}
 	}
 
@@ -90,7 +79,7 @@ public class MysqlLocationDao implements LocationDao {
 			throw new EntityNotFoundException("Location with id " + location.getId() + " not found");
 		}
 	}
-	
+
 	@Override
 	public boolean delete(long id) throws EntityNotFoundException {
 		String sql = "DELETE FROM location WHERE id = " + id;
@@ -113,5 +102,11 @@ public class MysqlLocationDao implements LocationDao {
 		}
 	}
 
+	@Override
+	public List<Location> getAllByCountry(String searchedCountry) throws EntityNotFoundException {
+		String sql = "SELECT id, country, city, street, street_number FROM location WHERE country like " + "'" + searchedCountry + "'";
+		return jdbcTemplate.query(sql,
+				new LocationRowMapper());
+	}
 
 }
