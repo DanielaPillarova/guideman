@@ -12,9 +12,13 @@ public class Event {
 	private Long id;
 	private LocalDateTime dateOfTour;
 	private LocalTime duration;
-	private float price;
+	private Float price;
 	private Tour tour;
 	private List<User> tourists;
+	
+	// added
+	private List<Integer> ratings;
+	private List<String> reviews;
 	
 	
 	public Event() {
@@ -24,19 +28,19 @@ public class Event {
 		this.tour = tour;
 	}
 	
-	public Event(long id) {
+	public Event(Long id) {
 		this.id = id;
 	}
 	
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, float price, int rating, String review) {
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Float price, Tour tour) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
+		this.tour = tour;
 	}
 		
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, float price, Tour tour, List<User> tourists) {
-		super();
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Float price, Tour tour, List<User> tourists) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
@@ -45,6 +49,18 @@ public class Event {
 		if (tourists != null) {
 			this.tourists = tourists;			
 		}
+	}
+
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Float price, Tour tour, List<User> tourists,
+			List<Integer> ratings, List<String> reviews) {
+		this.id = id;
+		this.dateOfTour = dateOfTour;
+		this.duration = duration;
+		this.price = price;
+		this.tour = tour;
+		this.tourists = tourists;
+		this.ratings = ratings;
+		this.reviews = reviews;
 	}
 
 	public Long getId() {
@@ -75,7 +91,7 @@ public class Event {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
 
@@ -93,6 +109,22 @@ public class Event {
 
 	public void setTourists(List<User> tourists) {
 		this.tourists = tourists;
+	}
+
+	public List<Integer> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Integer> ratings) {
+		this.ratings = ratings;
+	}
+
+	public List<String> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<String> reviews) {
+		this.reviews = reviews;
 	}
 
 	@Override

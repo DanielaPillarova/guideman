@@ -65,12 +65,15 @@ class MysqlUserDaoTest {
 		});
 	}
 	
+	// spravne otestovat
 	@Test
 	void getAllTouristsTest() {
 		assertEquals(userDao.getAllTourists(1).size(), 2);
 		//assertEquals(userDao.getAllTourists(10).size(), 2);
 	}
 	
+	// spravne otestovat
+	@Test
 	void getAllFavouriteGuidemansTest() {
 		assertEquals(userDao.getAllFavouriteGuidemans(1).size(), 2);
 		assertEquals(userDao.getAllFavouriteGuidemans(2).size(), 1);
