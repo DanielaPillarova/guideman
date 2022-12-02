@@ -12,6 +12,7 @@ public enum DaoFactory {
 	private UserDao userDao;
 	private LocationDao locationDao;
 	private EventDao eventdao;
+	private TourDao tourDao;
 	private boolean testing = false;
 
 	public void testing() {
@@ -52,6 +53,14 @@ public enum DaoFactory {
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		return jdbcTemplate;
+	}
+
+	public TourDao getTourDao() {
+		return tourDao;
+	}
+
+	public void setTourDao(TourDao tourDao) {
+		this.tourDao = tourDao;
 	}
 
 }

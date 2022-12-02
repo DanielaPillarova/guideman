@@ -24,13 +24,14 @@ class MysqlLocationDaoTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		location = new Location();
-		location.setCountry("California");
+		location.setCountry("Amerika");
 		location.setCity("Los Angeles");
 		location.setStreet("Main street");
 		location.setStreet_number((long) 1);
 
 		size = locationDao.getAll().size(); // pocet userov pred pridanim noveho
 		savedLocation = locationDao.save(location);
+		size = locationDao.getAll().size();
 	}
 
 	@AfterEach
@@ -69,7 +70,7 @@ class MysqlLocationDaoTest {
 		assertThrows(NullPointerException.class, () -> locationDao.save(null), "Cannot save null");
 
 		Location newLocation = locationDao.getById(savedLocation.getId());
-		assertEquals(size + 1, locationDao.getAll().size());
+		assertEquals(size, locationDao.getAll().size());
 		assertEquals(savedLocation.getCountry(), newLocation.getCountry());
 
 		// ???
@@ -111,6 +112,43 @@ class MysqlLocationDaoTest {
 		int sizeDelete = locationDao.getAll().size();
 		locationDao.delete(saved.getId());
 		assertEquals(sizeDelete - 1, locationDao.getAll().size());
+	}
+
+	@Test
+	void getAllByCountryTest() {
+		Location location1 = new Location();
+		location1.setId((long) 100);
+		location1.setCountry("Random");
+		location1.setCity("Koöice");
+		location1.setStreet("Hlavn·");
+		location1.setStreet_number((long) 1);
+
+		Location location2 = new Location();
+		location2.setId((long) 101);
+		location2.setCountry("Random");
+		location2.setCity("Budapeöù");
+		location2.setStreet("Main street");
+		location2.setStreet_number((long) 1);
+
+		Location location3 = new Location();
+		location3.setId((long) 102);
+		location3.setCountry("Random");
+		location3.setCity("Bratislava");
+		location3.setStreet("Rudolfovo n·mestie");
+		location3.setStreet_number((long) 1);
+
+		int test = 0;
+		test = test - size;
+		test = test + locationDao.getAll().size();
+
+		// test
+
+		assertEquals(test, locationDao.getAllByCountry("Random").size());
+		assertNotEquals(test, locationDao.getAllByCountry("Amerika").size());
+
+		locationDao.delete(location1.getId());
+		locationDao.delete(location2.getId());
+		locationDao.delete(location3.getId());
 	}
 
 }
