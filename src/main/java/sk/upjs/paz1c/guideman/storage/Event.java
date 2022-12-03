@@ -12,7 +12,7 @@ public class Event {
 	private Long id;
 	private LocalDateTime dateOfTour;
 	private LocalTime duration;
-	private Float price;
+	private Double price;
 	private Tour tour;
 	private List<User> tourists;
 	
@@ -32,7 +32,7 @@ public class Event {
 		this.id = id;
 	}
 	
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Float price, Tour tour) {
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Tour tour) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
@@ -40,7 +40,7 @@ public class Event {
 		this.tour = tour;
 	}
 		
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Float price, Tour tour, List<User> tourists) {
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Tour tour, List<User> tourists) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
@@ -51,7 +51,7 @@ public class Event {
 		}
 	}
 
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Float price, Tour tour, List<User> tourists,
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Tour tour, List<User> tourists,
 			List<Integer> ratings, List<String> reviews) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
@@ -87,11 +87,11 @@ public class Event {
 		this.duration = duration;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Float price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

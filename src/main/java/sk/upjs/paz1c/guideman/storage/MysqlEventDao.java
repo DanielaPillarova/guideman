@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -21,8 +23,8 @@ public class MysqlEventDao implements EventDao {
 	}
 	
 	@Override
-	public List<Integer> getRatings(Long eventId) {
-		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + eventId;
+	public List<Integer> getRatings(Event event) {
+		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + event.getId();
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Integer>>() {
 
 			@Override
@@ -42,8 +44,8 @@ public class MysqlEventDao implements EventDao {
 	}
 	
 	@Override
-	public List<String> getReviews(Long eventId) {
-		String sql = "SELECT review FROM user_has_event WHERE event_id = " + eventId;
+	public List<String> getReviews(Event event) {
+		String sql = "SELECT review FROM user_has_event WHERE event_id = " + event.getId();
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
 
 			@Override
@@ -60,47 +62,44 @@ public class MysqlEventDao implements EventDao {
 		});
 	}
 	
+	@Override
+	public List<Event> getAllByTour(Tour tour) {
+		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
+				+ "LEFT JOIN user_has_event uhe ON event.id = uhe.event_id "
+				+ "WHERE tour_id = " + tour.getId();
+		
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Event>>() {
+
+			@Override
+			public List<Event> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Event> events = new ArrayList<>();
+				
+				Event lastEvent = null;
+				while(rs.next()) {
+					long id = rs.getLong("id");
+					if (lastEvent == null || lastEvent.getId() != id) {
+						lastEvent = new Event();
+						lastEvent.setId(id);
+						lastEvent.setDateOfTour(rs.getTimestamp("date_of_tour").toLocalDateTime());
+						lastEvent.setDuration(rs.getTimestamp("duration").toLocalDateTime().toLocalTime());
+						lastEvent.setPrice(rs.getDouble("price"));
+						lastEvent.setTour(tour);
+						lastEvent.setTourists(DaoFactory.INSTANCE.getUserDao().getAllTourists(id));
+						// nie je to blbost?
+						lastEvent.setRatings(getRatings(lastEvent));
+						lastEvent.setReviews(getReviews(lastEvent));
+						//
+						events.add(lastEvent);
+					}
+				}
+				return events;
+			}
+			
+		});
+	}
 	
-	
-//	@Override
-//	public List<Event> getAllByTour(long tourId) {
-//		String sql = "SELECT id, date_of_tour, duration, price, rating, review FROM event "
-//				+ "LEFT JOIN user_has_event uhe ON event.id = uhe.event_id "
-//				+ "WHERE tour_id = ";
-//				//+ tour.getId();
-//		
-//		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Event>>() {
-//
-//			@Override
-//			public List<Event> extractData(ResultSet rs) throws SQLException, DataAccessException {
-//				List<Event> events = new ArrayList<>();
-//				
-//				Event lastEvent = null;
-//				while(rs.next()) {
-//					long id = rs.getLong("id");
-//					if (lastEvent == null || lastEvent.getId() != id) {
-//						lastEvent = new Event();
-//						lastEvent.setId(id);
-//						lastEvent.setDateOfTour(rs.getTimestamp("date_of_tour").toLocalDateTime());
-//						lastEvent.setDuration(rs.getTimestamp("duration").toLocalDateTime().toLocalTime());
-//						lastEvent.setPrice(rs.getFloat("price"));
-//						lastEvent
-//					}
-//				}
-//				
-//				//List<User> allTourists = DaoFactory.INSTANCE.getUserDao().getAllTourists(??? event id);
-//						
-//				// potrebujem vratit vsetky eventy podla 1 tour id, kazdy event ma mat aj svoj list so svojimi tourists(users)
-//				// v triede tour bude matoda, ktora vrati vsetky tour s konkretnym userom(guidemanom)
-//				
-//				return null;
-//			}
-//			
-//		};
-//	}
-	
-	
-	public Event save(Event event) throws NullPointerException, NegativeNumberException {
+	@Override
+	public Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException {
 		if (event == null) {
 			throw new NullPointerException("Cannot save null");
 		}
@@ -116,9 +115,9 @@ public class MysqlEventDao implements EventDao {
 		if (event.getPrice() < 0) {
 			throw new NegativeNumberException("Cannot save negative price");
 		}
-//		if (event.getTour() == null || event.getTour().getId() == null) {
-//			throw new NullPointerException("Cannot save event without a tour");
-//		}
+		if (event.getTour() == null || event.getTour().getId() == null) {
+			throw new NullPointerException("Cannot save event without a tour");
+		}
 		
 		if (event.getId() == null) { // INSERT
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -130,27 +129,79 @@ public class MysqlEventDao implements EventDao {
 			values.put("date_of_tour", event.getDateOfTour());
 			values.put("duration", event.getDuration());
 			values.put("price", event.getPrice());
-//			values.put("tour_id", event.getTour().getId());
+			values.put("tour_id", event.getTour().getId());
 			
 			long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			Event event2 = new Event(id, event.getDateOfTour(), event.getDuration(), event.getPrice(), event.getTour());
 			
-			// saveTourists
-			
+			saveTourists(event2);
 			return event2;
 			
 		} else { // UPDATE
 			// TODO
+			String sql = "UPDATE event SET date_of_tour=?, duration=?, price=?, tour_id=? " + "WHERE id=?";
+			int changed = jdbcTemplate.update(sql, event.getDateOfTour(), event.getDuration(), 
+					event.getPrice(), event.getTour().getId(), event.getId());
+			if (changed == 1) {
+				String sqlDelete = "DELETE FROM user_has_event " + "WHERE event_id= " + event.getId();
+				jdbcTemplate.update(sqlDelete);
+				saveTourists(event);
+				return event;
+			} else {
+				throw new NoSuchElementException("No event with id " + event.getId() + " in DB");
+			}
 			
 		}
-		
-		return event;	
+	}
+	
+	private void saveTourists(Event event) {
+		if (event.getTourists().isEmpty()) {
+			return;
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO user_has_event (user_id, event_id) VALUES ");
+		for (User u : event.getTourists()) {
+			if (u == null || u.getId() == null) {
+				throw new NullPointerException("Event has null users or user with null id " + event.getTourists());
+			}
+			sb.append("(").append(u.getId());
+			sb.append(", ").append(event.getId());
+			sb.append("), ");
+		}
+		String sql = sb.substring(0, sb.length() - 1);
+		jdbcTemplate.update(sql);
+	}
+	
+	@Override
+	public boolean delete(Long eventId) throws EntityNotFoundException {
+		String sqlUhe = "DELETE FROM user_has_event uhe WHERE uhe.event_id = " + eventId;
+		String sqlE = "DELETE FROM event WHERE event.id = " + eventId;
+
+		int changedUhe;
+		int changedE;
+		try {
+			changedUhe = jdbcTemplate.update(sqlUhe);
+			changedE = jdbcTemplate.update(sqlE);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntityNotFoundException("Event with id: " + eventId + " not found in DB");
+		}
+		return (changedUhe == 1 && changedE == 1);
 	}
 	
 	// TODO
-	private void saveTourists(Event event) {
-		
-	}
+	// metoda na savovanie ratingu a reviewu, mozno bude v userovi?
+	
+	// nebude to uplne insert pretoze my nebudeme pridavat novych userov a eventy, 
+	// my budeme chciet len doplnit k nim na miesto null v stplci rating a review hodnoty
+	
+//	private void saveRating(User user, Event event, Integer rat, String rev) {
+//		if (rat == null || rev.equals("")) {
+//			return;
+//		}
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("INSERT INTO user_has_event ()")
+//		
+//	}
 	
 	
 }

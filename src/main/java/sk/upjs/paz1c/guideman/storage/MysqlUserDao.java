@@ -4,12 +4,15 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -42,7 +45,6 @@ public class MysqlUserDao implements UserDao {
 
 				return new User(id, name, surname, email, telNumber, birthdate, login, password, image);
 			}
-
 		});
 	}
 
@@ -57,7 +59,6 @@ public class MysqlUserDao implements UserDao {
 		}
 	}
 	
-	
 	@Override
 	public List<User> getAllTourists(long eventId) {
 		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
@@ -68,6 +69,28 @@ public class MysqlUserDao implements UserDao {
 		return tourists;	
 	}
 	
+	// pokus o lepsiu metodu getAllTourists(), avsak asi netreba ked bude v testoch vsetko fungovat
+	
+//	@Override
+//	public List<User> getAllTourists(long eventId) {
+//		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
+//				+ "LEFT JOIN user_has_event uhe ON user.id = uhe.user_id "
+//				+ "WHERE uhe.event_id = " + eventId;
+//		// mozno by to chcelo surroundnut by try/catch block ak event id neexistuje ale nwm
+//		// List<User> tourists = jdbcTemplate.query(sql, new UserRowMapper());
+//		
+//		return jdbcTemplate.query(sql, new ResultSetExtractor<List<User>>() {
+//
+//			@Override
+//			public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
+//				List<User> tourists = new ArrayList<>();
+//				
+//				
+//				return null;
+//			}
+//		});	
+//	}
+	
 	@Override
 	public List<User> getAllFavouriteGuidemans(long userId) {
 		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
@@ -77,6 +100,7 @@ public class MysqlUserDao implements UserDao {
 		List<User> favourites = jdbcTemplate.query(sql, new UserRowMapper());
 		return favourites;
 	}
+	
 
 	@Override
 	public User save(User user) throws NullPointerException, EntityNotFoundException {
@@ -136,15 +160,29 @@ public class MysqlUserDao implements UserDao {
 				return user;
 			}
 			throw new EntityNotFoundException("User with id " + user.getId() + " not found");
-
 		}
 	}
-
+	
 	@Override
 	public boolean delete(long id) throws EntityNotFoundException {
 		int changed = jdbcTemplate.update("DELETE FROM user WHERE id = " + id);
 		return changed == 1;
 	}
+	
+	// TODO
+	// spravit delete pre usera aj z ostatnych tabuliek
+	
+	// pokus o delete usera zo vsetkych tabuliek, kvoli JUnit testom, inak deletovat usera ako takeho nikdy v appke nebudeme
+	// mozno ani netreba tento rozsireny delete
+//	public boolean delete2(long id) throws EntityNotFoundException {
+//		String sqlUhu = "DELETE FROM user_has_user WHERE user_id = " + id;
+//		
+//		String sqlU = "DELETE FROM user WHERE id = " + id;
+//		
+//		
+//		int changed = jdbcTemplate.update("DELETE FROM user WHERE id = " + id);
+//		return changed == 1;
+//	}
 
 	private class UserRowMapper implements RowMapper<User> {
 

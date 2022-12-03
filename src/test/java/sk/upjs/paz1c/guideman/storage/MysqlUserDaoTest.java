@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 class MysqlUserDaoTest {
 
 	private UserDao userDao;
-	private User user;
+//	private User user;
 	private User savedUser;
 	private int size;
 
@@ -25,7 +25,7 @@ class MysqlUserDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		user = new User();
+		User user = new User();
 		user.setName("Test Testing");
 		user.setSurname("Test Testing");
 		user.setEmail("Test Testing");
@@ -65,7 +65,7 @@ class MysqlUserDaoTest {
 		});
 	}
 	
-	// spravne otestovat
+	// spravne otestovat, hodnoty sa mohli zmenit
 	@Test
 	void getAllTouristsTest() {
 		assertEquals(userDao.getAllTourists(1).size(), 2);
