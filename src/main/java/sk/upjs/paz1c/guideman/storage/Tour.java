@@ -44,6 +44,14 @@ public class Tour {
 		this.guideman = guideman;
 	}
 
+	public Tour(Long id, String title, Integer maxSlots, Integer location, Integer guideman) {
+		this.id = id;
+		this.title = title;
+		this.maxSlots = maxSlots;
+		this.location = location;
+		this.guideman = guideman;
+	}
+
 	public Tour(Long id, String title, Integer maxSlots) {
 		this.id = id;
 		this.title = title;
