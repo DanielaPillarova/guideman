@@ -3,13 +3,16 @@ package sk.upjs.paz1c.guideman.storage;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -20,6 +23,31 @@ public class MysqlTourDao implements TourDao {
 	public MysqlTourDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+	public List<Tour> getAllToursByGuideman(User guideman) {
+		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour "
+				+ "WHERE user_id = " + guideman.getId();
+		
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Tour>>() {
+
+			@Override
+			public List<Tour> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Tour> allTours = new ArrayList<>();
+				Tour tour = null;
+				while (rs.next()) {
+					tour = new Tour();
+					tour.setId(rs.getLong("id"));
+					tour.setTitle(rs.getString("title"));
+					tour.setBio(rs.getString("bio"));
+					tour.setMaxSlots(rs.getInt("max_slots"));
+//					tour.setLocation();
+				}
+				
+				
+				return null;
+			}
+			
+		});
 
 	@Override
 	public Tour save(Tour tour) throws NullPointerException, EntityNotFoundException {
