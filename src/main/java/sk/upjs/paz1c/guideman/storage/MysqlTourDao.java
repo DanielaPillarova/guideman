@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-
 public class MysqlTourDao implements TourDao {
 
 	private JdbcTemplate jdbcTemplate;
@@ -23,7 +22,7 @@ public class MysqlTourDao implements TourDao {
 	// getAll
 
 	@Override
-	public List<Tour> getAll() {
+	public List<Tour> getAll() throws NullPointerException {
 		return jdbcTemplate.query("SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour",
 				new TourRowMapper());
 	}
@@ -37,7 +36,7 @@ public class MysqlTourDao implements TourDao {
 	}
 
 	@Override
-	public Tour getById(long id) {
+	public Tour getById(long id) throws NullPointerException {
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = " + id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new TourRowMapper());
