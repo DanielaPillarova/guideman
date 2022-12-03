@@ -8,40 +8,40 @@ public class Tour {
 	private String title;
 	private String bio; // idk, mozno String? text je interface a take nechceme
 	private Integer maxSlots;
+	private Integer location;
+	private Integer guideman;
 	private Blob image;
-	private User guideman;
-	private Location location;
-	// private Location location;
 
 	public Tour() {
 
 	}
 
-	public Tour(Location location) {
-		this.location = location;
-	}
-
-	public Tour(User guideman) {
-		this.guideman = guideman;
-	}
-
-	public Tour(Long id, String title, String bio, Integer maxSlots, Blob image, User guideman, Location location) {
+	public Tour(Long id, String title, String bio, Integer maxSlots, Integer location, Integer guideman, Blob image) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
+		this.location = location;
+		this.guideman = guideman;
 		this.image = image;
-		this.guideman = guideman;
-		this.location = location;
 	}
 
-	public Tour(Long id, String title, String bio, Integer maxSlots, User guideman, Location location) {
+	public Tour(String title, String bio, Integer maxSlots, Integer location, Integer guideman, Blob image) {
+		this.title = title;
+		this.bio = bio;
+		this.maxSlots = maxSlots;
+		this.location = location;
+		this.guideman = guideman;
+		this.image = image;
+	}
+
+	public Tour(Long id, String title, String bio, Integer maxSlots, Integer location, Integer guideman) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
-		this.guideman = guideman;
 		this.location = location;
+		this.guideman = guideman;
 	}
 
 	public Tour(Long id, String title, Integer maxSlots) {
@@ -90,26 +90,26 @@ public class Tour {
 		this.image = image;
 	}
 
-	public User getGuideman() {
+	public Integer getGuideman() {
 		return guideman;
 	}
 
-	public void setGuideman(User guideman) {
+	public void setGuideman(Integer guideman) {
 		this.guideman = guideman;
 	}
 
-	public Location getLocation() {
+	public Integer getLocation() {
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(Integer location) {
 		this.location = location;
 	}
 
 	@Override
 	public String toString() {
-		return "Tour [id=" + id + ", title=" + title + ", bio=" + bio + ", maxSlots=" + maxSlots + ", image=" + image
-				+ ", guidemanId=" + guideman + ", locationId=" + location + "]";
+		return "Tour [id=" + id + ", title=" + title + ", bio=" + bio + ", maxSlots=" + maxSlots + ", location="
+				+ location + ", guideman=" + guideman + ", image=" + image + "]";
 	}
 
 	// TODO roman
