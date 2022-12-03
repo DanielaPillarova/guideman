@@ -64,7 +64,7 @@ class MysqlEventDaoTest {
 		
 		savedUser = userDao.save(guideman);
 		savedLocation = locationDao.save(location);
-		savedTour = tourDao.save(tour);
+//		savedTour = tourDao.save(tour);
 		savedEvent = eventDao.save(event);
 		
 	}
@@ -73,7 +73,7 @@ class MysqlEventDaoTest {
 	void tearDown() throws Exception {
 		locationDao.delete(savedLocation.getId());
 		userDao.delete(savedUser.getId());
-		tourDao.delete(savedTour.getId());
+//		tourDao.delete(savedTour.getId());
 		eventDao.delete(savedEvent.getId());
 		
 	}

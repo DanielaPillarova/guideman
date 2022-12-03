@@ -84,6 +84,7 @@ public class MysqlEventDao implements EventDao {
 						lastEvent.setDuration(rs.getTimestamp("duration").toLocalDateTime().toLocalTime());
 						lastEvent.setPrice(rs.getDouble("price"));
 						lastEvent.setTour(tour);
+						// musi mat tento event aj parametre z tabulky uhe?
 						lastEvent.setTourists(DaoFactory.INSTANCE.getUserDao().getAllTourists(id));
 						// nie je to blbost?
 						lastEvent.setRatings(getRatings(lastEvent));
@@ -138,7 +139,6 @@ public class MysqlEventDao implements EventDao {
 			return event2;
 			
 		} else { // UPDATE
-			// TODO
 			String sql = "UPDATE event SET date_of_tour=?, duration=?, price=?, tour_id=? " + "WHERE id=?";
 			int changed = jdbcTemplate.update(sql, event.getDateOfTour(), event.getDuration(), 
 					event.getPrice(), event.getTour().getId(), event.getId());
