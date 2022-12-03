@@ -11,7 +11,7 @@ public enum DaoFactory {
 	private JdbcTemplate jdbcTemplate;
 	private UserDao userDao;
 	private LocationDao locationDao;
-	private EventDao eventdao;
+	private EventDao eventDao;
 	private TourDao tourDao;
 	private boolean testing = false;
 
@@ -32,12 +32,19 @@ public enum DaoFactory {
 		}
 		return locationDao;
 	}
-	
+
 	public EventDao getEventDao() {
-		if (eventdao == null) {
-			eventdao = new MysqlEventDao(getJdbcTemplate());
+		if (eventDao == null) {
+			eventDao = new MysqlEventDao(getJdbcTemplate());
 		}
-		return eventdao;
+		return eventDao;
+	}
+
+	public TourDao getTourDao() {
+		if (tourDao == null) {
+			tourDao = new MysqlTourDao(getJdbcTemplate());
+		}
+		return tourDao;
 	}
 
 	private JdbcTemplate getJdbcTemplate() {
@@ -53,14 +60,6 @@ public enum DaoFactory {
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		return jdbcTemplate;
-	}
-
-	public TourDao getTourDao() {
-		return tourDao;
-	}
-
-	public void setTourDao(TourDao tourDao) {
-		this.tourDao = tourDao;
 	}
 
 }
