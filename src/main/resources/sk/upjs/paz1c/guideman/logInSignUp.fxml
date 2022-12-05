@@ -14,9 +14,9 @@
             <Font name="Arial" size="36.0" />
          </font>
       </Label>
-      <ImageView fitHeight="188.0" fitWidth="207.0" layoutX="252.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="158.0" fitWidth="171.0" layoutX="245.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@G-light.png" />
+            <Image url="@G-logo%20light.png" />
          </image>
       </ImageView>
       <Button fx:id="loginButton" layoutX="184.0" layoutY="228.0" mnemonicParsing="false" onAction="#loginButtonClick" prefHeight="42.0" prefWidth="99.0" text="Log in">

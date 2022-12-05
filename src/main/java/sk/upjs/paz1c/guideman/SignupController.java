@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import sk.upjs.paz1c.guideman.storage.User;
 
 public class SignupController {
-	
+
 	private UserFxModel model;
 
 	@FXML
@@ -40,11 +40,11 @@ public class SignupController {
 
 	@FXML
 	private CheckBox showPasswordCheckBox;
-	
+
 	public SignupController() {
 		model = new UserFxModel();
 	}
-	
+
 	public SignupController(User user) {
 		model = new UserFxModel(user);
 	}
@@ -55,6 +55,7 @@ public class SignupController {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				signupNewMemberButton.setDisable(true);
 				if (newValue == null || newValue.isBlank()) {
 					signupNewMemberButton.setDisable(true);
 				} else {
@@ -63,18 +64,17 @@ public class SignupController {
 			}
 		});
 
-//		surnameTextField.textProperty().addListener(new ChangeListener<String>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//				if (newValue == null || newValue.isBlank()) {
-//					signUpButton.setDisable(true);
-//				} else {
-//					signUpButton.setDisable(false);
-//				}
-//			}
-//		});
+		surnameTextField.textProperty().addListener(new ChangeListener<String>() {
 
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue == null || newValue.isBlank()) {
+					signupNewMemberButton.setDisable(true);
+				} else {
+					signupNewMemberButton.setDisable(false);
+				}
+			}
+		});
 	}
 
 	@FXML
