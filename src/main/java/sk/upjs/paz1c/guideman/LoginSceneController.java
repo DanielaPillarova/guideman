@@ -61,7 +61,7 @@ public class LoginSceneController {
 		System.out.println("Som v logine");
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginScene.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);

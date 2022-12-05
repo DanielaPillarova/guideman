@@ -40,7 +40,7 @@ public class App extends Application {
 		// zakomentuj
 		String iconImagePath = "C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\arthas2.jpg";
 		LoginSceneController controller = new LoginSceneController();
-		FXMLLoader loader = new FXMLLoader(App.class.getResource("MainScene.fxml"));
+		FXMLLoader loader = new FXMLLoader(App.class.getResource("logInSignUp.fxml"));
 		loader.setController(controller);
 		Parent parent = loader.load();
 		Scene scene = new Scene(parent);

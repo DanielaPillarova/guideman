@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="469.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="44.0" layoutY="73.0" text="Welcome !" textFill="#8ea855">
@@ -20,12 +19,12 @@
             <Image url="@../../../../../../projek%20paz1c/G-light.png" />
          </image>
       </ImageView>
-      <Button fx:id="logInButton" layoutX="184.0" layoutY="228.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="99.0" text="Log in">
+      <Button fx:id="loginButton" layoutX="184.0" layoutY="228.0" mnemonicParsing="false" onAction="#loginButtonClick" prefHeight="42.0" prefWidth="99.0" text="Log in">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="signUpButton" layoutX="185.0" layoutY="341.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="99.0" text="Sign up">
+      <Button fx:id="signupButton" layoutX="185.0" layoutY="341.0" mnemonicParsing="false" onAction="#signupButtonClick" prefHeight="42.0" prefWidth="99.0" text="Sign up">
          <font>
             <Font size="18.0" />
          </font>
