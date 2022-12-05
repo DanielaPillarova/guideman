@@ -75,6 +75,18 @@ public class SignupController {
 				}
 			}
 		});
+
+		emailTextField.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue == null || newValue.isBlank()) {
+					signupNewMemberButton.setDisable(true);
+				} else {
+					signupNewMemberButton.setDisable(false);
+				}
+			}
+		});
 	}
 
 	@FXML
