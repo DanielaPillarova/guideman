@@ -10,14 +10,9 @@ public class User {
 	private String surname;
 	private String email;
 	private String telNumber;
-
-	// birthdate DATE ?
 	private LocalDate birthdate;
-
 	private String login;
 	private String password;
-
-	// image BLOB ?
 	private Blob image;
 
 	public User() {

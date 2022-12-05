@@ -37,19 +37,15 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		// zakomentuj
 		String iconImagePath = "C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\arthas2.jpg";
-		LoginSceneController controller = new LoginSceneController();
+		LogInSignUpSceneController controller = new LogInSignUpSceneController();
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("logInSignUp.fxml"));
 		loader.setController(controller);
 		Parent parent = loader.load();
 		Scene scene = new Scene(parent);
 		stage.setScene(scene);
 		stage.setTitle("Guideman - find your man");
-		// aj toto tu dole
 		stage.getIcons().add(new Image(iconImagePath));
 		stage.show();
 	}
-	
-	// mam asi vsetko co ty, tu je moj push, daj vediet ci mas sceny a mozes kludne vymazat tento koment potom
 }

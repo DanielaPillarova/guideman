@@ -17,29 +17,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LoginSceneController {
+public class LogInSignUpSceneController {
 
-	public static final Logger logger = LoggerFactory.getLogger(LoginSceneController.class);
-
-	@FXML
-	private ImageView arthas;
+	public static final Logger logger = LoggerFactory.getLogger(LogInSignUpSceneController.class);
 
 	@FXML
 	private Button loginButton;
 
 	@FXML
 	private Button signupButton;
-
-	public void showImage() {
-		try {
-			Image image = new Image(
-					"C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\arthas3.png");
-			arthas.setImage(image);
-			arthas.setCache(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	@FXML
 	void initialize() {
@@ -54,7 +40,8 @@ public class LoginSceneController {
 
 	@FXML
 	void signupButtonClick(ActionEvent event) {
-
+		SignupController controller = new SignupController();
+		showSignup(controller);
 	}
 
 	void showLogin(LoginController controller) {
@@ -68,6 +55,24 @@ public class LoginSceneController {
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle("Login");
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	void showSignup(SignupController controller) {
+		System.out.println("Som v signe");
+
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUp.fxml"));
+			fxmlLoader.setController(controller);
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Sign up");
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 		} catch (IOException e) {
