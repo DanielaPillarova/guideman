@@ -29,7 +29,7 @@ public class App extends Application {
 //		LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
 //		List<Location> locations = locationDao.getAll();
 //		System.out.println(locations);
-//		System.out.println("lokácie sheeeesh");
+//		System.out.println("lokï¿½cie sheeeesh");
 
 		launch(args);
 
@@ -50,4 +50,6 @@ public class App extends Application {
 		stage.getIcons().add(new Image(iconImagePath));
 		stage.show();
 	}
+	
+	// mam asi vsetko co ty, tu je moj push, daj vediet ci mas sceny a mozes kludne vymazat tento koment potom
 }
