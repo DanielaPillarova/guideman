@@ -32,7 +32,6 @@ public class User {
 		this.birthdate = birthdate;
 		this.image = image;
 	}
-	
 
 	public User(String name, String surname, String email, String telNumber, LocalDate birthdate, Blob image) {
 		this.name = name;
@@ -42,7 +41,6 @@ public class User {
 		this.birthdate = birthdate;
 		this.image = image;
 	}
-	
 
 	public User(String name, String surname, String email, String telNumber, LocalDate birthdate, String login,
 			String password, Blob image) {
@@ -147,7 +145,5 @@ public class User {
 				+ telNumber + ", birthdate=" + birthdate + ", login=" + login + ", password=" + password + ", image="
 				+ image + "]";
 	}
-	
-	
 
 }
