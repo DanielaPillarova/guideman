@@ -19,22 +19,26 @@ public class MysqlTourDao implements TourDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	// getAll
-
 	@Override
 	public List<Tour> getAll() throws NullPointerException {
 		return jdbcTemplate.query("SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour",
 				new TourRowMapper());
 	}
 
-	// bude metoda aj pre getAllTours()? ked sa bude chciet vyhladavat bez filtrov v
-	// appke
-	public List<Tour> getAllToursByGuideman(Integer guideman) {
+	@Override
+	public List<Tour> getAllToursByGuideman(Long guidemanId) {
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE user_id = "
-				+ guideman;
+				+ guidemanId;
 		return jdbcTemplate.query(sql, new TourRowMapper());
 	}
 
+	@Override
+	public List<Tour> getAllToursByLocation(Long locationId) {
+		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE location_id = "
+				+ locationId;
+		return jdbcTemplate.query(sql, new TourRowMapper());
+	}
+	
 	@Override
 	public Tour getById(long id) throws NullPointerException {
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = " + id;
@@ -109,8 +113,8 @@ public class MysqlTourDao implements TourDao {
 			tour.setId(rs.getLong("id"));
 			tour.setTitle(rs.getString("title"));
 			tour.setBio(rs.getString("bio"));
-			tour.setLocation(rs.getInt("location_id"));
-			tour.setGuideman(rs.getInt("user_id"));
+			tour.setLocation(rs.getLong("location_id"));
+			tour.setGuideman(rs.getLong("user_id"));
 			tour.setImage(rs.getBlob("image"));
 			return tour;
 		}

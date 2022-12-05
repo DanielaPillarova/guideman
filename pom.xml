@@ -9,9 +9,9 @@
 	<description>app for finding a perfect guideman for your trip</description>
 
 	<properties>
-		<java.version>19</java.version>
-		<maven.compiler.target>19</maven.compiler.target>
-		<maven.compiler.source>19</maven.compiler.source>
+		<java.version>16</java.version>
+		<maven.compiler.target>16</maven.compiler.target>
+		<maven.compiler.source>16</maven.compiler.source>
 	</properties>
 
 	<dependencies>

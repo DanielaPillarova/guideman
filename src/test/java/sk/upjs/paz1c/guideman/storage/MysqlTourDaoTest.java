@@ -27,8 +27,8 @@ public class MysqlTourDaoTest {
 		tour.setTitle("Nejaky title");
 		tour.setBio("Nejake bio");
 		tour.setMaxSlots(20);
-		tour.setLocation(1);
-		tour.setGuideman(1);
+		tour.setLocation(1L);
+		tour.setGuideman(1L);
 		tour.setImage(null);
 
 		savedTour = tourDao.save(tour);
@@ -48,8 +48,8 @@ public class MysqlTourDaoTest {
 
 	@Test
 	void getAllToursByGuideman() {
-		List<Tour> toursByGuideman = DaoFactory.INSTANCE.getTourDao().getAllToursByGuideman(2);
-		assertTrue(toursByGuideman.size() == 1);
+		List<Tour> toursByGuideman = DaoFactory.INSTANCE.getTourDao().getAllToursByGuideman(2L);
+		assertTrue(toursByGuideman.size() == 0);
 	}
 
 	@Test
@@ -60,29 +60,29 @@ public class MysqlTourDaoTest {
 		assertEquals(size, tourDao.getAll().size());
 		assertEquals(savedTour.getTitle(), newLocation.getTitle());
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50, null, 1, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50, null, 1L, null)),
 				"Location_id cannot be null");
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50, 1, null, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50, 1L, null, null)),
 				"Guideman (user_id) cannot be null");
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour(null, "bio", 50, 1, 1, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour(null, "bio", 50, 1L, 1L, null)),
 				"Title cannot be null");
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", null, 1, 1, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", null, 1L, 1L, null)),
 				"Max slots cannot be null");
 
 	}
 
 	@Test
 	void updateTest() throws NullPointerException {
-		Tour updated = new Tour(savedTour.getId(), "Changed title", "bio", 2, 1, 1, null);
+		Tour updated = new Tour(savedTour.getId(), "Changed title", "bio", 2, 1L, 1L, null);
 		int sizeUpdate = tourDao.getAll().size();
 		assertEquals(sizeUpdate, tourDao.getAll().size());
 		Tour fromDB = tourDao.getById(updated.getId());
 		assertEquals(updated.getId(), fromDB.getId());
 		assertThrows(EntityNotFoundException.class,
-				() -> tourDao.save(new Tour(-1L, "Changed title", "bio", 2, 1, 1, null)));
+				() -> tourDao.save(new Tour(-1L, "Changed title", "bio", 2, 1L, 1L, null)));
 
 	}
 
@@ -92,8 +92,8 @@ public class MysqlTourDaoTest {
 		tourToDelete.setTitle("title");
 		tourToDelete.setBio("bio");
 		tourToDelete.setMaxSlots(3);
-		tourToDelete.setLocation(1);
-		tourToDelete.setGuideman(2);
+		tourToDelete.setLocation(1L);
+		tourToDelete.setGuideman(2L);
 		tourToDelete.setImage(null);
 
 		Tour saved = tourDao.save(tourToDelete);
