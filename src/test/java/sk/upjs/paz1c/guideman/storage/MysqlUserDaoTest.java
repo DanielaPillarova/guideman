@@ -64,14 +64,14 @@ class MysqlUserDaoTest {
 			}
 		});
 	}
-	
+
 	// spravne otestovat, hodnoty sa mohli zmenit
 	@Test
 	void getAllTouristsTest() {
 		assertEquals(userDao.getAllTourists(1).size(), 2);
-		//assertEquals(userDao.getAllTourists(10).size(), 2);
+		// assertEquals(userDao.getAllTourists(10).size(), 2);
 	}
-	
+
 	// spravne otestovat
 	@Test
 	void getAllFavouriteGuidemansTest() {
@@ -110,7 +110,8 @@ class MysqlUserDaoTest {
 				() -> userDao.save(new User("name", "surname", null, null, LocalDate.parse("2022-02-02"), null)),
 				"Email address cannot be null");
 		assertThrows(NullPointerException.class,
-				() -> userDao.save(new User("name", "surname", "email", null, null, null)), "Birthdate cannot be null");
+				() -> userDao.save(new User("name", "surname", "email", "telnumber", null, null)),
+				"Birthdate cannot be null");
 		assertThrows(NullPointerException.class, () -> userDao.save(
 				new User("name", "surname", "email", null, LocalDate.parse("2022-02-02"), null, "password", null)),
 				"Login cannot be null");

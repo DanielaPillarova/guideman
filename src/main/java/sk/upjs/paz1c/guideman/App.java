@@ -39,13 +39,13 @@ public class App extends Application {
 	public void start(Stage stage) throws Exception {
 		// String iconImagePath =
 		// "C:\\Users\\RomanRapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\arthas2.jpg";
-		LogInSignUpSceneController controller = new LogInSignUpSceneController();
+		MainSceneController controller = new MainSceneController();
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("logInSignUp.fxml"));
 		loader.setController(controller);
 		Parent parent = loader.load();
 		Scene scene = new Scene(parent);
 		stage.setScene(scene);
-		stage.setTitle("Guideman - find your man");
+		stage.setTitle("Become or find Guideman");
 		// stage.getIcons().add(new Image(iconImagePath));
 		stage.show();
 	}

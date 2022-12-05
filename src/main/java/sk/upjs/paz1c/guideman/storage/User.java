@@ -54,6 +54,34 @@ public class User {
 		this.image = image;
 	}
 
+	public User(String name, String surname, String email, LocalDate birthdate, String login, String password) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.birthdate = birthdate;
+		this.login = login;
+	}
+
+	public User(String name, String surname, String email, String telNumber, LocalDate birthdate, String login,
+			String password) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.telNumber = telNumber;
+		this.birthdate = birthdate;
+		this.login = login;
+	}
+
+	public User(String name, String surname, String email, LocalDate birthdate, String login, String password,
+			Blob image) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.birthdate = birthdate;
+		this.login = login;
+		this.image = image;
+	}
+
 	public User(Long id, String name, String surname, String email, String telNumber, LocalDate birthdate, String login,
 			String password, Blob image) {
 		this.id = id;
