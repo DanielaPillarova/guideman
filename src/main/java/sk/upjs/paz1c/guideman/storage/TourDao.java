@@ -7,12 +7,14 @@ public interface TourDao {
 
 	Tour getById(long id) throws NullPointerException;
 
-	List<Tour> getAllToursByGuideman(Integer guideman) throws NullPointerException;
+	List<Tour> getAllToursByGuideman(Long guidemanId) throws NullPointerException;
 
 	List<Tour> getAll() throws NullPointerException;
 
 	Tour save(Tour tour) throws NullPointerException, EntityNotFoundException;
 
 	boolean delete(long id) throws EntityNotFoundException;
+
+	List<Tour> getAllToursByLocation(Long locationId);
 
 }

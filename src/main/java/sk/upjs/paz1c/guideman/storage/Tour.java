@@ -8,48 +8,48 @@ public class Tour {
 	private String title;
 	private String bio; // idk, mozno String? text je interface a take nechceme
 	private Integer maxSlots;
-	private Integer location;
-	private Integer guideman;
+	private Long locationId;
+	private Long guidemanId;
 	private Blob image;
 
 	public Tour() {
 
 	}
 
-	public Tour(Long id, String title, String bio, Integer maxSlots, Integer location, Integer guideman, Blob image) {
+	public Tour(Long id, String title, String bio, Integer maxSlots, Long location, Long guideman, Blob image) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
-		this.location = location;
-		this.guideman = guideman;
+		this.locationId = location;
+		this.guidemanId = guideman;
 		this.image = image;
 	}
 
-	public Tour(String title, String bio, Integer maxSlots, Integer location, Integer guideman, Blob image) {
+	public Tour(String title, String bio, Integer maxSlots, Long location, Long guideman, Blob image) {
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
-		this.location = location;
-		this.guideman = guideman;
+		this.locationId = location;
+		this.guidemanId = guideman;
 		this.image = image;
 	}
 
-	public Tour(Long id, String title, String bio, Integer maxSlots, Integer location, Integer guideman) {
+	public Tour(Long id, String title, String bio, Integer maxSlots, Long location, Long guideman) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
-		this.location = location;
-		this.guideman = guideman;
+		this.locationId = location;
+		this.guidemanId = guideman;
 	}
 
-	public Tour(Long id, String title, Integer maxSlots, Integer location, Integer guideman) {
+	public Tour(Long id, String title, Integer maxSlots, Long location, Long guideman) {
 		this.id = id;
 		this.title = title;
 		this.maxSlots = maxSlots;
-		this.location = location;
-		this.guideman = guideman;
+		this.locationId = location;
+		this.guidemanId = guideman;
 	}
 
 	public Tour(Long id, String title, Integer maxSlots) {
@@ -98,27 +98,25 @@ public class Tour {
 		this.image = image;
 	}
 
-	public Integer getGuideman() {
-		return guideman;
+	public Long getGuideman() {
+		return guidemanId;
 	}
 
-	public void setGuideman(Integer guideman) {
-		this.guideman = guideman;
+	public void setGuideman(Long guideman) {
+		this.guidemanId = guideman;
 	}
 
-	public Integer getLocation() {
-		return location;
+	public Long getLocation() {
+		return locationId;
 	}
 
-	public void setLocation(Integer location) {
-		this.location = location;
+	public void setLocation(Long location) {
+		this.locationId = location;
 	}
 
 	@Override
 	public String toString() {
 		return "Tour [id=" + id + ", title=" + title + ", bio=" + bio + ", maxSlots=" + maxSlots + ", location="
-				+ location + ", guideman=" + guideman + ", image=" + image + "]";
+				+ locationId + ", guideman=" + guidemanId + ", image=" + image + "]";
 	}
-
-	// TODO roman
 }
