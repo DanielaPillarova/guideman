@@ -5,12 +5,14 @@ import java.util.NoSuchElementException;
 
 public interface TourDao {
 
-	// List<Tour> getAll();
+	Tour getById(long id) throws NullPointerException;
 
-	//Tour getById(long id) throws NoSuchElementException;
+	List<Tour> getAllToursByGuideman(Integer guideman) throws NullPointerException;
 
-	//Tour save(Tour tour) throws NullPointerException, EntityNotFoundException;
+	List<Tour> getAll() throws NullPointerException;
 
-	//boolean delete(long id) throws EntityNotFoundException;
+	Tour save(Tour tour) throws NullPointerException, EntityNotFoundException;
+
+	boolean delete(long id) throws EntityNotFoundException;
 
 }

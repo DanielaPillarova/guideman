@@ -9,9 +9,9 @@
 	<description>app for finding a perfect guideman for your trip</description>
 
 	<properties>
-		<java.version>18</java.version>
-		<maven.compiler.target>18</maven.compiler.target>
-		<maven.compiler.source>18</maven.compiler.source>
+		<java.version>19</java.version>
+		<maven.compiler.target>19</maven.compiler.target>
+		<maven.compiler.source>19</maven.compiler.source>
 	</properties>
 
 	<dependencies>
@@ -33,8 +33,33 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>5.7.5</version>
 		</dependency>
-
-
-
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>19</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>19</version>
+		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>0.0.8</version>
+				<configuration>
+					<mainClass>sk.upjs.paz1c.guideman.App</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
