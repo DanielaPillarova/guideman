@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ public class WelcomeController {
 		System.out.println("Som v logine");
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("logIn.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loginGridPane.fxml"));
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);
@@ -81,7 +81,7 @@ public class WelcomeController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	void closeWelcomeScene() {
 		loginButton.getScene().getWindow().hide();
 	}

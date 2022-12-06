@@ -1,7 +1,9 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -21,10 +23,13 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.User;
 
 public class LoginController {
 
 	boolean hideWindow = false;
+
+	private User currentUser;
 
 	@FXML
 	private TextField usernameTextField;
@@ -76,12 +81,10 @@ public class LoginController {
 
 		String login = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
-				
 
-		JdbcLoginDao jdbcDao = new JdbcLoginDao();
-		boolean flag = jdbcDao.validate(login, password);
-
-		if (!flag) {
+		currentUser = DaoFactory.INSTANCE.getUserDao().getUserByUsername(login);
+		// || BCrypt.checkpw(password, currentUser.getPassword())
+		if (currentUser == null || !(password.equals(currentUser.getPassword()))) {
 			infoBox("Please enter correct Login and Password", null, "Failed login");
 		} else {
 			infoBox("Login Successful!", null, "Successful login");

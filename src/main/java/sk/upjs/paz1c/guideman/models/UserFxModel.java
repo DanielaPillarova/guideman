@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.models;
 
 import java.sql.Blob;
 import java.time.LocalDate;

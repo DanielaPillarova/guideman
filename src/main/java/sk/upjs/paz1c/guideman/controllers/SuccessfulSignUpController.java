@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
