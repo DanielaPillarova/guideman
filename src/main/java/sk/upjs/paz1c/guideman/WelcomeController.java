@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman.controllers;
+package sk.upjs.paz1c.guideman;
 
 import java.io.IOException;
 
@@ -31,7 +31,7 @@ public class WelcomeController {
 
 	@FXML
 	void loginButtonClick(ActionEvent event) {
-		LoginController controller = new LoginController(signupButton);
+		LoginController controller = new LoginController(loginButton); // loginButton
 		showLogin(controller);
 	}
 
@@ -46,7 +46,7 @@ public class WelcomeController {
 		System.out.println("Som v logine");
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loginGridPane.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);

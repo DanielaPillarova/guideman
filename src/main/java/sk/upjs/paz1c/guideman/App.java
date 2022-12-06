@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import sk.upjs.paz1c.guideman.controllers.WelcomeController;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Location;
 import sk.upjs.paz1c.guideman.storage.LocationDao;

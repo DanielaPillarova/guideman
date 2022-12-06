@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman.controllers;
+package sk.upjs.paz1c.guideman;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman.controllers;
+package sk.upjs.paz1c.guideman;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import sk.upjs.paz1c.guideman.JdbcSignupDao;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.User;
@@ -196,12 +195,12 @@ public class SignupController {
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
 		
-		User user = DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
-		
-		if (user != null) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Username already exists !");
-			return;
-		}
+//		User user = DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
+//		
+//		if (user != null) {
+//			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Username already exists !");
+//			return;
+//		}
 
 		JdbcSignupDao jdbcDao = new JdbcSignupDao();
 
