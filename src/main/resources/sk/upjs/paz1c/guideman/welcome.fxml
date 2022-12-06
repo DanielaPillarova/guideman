@@ -22,7 +22,7 @@
     <RowConstraints maxHeight="237.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <MFXButton fx:id="signInButton" prefHeight="40.0" prefWidth="90.0" rippleColor="#cf5b48" style="-fx-background-color: yellowgreen;" text="Sign up" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <MFXButton fx:id="signUpButton" prefHeight="40.0" prefWidth="90.0" rippleColor="#cf5b48" style="-fx-background-color: yellowgreen;" text="Sign up" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <font>
             <Font size="18.0" />
          </font>
