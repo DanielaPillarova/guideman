@@ -98,7 +98,7 @@ public class LoginController {
 			}
 
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainScene.fxml"));
 				fxmlLoader.setController(controller);
 				Parent parent = fxmlLoader.load();
 				Scene scene = new Scene(parent);
