@@ -14,7 +14,7 @@ import sk.upjs.paz1c.guideman.storage.User;
 
 public class SignupController {
 
-	private UserFxModel model;
+	private UserFxModel userModel;
 
 	@FXML
 	private TextField nameTextField;
@@ -35,7 +35,7 @@ public class SignupController {
 	private TextField usernameTextField;
 
 	@FXML
-	private Button signupNewMemberButton;
+	private Button signUpNewMemberButton;
 
 	@FXML
 	private PasswordField passwordPasswordField;
@@ -44,24 +44,25 @@ public class SignupController {
 	private CheckBox showPasswordCheckBox;
 
 	public SignupController() {
-		model = new UserFxModel();
+		userModel = new UserFxModel();
 	}
 
 	public SignupController(User user) {
-		model = new UserFxModel(user);
+		userModel = new UserFxModel(user);
 	}
 
 	@FXML
 	void initialize() {
+		// vsetko je nato aby sa nedalo kliknut vytvorenie ked nie su fieldy
 		nameTextField.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				signupNewMemberButton.setDisable(true);
 				if (newValue == null || newValue.isBlank()) {
-					signupNewMemberButton.setDisable(true);
+					signUpNewMemberButton.setDisable(true);
 				} else {
-					signupNewMemberButton.setDisable(false);
+					signUpNewMemberButton.setDisable(false);
+
 				}
 			}
 		});
@@ -71,9 +72,9 @@ public class SignupController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue == null || newValue.isBlank()) {
-					signupNewMemberButton.setDisable(true);
+					signUpNewMemberButton.setDisable(true);
 				} else {
-					signupNewMemberButton.setDisable(false);
+					signUpNewMemberButton.setDisable(false);
 				}
 			}
 		});
@@ -83,9 +84,9 @@ public class SignupController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue == null || newValue.isBlank()) {
-					signupNewMemberButton.setDisable(true);
+					signUpNewMemberButton.setDisable(true);
 				} else {
-					signupNewMemberButton.setDisable(false);
+					signUpNewMemberButton.setDisable(false);
 				}
 			}
 		});
@@ -95,9 +96,9 @@ public class SignupController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue == null || newValue.isBlank()) {
-					signupNewMemberButton.setDisable(true);
+					signUpNewMemberButton.setDisable(true);
 				} else {
-					signupNewMemberButton.setDisable(false);
+					signUpNewMemberButton.setDisable(false);
 				}
 			}
 		});
@@ -107,9 +108,9 @@ public class SignupController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue == null || newValue.isBlank()) {
-					signupNewMemberButton.setDisable(true);
+					signUpNewMemberButton.setDisable(true);
 				} else {
-					signupNewMemberButton.setDisable(false);
+					signUpNewMemberButton.setDisable(false);
 				}
 			}
 		});
@@ -119,28 +120,42 @@ public class SignupController {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue == null || newValue.isBlank()) {
-					signupNewMemberButton.setDisable(true);
+					signUpNewMemberButton.setDisable(true);
 				} else {
-					signupNewMemberButton.setDisable(false);
+					signUpNewMemberButton.setDisable(false);
 				}
 			}
 		});
+
 	}
 
 	@FXML
-	void signupNewMemberButton(ActionEvent event) {
-		String name = nameTextField.getText().trim();
-		String surname = nameTextField.getText().trim();
-		String email = nameTextField.getText().trim();
-		String birthdateString = nameTextField.getText().trim();
-		LocalDate birthdate = LocalDate.parse(birthdateString);
-		String username = nameTextField.getText().trim();
-		String password = nameTextField.getText().trim();
+	void signUpNewMemberButton(ActionEvent event) {
+		CreatingUserController controller = new CreatingUserController();
+		signUp(controller);
 
-		if (telNumberTextField == null) {
-			// User newUser = new User(name, surname, email, birthdate, username, password);
+	}
 
-		}
+	@FXML
+	void signUp(CreatingUserController controller) {
+		System.out.println("Klik, mam ucet");
+
+//		String name = nameTextField.getText().trim();
+//		String surname = nameTextField.getText().trim();
+//		String email = nameTextField.getText().trim();
+//		String tel_number = telNumberTextField.getText().trim();
+//		String birthdateString = nameTextField.getText().trim();
+//		LocalDate birthdate = LocalDate.parse(birthdateString);
+//		String username = nameTextField.getText().trim();
+//		String password = nameTextField.getText().trim();
+//
+//		if (telNumberTextField == null) {
+//			User newUser = new User(name, surname, email, birthdate, username, password);
+//			userModel.getUsersModel().add(newUser);
+//		} else {
+//			User newUser = new User(name, surname, email, tel_number, birthdate, username, password);
+//			userModel.getUsersModel().add(newUser);
+//		}
 	}
 
 }

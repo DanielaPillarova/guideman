@@ -103,7 +103,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="signupNewMemberButton" layoutX="368.0" layoutY="518.0" mnemonicParsing="false" onAction="#signupNewMemberButton" text="Sign up">
+      <Button fx:id="signUpNewMemberButton" layoutX="368.0" layoutY="518.0" mnemonicParsing="false" onAction="#signUpNewMemberButton" text="Sign up">
          <font>
             <Font size="16.0" />
          </font>

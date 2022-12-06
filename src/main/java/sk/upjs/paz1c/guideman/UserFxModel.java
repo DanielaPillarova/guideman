@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import sk.upjs.paz1c.guideman.storage.User;
 
 // idk ci je to dobre
+// najskor nie, nemam tusenia co tu robit
 
 public class UserFxModel {
 
@@ -31,9 +32,27 @@ public class UserFxModel {
 
 	public UserFxModel(User user) {
 		this.id = user.getId();
+		name.set(user.getName());
+		surname.set(user.getSurname());
+		email.set(user.getEmail());
+		if (user.getTelNumber() != null) {
+			telNumber.set(user.getTelNumber());
+		}
+		this.birthdate = user.getBirthdate();
+		login.set(user.getLogin());
+		password.set(user.getPassword());
+		if (user.getImage() != null) {
+			this.image = user.getImage();
+		}
+
 	}
-	
-	
-	
+
+	public ObservableList<User> getUsersModel() {
+		return users;
+	}
+
+	public StringProperty nameProperty() {
+		return name;
+	}
 
 }

@@ -17,9 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class LogInSignUpSceneController {
+public class MainSceneController {
 
-	public static final Logger logger = LoggerFactory.getLogger(LogInSignUpSceneController.class);
+	public static final Logger logger = LoggerFactory.getLogger(MainSceneController.class);
 
 	@FXML
 	private Button loginButton;
@@ -44,6 +44,7 @@ public class LogInSignUpSceneController {
 		showSignup(controller);
 	}
 
+	@FXML
 	void showLogin(LoginController controller) {
 		System.out.println("Som v logine");
 
@@ -62,6 +63,7 @@ public class LogInSignUpSceneController {
 		}
 	}
 
+	@FXML
 	void showSignup(SignupController controller) {
 		System.out.println("Som v signe");
 
@@ -78,6 +80,10 @@ public class LogInSignUpSceneController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	void closeMainScene() {
+		loginButton.getScene().getWindow().hide();
 	}
 
 }
