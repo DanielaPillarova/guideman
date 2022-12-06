@@ -22,7 +22,7 @@
     <RowConstraints maxHeight="237.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <MFXButton prefHeight="40.0" prefWidth="90.0" rippleColor="#cf5b48" style="-fx-background-color: yellowgreen;" text="Sign up" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <MFXButton fx:id="signInButton" prefHeight="40.0" prefWidth="90.0" rippleColor="#cf5b48" style="-fx-background-color: yellowgreen;" text="Sign up" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <font>
             <Font size="18.0" />
          </font>
@@ -32,7 +32,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <MFXButton prefHeight="40.0" prefWidth="90.0" rippleColor="#cf5b48" style="-fx-background-color: yellowgreen;" text="Log in" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <MFXButton fx:id="logInButton" prefHeight="40.0" prefWidth="90.0" rippleColor="#cf5b48" style="-fx-background-color: yellowgreen;" text="Log in" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
             <Font size="18.0" />
          </font>
@@ -50,7 +50,6 @@
             <Insets left="60.0" top="30.0" />
          </GridPane.margin>
       </Label>
-      <ImageView fitHeight="129.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="184.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets left="230.0" top="40.0" />
