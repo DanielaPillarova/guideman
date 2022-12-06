@@ -9,7 +9,6 @@ public interface UserDao {
 
 	User getById(long id) throws NoSuchElementException;
 
-	// okomentovanie metody
 	User save(User user) throws NullPointerException, EntityNotFoundException;
 
 	boolean delete(long id) throws EntityNotFoundException;
@@ -25,5 +24,7 @@ public interface UserDao {
 	void deleteRating(Long userId, Long eventId) throws EntityNotFoundException;
 
 	void deleteReview(Long userId, Long eventId) throws EntityNotFoundException;
+
+	User getUserByUsername(String username) throws EntityNotFoundException;
 
 }

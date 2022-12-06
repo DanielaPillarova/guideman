@@ -80,6 +80,17 @@ public class MysqlUserDao implements UserDao {
 		return favourites;
 	}
 	
+	@Override
+	public User getUserByUsername(String username) throws EntityNotFoundException {
+		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
+				+ "WHERE login =? ";
+		try {
+			return jdbcTemplate.queryForObject(sql, new UserRowMapper(), username);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with username " + username + " not found");
+		}
+	}
+	
 
 	@Override
 	public User save(User user) throws NullPointerException, EntityNotFoundException {
