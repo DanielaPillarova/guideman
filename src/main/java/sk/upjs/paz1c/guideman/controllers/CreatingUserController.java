@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.controllers;
 
 public class CreatingUserController {
 
