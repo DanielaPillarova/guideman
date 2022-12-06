@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +23,10 @@ public class WelcomeController {
 	public static final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
 
 	@FXML
-	private Button loginButton;
+	private MFXButton logInButton;
 
 	@FXML
-	private Button signupButton;
+	private MFXButton signUpButton;
 
 	@FXML
 	void initialize() {
@@ -34,7 +35,7 @@ public class WelcomeController {
 
 	@FXML
 	void loginButtonClick(ActionEvent event) {
-		LoginController controller = new LoginController(signupButton);
+		LoginController controller = new LoginController(signUpButton);
 		showLogin(controller);
 	}
 
@@ -83,7 +84,7 @@ public class WelcomeController {
 	}
 
 	void closeWelcomeScene() {
-		loginButton.getScene().getWindow().hide();
+		logInButton.getScene().getWindow().hide();
 	}
 
 }
