@@ -1,20 +1,16 @@
-package sk.upjs.paz1c.guideman.controllers;
+package sk.upjs.paz1c.guideman;
 
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,10 +19,10 @@ public class WelcomeController {
 	public static final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
 
 	@FXML
-	private MFXButton logInButton;
+	private Button loginButton;
 
 	@FXML
-	private MFXButton signUpButton;
+	private Button signupButton;
 
 	@FXML
 	void initialize() {
@@ -35,7 +31,7 @@ public class WelcomeController {
 
 	@FXML
 	void loginButtonClick(ActionEvent event) {
-		LoginController controller = new LoginController(signUpButton);
+		LoginController controller = new LoginController(loginButton); // loginButton
 		showLogin(controller);
 	}
 
@@ -50,7 +46,7 @@ public class WelcomeController {
 		System.out.println("Som v logine");
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loginGridPane.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);
@@ -84,7 +80,7 @@ public class WelcomeController {
 	}
 
 	void closeWelcomeScene() {
-		logInButton.getScene().getWindow().hide();
+		loginButton.getScene().getWindow().hide();
 	}
 
 }

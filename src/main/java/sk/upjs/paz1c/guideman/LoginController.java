@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman.controllers;
+package sk.upjs.paz1c.guideman;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -98,7 +98,7 @@ public class LoginController {
 			}
 
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainMenu.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainScene.fxml"));
 				fxmlLoader.setController(controller);
 				Parent parent = fxmlLoader.load();
 				Scene scene = new Scene(parent);
