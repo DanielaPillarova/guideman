@@ -39,7 +39,7 @@ public class App extends Application {
 	public void start(Stage stage) throws Exception {
 		// String iconImagePath =
 		// "C:\\Users\\RomanRapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\arthas2.jpg";
-		MainSceneController controller = new MainSceneController();
+		WelcomeController controller = new WelcomeController();
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("logInSignUp.fxml"));
 		loader.setController(controller);
 		Parent parent = loader.load();

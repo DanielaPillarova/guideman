@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -36,6 +37,12 @@ public class LoginController {
 
 	@FXML
 	private CheckBox showPasswordCheckBox;
+
+	private Button button;
+
+	public LoginController(Button button) {
+		this.button = button;
+	}
 
 	@FXML
 	void initialize() {
@@ -69,8 +76,9 @@ public class LoginController {
 
 		String login = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
+				
 
-		JdbcDao jdbcDao = new JdbcDao();
+		JdbcLoginDao jdbcDao = new JdbcLoginDao();
 		boolean flag = jdbcDao.validate(login, password);
 
 		if (!flag) {
@@ -82,6 +90,7 @@ public class LoginController {
 			if (hideWindow = true) {
 				usernameTextField.getScene().getWindow().hide();
 				System.out.println(usernameTextField.getParent());
+				button.getScene().getWindow().hide();
 				// treba zavriet hlavne okno
 			}
 
@@ -92,8 +101,9 @@ public class LoginController {
 				Scene scene = new Scene(parent);
 				Stage stage = new Stage();
 				stage.setScene(scene);
+
 				stage.setTitle("Main menu");
-				stage.initModality(Modality.APPLICATION_MODAL);
+				// stage.initModality(Modality.APPLICATION_MODAL);
 				stage.showAndWait();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JdbcDao {
+public class JdbcLoginDao {
 
 	private static final String DATABASE_URL = "jdbc:mysql://localhost/guideman?serverTimezone=Europe/Bratislava";
 	private static final String DATABASE_USERNAME = "guideman";
@@ -17,7 +17,7 @@ public class JdbcDao {
 
 		try (Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
 
-				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY)) {
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY)) {
 			preparedStatement.setString(1, login);
 			preparedStatement.setString(2, password);
 
