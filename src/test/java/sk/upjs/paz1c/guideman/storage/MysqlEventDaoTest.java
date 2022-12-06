@@ -47,24 +47,25 @@ class MysqlEventDaoTest {
 		location.setStreet("Hviezdoslavovo namestie");
 //		location.setStreet_number(null);
 		
+		savedUser = userDao.save(guideman);
+		savedLocation = locationDao.save(location);
+		
 		Tour tour = new Tour();
 		tour.setTitle("Testovacia Tour");
 		tour.setBio("testujem tour aj s eventom");
 		tour.setMaxSlots(15);
-		// cakam na romana
-//		tour.setLocation(null);
-//		tour.setGuideman(null);
+		tour.setLocationId(savedLocation.getId());
+		tour.setGuidemanId(savedUser.getId());
 		tour.setImage(null);
 		
+		savedTour = tourDao.save(tour);
+
 		Event event = new Event();
 		event.setDateOfTour(LocalDateTime.parse("2022-12-24 09:00:00"));
 		event.setDuration(LocalTime.parse("03:00:00"));
 		event.setPrice(10.00);
-		event.setTour(null);
+		event.setTourId(savedTour.getId());
 		
-		savedUser = userDao.save(guideman);
-		savedLocation = locationDao.save(location);
-//		savedTour = tourDao.save(tour);
 		savedEvent = eventDao.save(event);
 		
 	}
@@ -73,7 +74,7 @@ class MysqlEventDaoTest {
 	void tearDown() throws Exception {
 		locationDao.delete(savedLocation.getId());
 		userDao.delete(savedUser.getId());
-//		tourDao.delete(savedTour.getId());
+		tourDao.delete(savedTour.getId());
 		eventDao.delete(savedEvent.getId());
 		
 	}

@@ -60,10 +60,10 @@ public class MysqlTourDao implements TourDao {
 		if (tour.getMaxSlots() == null) {
 			throw new NullPointerException("Max slots cannot be null");
 		}
-		if (tour.getLocation() == null) {
+		if (tour.getLocationId() == null) {
 			throw new NullPointerException("Location cannot be null");
 		}
-		if (tour.getGuideman() == null) {
+		if (tour.getGuidemanId() == null) {
 			throw new NullPointerException("Guideman cannot be null");
 		}
 
@@ -78,29 +78,42 @@ public class MysqlTourDao implements TourDao {
 			values.put("title", tour.getTitle());
 			values.put("bio", tour.getBio());
 			values.put("max_slots", tour.getMaxSlots());
-			values.put("location_id", tour.getLocation());
-			values.put("user_id", tour.getGuideman());
+			values.put("location_id", tour.getLocationId());
+			values.put("user_id", tour.getGuidemanId());
 			values.put("image", tour.getImage());
 
 			long id = sjdbInsert.executeAndReturnKey(values).longValue();
-			return new Tour(id, tour.getTitle(), tour.getBio(), tour.getMaxSlots(), tour.getLocation(),
-					tour.getGuideman(), tour.getImage());
+			return new Tour(id, tour.getTitle(), tour.getBio(), tour.getMaxSlots(), tour.getLocationId(),
+					tour.getGuidemanId(), tour.getImage());
 
 		} else { // UPDATE
 			String sql = "UPDATE tour SET title=?, bio=?, max_slots=?, location_id=?, user_id=?, image=? WHERE id = "
 					+ tour.getId();
 			int changed = jdbcTemplate.update(sql, tour.getTitle(), tour.getBio(), tour.getMaxSlots(),
-					tour.getLocation(), tour.getGuideman(), tour.getImage());
+					tour.getLocationId(), tour.getGuidemanId(), tour.getImage());
 			if (changed == 1) {
 				return tour;
 			}
 			throw new EntityNotFoundException("Tour with id " + tour.getId() + " not found");
 		}
 	}
+	
 
 	@Override
-	public boolean delete(long id) {
-		String sql = "DELETE FROM tour WHERE id = " + id;
+	public boolean delete(long tourId) {
+		List<Event> allEvents = DaoFactory.INSTANCE.getEventDao().getAllByTour(tourId);
+		for (Event e : allEvents) {
+			int changed1 = jdbcTemplate.update("DELETE FROM user_has_event uhe WHERE uhe.event_id = " + e.getId());
+			int changed2 = jdbcTemplate.update("DELETE FROM event WHERE id = " + e.getId());
+			// bude to 1 ak v uhe sa moze ale aj nemusi nic vymazat?
+			// surroundnut by try catch
+			if (changed1 == 1 && changed2 == 1) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		String sql = "DELETE FROM tour WHERE id = " + tourId;
 		int changed = jdbcTemplate.update(sql);
 		return changed == 1;
 	}
@@ -113,8 +126,8 @@ public class MysqlTourDao implements TourDao {
 			tour.setId(rs.getLong("id"));
 			tour.setTitle(rs.getString("title"));
 			tour.setBio(rs.getString("bio"));
-			tour.setLocation(rs.getLong("location_id"));
-			tour.setGuideman(rs.getLong("user_id"));
+			tour.setLocationId(rs.getLong("location_id"));
+			tour.setGuidemanId(rs.getLong("user_id"));
 			tour.setImage(rs.getBlob("image"));
 			return tour;
 		}

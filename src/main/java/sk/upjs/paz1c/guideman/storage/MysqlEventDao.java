@@ -63,10 +63,10 @@ public class MysqlEventDao implements EventDao {
 	}
 	
 	@Override
-	public List<Event> getAllByTour(Tour tour) {
+	public List<Event> getAllByTour(Long tourId) {
 		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
 				+ "LEFT JOIN user_has_event uhe ON event.id = uhe.event_id "
-				+ "WHERE tour_id = " + tour.getId();
+				+ "WHERE tour_id = " + tourId;
 		
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Event>>() {
 
@@ -83,7 +83,7 @@ public class MysqlEventDao implements EventDao {
 						lastEvent.setDateOfTour(rs.getTimestamp("date_of_tour").toLocalDateTime());
 						lastEvent.setDuration(rs.getTimestamp("duration").toLocalDateTime().toLocalTime());
 						lastEvent.setPrice(rs.getDouble("price"));
-						lastEvent.setTour(tour);
+						lastEvent.setTourId(rs.getLong("tour_id"));
 						// musi mat tento event aj parametre z tabulky uhe?
 						lastEvent.setTourists(DaoFactory.INSTANCE.getUserDao().getAllTourists(id));
 						// nie je to blbost?
@@ -116,7 +116,7 @@ public class MysqlEventDao implements EventDao {
 		if (event.getPrice() < 0) {
 			throw new NegativeNumberException("Cannot save negative price");
 		}
-		if (event.getTour() == null || event.getTour().getId() == null) {
+		if (event.getTourId() == null) {
 			throw new NullPointerException("Cannot save event without a tour");
 		}
 		
@@ -130,10 +130,10 @@ public class MysqlEventDao implements EventDao {
 			values.put("date_of_tour", event.getDateOfTour());
 			values.put("duration", event.getDuration());
 			values.put("price", event.getPrice());
-			values.put("tour_id", event.getTour().getId());
+			values.put("tour_id", event.getTourId());
 			
 			long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
-			Event event2 = new Event(id, event.getDateOfTour(), event.getDuration(), event.getPrice(), event.getTour());
+			Event event2 = new Event(id, event.getDateOfTour(), event.getDuration(), event.getPrice(), event.getTourId());
 			
 			saveTourists(event2);
 			return event2;
@@ -141,7 +141,7 @@ public class MysqlEventDao implements EventDao {
 		} else { // UPDATE
 			String sql = "UPDATE event SET date_of_tour=?, duration=?, price=?, tour_id=? " + "WHERE id=?";
 			int changed = jdbcTemplate.update(sql, event.getDateOfTour(), event.getDuration(), 
-					event.getPrice(), event.getTour().getId(), event.getId());
+					event.getPrice(), event.getTourId(), event.getId());
 			if (changed == 1) {
 				String sqlDelete = "DELETE FROM user_has_event " + "WHERE event_id= " + event.getId();
 				jdbcTemplate.update(sqlDelete);
@@ -190,18 +190,6 @@ public class MysqlEventDao implements EventDao {
 	
 	// TODO
 	// metoda na savovanie ratingu a reviewu, mozno bude v userovi?
-	
-	// nebude to uplne insert pretoze my nebudeme pridavat novych userov a eventy, 
-	// my budeme chciet len doplnit k nim na miesto null v stplci rating a review hodnoty
-	
-//	private void saveRating(User user, Event event, Integer rat, String rev) {
-//		if (rat == null || rev.equals("")) {
-//			return;
-//		}
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("INSERT INTO user_has_event ()")
-//		
-//	}
 	
 	
 }

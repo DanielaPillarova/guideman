@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Event {
 	
-	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy HH:mm");
+	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
 	private Long id;
 	private LocalDateTime dateOfTour;
 	private LocalTime duration;
 	private Double price;
-	private Tour tour;
+	private Long tourId;
 	private List<User> tourists;
 	
 	// added
@@ -24,40 +24,40 @@ public class Event {
 	public Event() {
 	}
 
-	public Event(Tour tour) {
-		this.tour = tour;
+	public Event(Long tourId) {
+		this.tourId = tourId;
 	}
 	
-	public Event(Long id) {
-		this.id = id;
-	}
+//	public Event(Long id) {
+//		this.id = id;
+//	}
 	
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Tour tour) {
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
-		this.tour = tour;
+		this.tourId = tourId;
 	}
 		
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Tour tour, List<User> tourists) {
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId, List<User> tourists) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
-		this.tour = tour;
+		this.tourId = tourId;
 		if (tourists != null) {
 			this.tourists = tourists;			
 		}
 	}
 
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Tour tour, List<User> tourists,
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId, List<User> tourists,
 			List<Integer> ratings, List<String> reviews) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
-		this.tour = tour;
+		this.tourId = tourId;
 		this.tourists = tourists;
 		this.ratings = ratings;
 		this.reviews = reviews;
@@ -95,12 +95,12 @@ public class Event {
 		this.price = price;
 	}
 
-	public Tour getTour() {
-		return tour;
+	public Long getTourId() {
+		return tourId;
 	}
 
-	public void setTour(Tour tour) {
-		this.tour = tour;
+	public void setTourId(Long tourId) {
+		this.tourId = tourId;
 	}
 
 	public List<User> getTourists() {

@@ -26,30 +26,30 @@ public class Tour {
 		this.image = image;
 	}
 
-	public Tour(String title, String bio, Integer maxSlots, Long location, Long guideman, Blob image) {
+	public Tour(String title, String bio, Integer maxSlots, Long locationId, Long guidemanId, Blob image) {
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
-		this.locationId = location;
-		this.guidemanId = guideman;
+		this.locationId = locationId;
+		this.guidemanId = guidemanId;
 		this.image = image;
 	}
 
-	public Tour(Long id, String title, String bio, Integer maxSlots, Long location, Long guideman) {
+	public Tour(Long id, String title, String bio, Integer maxSlots, Long locationId, Long guidemanId) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
-		this.locationId = location;
-		this.guidemanId = guideman;
+		this.locationId = locationId;
+		this.guidemanId = guidemanId;
 	}
 
-	public Tour(Long id, String title, Integer maxSlots, Long location, Long guideman) {
+	public Tour(Long id, String title, Integer maxSlots, Long locationId, Long guidemanId) {
 		this.id = id;
 		this.title = title;
 		this.maxSlots = maxSlots;
-		this.locationId = location;
-		this.guidemanId = guideman;
+		this.locationId = locationId;
+		this.guidemanId = guidemanId;
 	}
 
 	public Tour(Long id, String title, Integer maxSlots) {
@@ -98,25 +98,25 @@ public class Tour {
 		this.image = image;
 	}
 
-	public Long getGuideman() {
+	public Long getGuidemanId() {
 		return guidemanId;
 	}
 
-	public void setGuideman(Long guideman) {
-		this.guidemanId = guideman;
+	public void setGuidemanId(Long guidemanId) {
+		this.guidemanId = guidemanId;
 	}
 
-	public Long getLocation() {
+	public Long getLocationId() {
 		return locationId;
 	}
 
-	public void setLocation(Long location) {
-		this.locationId = location;
+	public void setLocationId(Long locationId) {
+		this.locationId = locationId;
 	}
 
 	@Override
 	public String toString() {
-		return "Tour [id=" + id + ", title=" + title + ", bio=" + bio + ", maxSlots=" + maxSlots + ", location="
-				+ locationId + ", guideman=" + guidemanId + ", image=" + image + "]";
+		return "Tour [id=" + id + ", title=" + title + ", bio=" + bio + ", maxSlots=" + maxSlots + ", location_id="
+				+ locationId + ", guideman_id=" + guidemanId + ", image=" + image + "]";
 	}
 }

@@ -13,7 +13,7 @@ public interface TourDao {
 
 	Tour save(Tour tour) throws NullPointerException, EntityNotFoundException;
 
-	boolean delete(long id) throws EntityNotFoundException;
+	boolean delete(long tourId) throws EntityNotFoundException;
 
 	List<Tour> getAllToursByLocation(Long locationId);
 

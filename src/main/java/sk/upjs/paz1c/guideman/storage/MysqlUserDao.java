@@ -69,27 +69,6 @@ public class MysqlUserDao implements UserDao {
 		return tourists;	
 	}
 	
-	// pokus o lepsiu metodu getAllTourists(), avsak asi netreba ked bude v testoch vsetko fungovat
-	
-//	@Override
-//	public List<User> getAllTourists(long eventId) {
-//		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
-//				+ "LEFT JOIN user_has_event uhe ON user.id = uhe.user_id "
-//				+ "WHERE uhe.event_id = " + eventId;
-//		// mozno by to chcelo surroundnut by try/catch block ak event id neexistuje ale nwm
-//		// List<User> tourists = jdbcTemplate.query(sql, new UserRowMapper());
-//		
-//		return jdbcTemplate.query(sql, new ResultSetExtractor<List<User>>() {
-//
-//			@Override
-//			public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
-//				List<User> tourists = new ArrayList<>();
-//				
-//				
-//				return null;
-//			}
-//		});	
-//	}
 	
 	@Override
 	public List<User> getAllFavouriteGuidemans(long userId) {
@@ -174,6 +153,7 @@ public class MysqlUserDao implements UserDao {
 	
 	// pokus o delete usera zo vsetkych tabuliek, kvoli JUnit testom, inak deletovat usera ako takeho nikdy v appke nebudeme
 	// mozno ani netreba tento rozsireny delete
+	
 //	public boolean delete2(long id) throws EntityNotFoundException {
 //		String sqlUhu = "DELETE FROM user_has_user WHERE user_id = " + id;
 //		
@@ -183,7 +163,7 @@ public class MysqlUserDao implements UserDao {
 //		int changed = jdbcTemplate.update("DELETE FROM user WHERE id = " + id);
 //		return changed == 1;
 //	}
-
+	
 	private class UserRowMapper implements RowMapper<User> {
 
 		@Override
@@ -202,4 +182,63 @@ public class MysqlUserDao implements UserDao {
 			return user;
 		}
 	}
+	
+	@Override
+	public void saveRating(Long userId, Long eventId, Integer rating) throws EntityNotFoundException {
+		String sql = "UPDATE user_has_event uhe "
+				+ "SET rating = " + rating
+				+ " WHERE rating IS NULL AND uhe.user_id = " + userId 
+				+ "AND uhe.event_id = " + eventId;
+		try {
+			jdbcTemplate.update(sql);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User with id: " + userId + " or event with id: "
+					+ eventId + " is not in DB");
+		}
+	}
+	
+	@Override
+	public void saveReview(Long userId, Long eventId, String review) throws EntityNotFoundException {
+		String sql = "UPDATE user_has_event uhe "
+				+ "SET review =? " 
+				+ " WHERE review IS NULL AND uhe.user_id = " + userId 
+				+ "AND uhe.event_id = " + eventId;
+		try {
+			jdbcTemplate.update(sql, review);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User with id: " + userId + " or event with id: "
+					+ eventId + " is not in DB");
+		}
+	}
+	
+	@Override
+	public void deleteRating(Long userId, Long eventId) throws EntityNotFoundException {
+		String sql = "UPDATE user_has_event uhe "
+				+ "SET rating = null"
+				+ " WHERE rating IS NOT NULL AND uhe.user_id = " + userId 
+				+ "AND uhe.event_id = " + eventId;
+		try {
+			jdbcTemplate.update(sql);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User with id: " + userId + " or event with id: "
+					+ eventId + " is not in DB");
+		}
+	}
+	
+	@Override
+	public void deleteReview(Long userId, Long eventId) throws EntityNotFoundException {
+		String sql = "UPDATE user_has_event uhe "
+				+ "SET review = null " 
+				+ " WHERE review IS NOT NULL AND uhe.user_id = " + userId 
+				+ "AND uhe.event_id = " + eventId;
+		try {
+			jdbcTemplate.update(sql);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("User with id: " + userId + " or event with id: "
+					+ eventId + " is not in DB");
+		}
+	}
+	
+	
+
 }

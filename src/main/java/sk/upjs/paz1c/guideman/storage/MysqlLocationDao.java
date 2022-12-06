@@ -88,9 +88,13 @@ public class MysqlLocationDao implements LocationDao {
 	}
 
 	@Override
-	public boolean delete(long id) {
-		String sql = "DELETE FROM location WHERE id = " + id;
-		int changed = jdbcTemplate.update(sql);
+	public boolean delete(Long locationId) {
+		List<Tour> allTours = DaoFactory.INSTANCE.getTourDao().getAllToursByLocation(locationId);
+		for (Tour t : allTours) {
+			// takto staci?
+			DaoFactory.INSTANCE.getTourDao().delete(t.getId());
+		}
+		int changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
 		return changed == 1;
 	}
 

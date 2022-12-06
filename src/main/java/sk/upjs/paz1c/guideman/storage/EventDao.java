@@ -9,7 +9,7 @@ public interface EventDao {
 
 	List<String> getReviews(Event event);
 	
-	List<Event> getAllByTour(Tour tour);
+	List<Event> getAllByTour(Long tourId);
 
 	Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException;
 

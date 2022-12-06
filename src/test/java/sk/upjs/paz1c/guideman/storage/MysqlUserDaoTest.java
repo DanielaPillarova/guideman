@@ -3,6 +3,8 @@ package sk.upjs.paz1c.guideman.storage;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -14,13 +16,19 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 class MysqlUserDaoTest {
 
 	private UserDao userDao;
-//	private User user;
 	private User savedUser;
+	private EventDao eventDao;
+	private LocationDao locationDao;
+	private TourDao tourDao;
 	private int size;
 
 	public MysqlUserDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		userDao = DaoFactory.INSTANCE.getUserDao();
+		eventDao = DaoFactory.INSTANCE.getEventDao();
+		locationDao = DaoFactory.INSTANCE.getLocationDao();
+		tourDao = DaoFactory.INSTANCE.getTourDao();
+		
 	}
 
 	@BeforeEach
@@ -68,7 +76,7 @@ class MysqlUserDaoTest {
 	// spravne otestovat, hodnoty sa mohli zmenit
 	@Test
 	void getAllTouristsTest() {
-		assertEquals(userDao.getAllTourists(1).size(), 2);
+		assertEquals(userDao.getAllTourists(1).size(), 3);
 		//assertEquals(userDao.getAllTourists(10).size(), 2);
 	}
 	
@@ -151,5 +159,47 @@ class MysqlUserDaoTest {
 		userDao.delete(saved.getId());
 		assertEquals(sizeDelete - 1, userDao.getAll().size());
 	}
+	
+//	@Test
+//	void saveAndDeleteRatingTest() {
+//		Location location = new Location();
+//		location.setCountry("Slovensko");
+//		location.setCity("Bratiska");
+//		location.setStreet("Hviezdoslavovo namestie");
+////		location.setStreet_number(null);
+//		Location savedLocation = locationDao.save(location);
+//		
+//		Tour tour = new Tour();
+//		tour.setTitle("Testovacia Tour");
+//		tour.setBio("testujem tour aj s eventom");
+//		tour.setMaxSlots(15);
+//		tour.setLocationId(savedLocation.getId());
+//		tour.setGuidemanId(savedUser.getId());
+////		tour.setImage(null);
+//		Tour savedTour = tourDao.save(tour);
+//		
+//		Event event = new Event();
+//		// tu mi to zhuci cele
+//		event.setDateOfTour(LocalDateTime.parse("2022-12-24 09:00:00"));
+//		event.setDuration(LocalTime.parse("03:00:00"));
+//		event.setPrice(10.00);
+//		event.setTourId(savedTour.getId());
+//		Event savedEvent = eventDao.save(event);
+//		
+//		int sizeBefore = eventDao.getRatings(savedEvent).size();
+//		userDao.saveRating(savedUser.getId(), savedEvent.getId(), 1);
+//		int sizeAfterSave = eventDao.getRatings(savedEvent).size();
+//		assertEquals(sizeBefore + 1, sizeAfterSave);
+//		userDao.deleteRating(savedUser.getId(), savedEvent.getId());
+//		int sizeAfterDelete = eventDao.getRatings(savedEvent).size();
+//		assertEquals(sizeBefore, sizeAfterDelete);
+//
+//		eventDao.delete(savedEvent.getId());
+//		tourDao.delete(savedTour.getId());
+//		locationDao.delete(savedLocation.getId());
+//		
+//		
+//
+//	}
 
 }

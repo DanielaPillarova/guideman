@@ -18,4 +18,12 @@ public interface UserDao {
 
 	List<User> getAllFavouriteGuidemans(long userId);
 
+	void saveRating(Long userId, Long eventId, Integer rating) throws EntityNotFoundException;
+
+	void saveReview(Long userId, Long eventId, String review) throws EntityNotFoundException;
+
+	void deleteRating(Long userId, Long eventId) throws EntityNotFoundException;
+
+	void deleteReview(Long userId, Long eventId) throws EntityNotFoundException;
+
 }

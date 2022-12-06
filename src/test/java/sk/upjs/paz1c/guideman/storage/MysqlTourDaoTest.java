@@ -27,8 +27,8 @@ public class MysqlTourDaoTest {
 		tour.setTitle("Nejaky title");
 		tour.setBio("Nejake bio");
 		tour.setMaxSlots(20);
-		tour.setLocation(1L);
-		tour.setGuideman(1L);
+		tour.setLocationId(1L);
+		tour.setGuidemanId(1L);
 		tour.setImage(null);
 
 		savedTour = tourDao.save(tour);
@@ -40,16 +40,18 @@ public class MysqlTourDaoTest {
 		tourDao.delete(savedTour.getId());
 	}
 
+	// spravne otestovat
 	@Test
 	void testGetAll() {
 		List<Tour> tours = tourDao.getAll();
 		assertTrue(tours.size() == 3);
 	}
 
+	// spravne otestovat
 	@Test
 	void getAllToursByGuideman() {
 		List<Tour> toursByGuideman = DaoFactory.INSTANCE.getTourDao().getAllToursByGuideman(2L);
-		assertTrue(toursByGuideman.size() == 0);
+		assertTrue(toursByGuideman.size() == 1);
 	}
 
 	@Test
@@ -92,8 +94,8 @@ public class MysqlTourDaoTest {
 		tourToDelete.setTitle("title");
 		tourToDelete.setBio("bio");
 		tourToDelete.setMaxSlots(3);
-		tourToDelete.setLocation(1L);
-		tourToDelete.setGuideman(2L);
+		tourToDelete.setLocationId(1L);
+		tourToDelete.setGuidemanId(2L);
 		tourToDelete.setImage(null);
 
 		Tour saved = tourDao.save(tourToDelete);
