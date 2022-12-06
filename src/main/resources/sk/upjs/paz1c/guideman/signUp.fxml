@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -10,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="505.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="566.0" prefWidth="493.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="81.0" layoutY="74.0" text="Sign up here !">
          <font>
@@ -57,7 +56,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="101.0" layoutY="463.0" text="Image :">
+      <Label layoutX="101.0" layoutY="440.0" text="Image :">
          <font>
             <Font size="16.0" />
          </font>
@@ -98,21 +97,22 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="550.0" text="* must be filled" textFill="#da2020">
+      <Label layoutX="24.0" layoutY="534.0" text="* must be filled" textFill="#da2020">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="signUpNewMemberButton" layoutX="368.0" layoutY="518.0" mnemonicParsing="false" onAction="#signUpNewMemberButton" text="Sign up">
+      <Button fx:id="signUpNewMemberButton" layoutX="350.0" layoutY="503.0" mnemonicParsing="false" onAction="#signUpNewMemberButton" prefHeight="31.0" prefWidth="87.0" style="-fx-background-color: yellowgreen;" text="Sign up">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
       <PasswordField fx:id="passwordPasswordField" layoutX="172.0" layoutY="395.0" prefHeight="27.0" prefWidth="265.0" />
-      <CheckBox fx:id="showPasswordCheckBox" layoutX="172.0" layoutY="430.0" mnemonicParsing="false" text="show password">
+      <Button fx:id="selectImageButton" layoutX="169.0" layoutY="474.0" mnemonicParsing="false" onAction="#selectImageButtonClick" prefHeight="29.0" prefWidth="99.0" style="-fx-background-color: khaki;" text="Select image" />
+      <Label fx:id="selectedFileLabel" layoutX="169.0" layoutY="442.0" text="No selected file">
          <font>
-            <Font size="12.0" />
+            <Font size="16.0" />
          </font>
-      </CheckBox>
+      </Label>
    </children>
 </AnchorPane>
