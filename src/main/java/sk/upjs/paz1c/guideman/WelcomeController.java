@@ -17,9 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainSceneController {
+public class WelcomeController {
 
-	public static final Logger logger = LoggerFactory.getLogger(MainSceneController.class);
+	public static final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
 
 	@FXML
 	private Button loginButton;
@@ -34,7 +34,7 @@ public class MainSceneController {
 
 	@FXML
 	void loginButtonClick(ActionEvent event) {
-		LoginController controller = new LoginController();
+		LoginController controller = new LoginController(signupButton);
 		showLogin(controller);
 	}
 
@@ -82,7 +82,7 @@ public class MainSceneController {
 		}
 	}
 	
-	void closeMainScene() {
+	void closeWelcomeScene() {
 		loginButton.getScene().getWindow().hide();
 	}
 
