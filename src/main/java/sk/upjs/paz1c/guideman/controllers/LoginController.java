@@ -28,9 +28,11 @@ import sk.upjs.paz1c.guideman.storage.User;
 public class LoginController {
 
 	boolean hideWindow = false;
-
 	private User currentUser;
+	private Button button;
 
+	//FXML
+	
 	@FXML
 	private TextField usernameTextField;
 
@@ -43,7 +45,7 @@ public class LoginController {
 	@FXML
 	private CheckBox showPasswordCheckBox;
 
-	private Button button;
+
 
 	public LoginController(Button button) {
 		this.button = button;
@@ -84,9 +86,10 @@ public class LoginController {
 
 		currentUser = DaoFactory.INSTANCE.getUserDao().getUserByUsername(login);
 		// !(password.equals(currentUser.getPassword()))
-		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword())) ) {
+		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword()))) {
 			infoBox("Please enter correct Login and Password", null, "Failed login");
 		} else {
+			// chceme info box?
 			infoBox("Login Successful!", null, "Successful login");
 			hideWindow = true;
 
@@ -106,7 +109,6 @@ public class LoginController {
 				stage.setScene(scene);
 
 				stage.setTitle("Main menu");
-				// stage.initModality(Modality.APPLICATION_MODAL);
 				stage.showAndWait();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -13,7 +13,9 @@ public enum DaoFactory {
 	private LocationDao locationDao;
 	private EventDao eventDao;
 	private TourDao tourDao;
-	private boolean testing = false;
+	private boolean testing = true;
+	// tu zmenit na false
+	// ked je true tak je to testovacia
 
 	public void testing() {
 		testing = true;

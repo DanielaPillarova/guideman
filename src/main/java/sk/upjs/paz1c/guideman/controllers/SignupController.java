@@ -2,7 +2,6 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 
 import org.springframework.dao.DuplicateKeyException;
@@ -16,16 +15,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import sk.upjs.paz1c.guideman.JdbcSignupDao;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
-import sk.upjs.paz1c.guideman.storage.EntityNotFoundException;
 import sk.upjs.paz1c.guideman.storage.User;
 import sk.upjs.paz1c.guideman.storage.UserDao;
 
@@ -69,10 +65,6 @@ public class SignupController {
 
 	public SignupController(User user) {
 		userModel = new UserFxModel(user);
-	}
-
-	void closeWelcomeScene() {
-		signUpNewMemberButton.getScene().getWindow().hide();
 	}
 
 	@FXML
@@ -155,14 +147,14 @@ public class SignupController {
 
 	@FXML
 	void signUpNewMemberButton(ActionEvent event) throws SQLException {
-		CreatingUserController controller = new CreatingUserController();
+		SuccessfulSignUpController controller = new SuccessfulSignUpController(signUpNewMemberButton);
 		signUp(controller);
 
 	}
 
 	// SIGN UP BUTTON
 	@FXML
-	void signUp(CreatingUserController controller) throws SQLException {
+	void signUp(SuccessfulSignUpController controller) throws SQLException {
 		System.out.println("Klik, mam ucet");
 
 		Window owner = signUpNewMemberButton.getScene().getWindow();
@@ -198,7 +190,8 @@ public class SignupController {
 		String surname = surnameTextField.getText();
 		String email = emailTextField.getText();
 		String tel_number = telNumberTextField.getText();
-
+		
+		// parse tento birthdate
 		String birthdate = birthdateTextField.getText();
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
@@ -224,36 +217,29 @@ public class SignupController {
 
 		if (sizeBe4 + 1 == sizeAfter) {
 			System.out.println("new user has been made");
-//			try {
-//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
-//				fxmlLoader.setController(controller);
-//				Parent parent = fxmlLoader.load();
-//				Scene scene = new Scene(parent);
-//				Stage stage = new Stage();
-//				stage.setScene(scene);
-//				stage.setTitle("Congratulations");
-//				stage.initModality(Modality.APPLICATION_MODAL);
-//				stage.showAndWait();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
+				fxmlLoader.setController(controller);
+				Parent parent = fxmlLoader.load();
+				Scene scene = new Scene(parent);
+				Stage stage = new Stage();
+				stage.setScene(scene);
+				stage.setTitle("Congratulations");
+				stage.initModality(Modality.APPLICATION_MODAL);
+				stage.showAndWait();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
+	
+	
 
-	// TU CHCEM NORMALNE OKNO ZE SOM SIGNUP SUCCESSFULLY
-
-	// IMAGINE V SIGN UP-E
+	// IMAGE V SIGN UP-E
 	@FXML
 	void selectImageButtonClick(ActionEvent event) {
 
 	}
-
-	// showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
-	// "Welcome " + name + surname);
-
-	// usernameTextField.getScene().getWindow().hide();
 
 	private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
 		Alert alert = new Alert(alertType);
