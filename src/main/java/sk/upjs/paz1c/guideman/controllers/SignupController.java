@@ -1,4 +1,4 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import sk.upjs.paz1c.guideman.JdbcSignupDao;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.User;
