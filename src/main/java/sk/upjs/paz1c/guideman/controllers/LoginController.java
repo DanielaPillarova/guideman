@@ -83,8 +83,8 @@ public class LoginController {
 		String password = passwordPasswordField.getText();
 
 		currentUser = DaoFactory.INSTANCE.getUserDao().getUserByUsername(login);
-		// || BCrypt.checkpw(password, currentUser.getPassword())
-		if (currentUser == null || !(password.equals(currentUser.getPassword()))) {
+		// !(password.equals(currentUser.getPassword()))
+		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword())) ) {
 			infoBox("Please enter correct Login and Password", null, "Failed login");
 		} else {
 			infoBox("Login Successful!", null, "Successful login");

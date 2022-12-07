@@ -2,7 +2,10 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
+
+import org.springframework.dao.DuplicateKeyException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,11 +25,15 @@ import javafx.stage.Window;
 import sk.upjs.paz1c.guideman.JdbcSignupDao;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.EntityNotFoundException;
 import sk.upjs.paz1c.guideman.storage.User;
+import sk.upjs.paz1c.guideman.storage.UserDao;
 
 public class SignupController {
 
 	private UserFxModel userModel;
+	private User savedUser;
+	private UserDao userDao;
 
 	@FXML
 	private TextField nameTextField;
@@ -53,16 +60,17 @@ public class SignupController {
 	private PasswordField passwordPasswordField;
 
 	@FXML
-	private CheckBox showPasswordCheckBox;
+	private Button selectImageButton;
 
 	public SignupController() {
 		userModel = new UserFxModel();
+		userDao = DaoFactory.INSTANCE.getUserDao();
 	}
 
 	public SignupController(User user) {
 		userModel = new UserFxModel(user);
 	}
-	
+
 	void closeWelcomeScene() {
 		signUpNewMemberButton.getScene().getWindow().hide();
 	}
@@ -152,6 +160,7 @@ public class SignupController {
 
 	}
 
+	// SIGN UP BUTTON
 	@FXML
 	void signUp(CreatingUserController controller) throws SQLException {
 		System.out.println("Klik, mam ucet");
@@ -195,33 +204,49 @@ public class SignupController {
 		String birthdate = birthdateTextField.getText();
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
-		
-//		User user = DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
-//		
-//		if (user != null) {
-//			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Username already exists !");
-//			return;
-//		}
 
-		JdbcSignupDao jdbcDao = new JdbcSignupDao();
+		// User userByUsername =
+		// DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
 
-		jdbcDao.insertRecord(name, surname, email, tel_number, birthdate, username, password);
+		User user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password, null);
 
-		// TU CHCEM NORMALNE OKNO ZE SOM SIGNUP SUCCESSFULLY
+		int sizeBe4 = userDao.getAll().size();
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
-			fxmlLoader.setController(controller);
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.setTitle("Congratulations");
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
-		} catch (IOException e) {
-			e.printStackTrace();
+			savedUser = userDao.save(user);
+		} catch (DuplicateKeyException e) {
+			showAlert(Alert.AlertType.ERROR, owner, "Error!",
+					"Username already exists ! \nPlease enter different username !");
 		}
+
+		int sizeAfter = userDao.getAll().size();
+
+		if (sizeBe4 + 1 == sizeAfter) {
+			System.out.println("new user has been made");
+//			try {
+//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
+//				fxmlLoader.setController(controller);
+//				Parent parent = fxmlLoader.load();
+//				Scene scene = new Scene(parent);
+//				Stage stage = new Stage();
+//				stage.setScene(scene);
+//				stage.setTitle("Congratulations");
+//				stage.initModality(Modality.APPLICATION_MODAL);
+//				stage.showAndWait();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		}
+
+	}
+
+	// TU CHCEM NORMALNE OKNO ZE SOM SIGNUP SUCCESSFULLY
+
+	// IMAGINE V SIGN UP-E
+	@FXML
+	void selectImageButtonClick(ActionEvent event) {
+
 	}
 
 	// showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
