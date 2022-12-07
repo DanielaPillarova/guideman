@@ -18,10 +18,12 @@ class MysqlUserDaoTest {
 	private UserDao userDao;
 	private User savedUser;
 	private int size;
+	private EventDao eventDao;
 
 	public MysqlUserDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		userDao = DaoFactory.INSTANCE.getUserDao();
+		eventDao = DaoFactory.INSTANCE.getEventDao();
 	}
 
 	@BeforeEach
@@ -66,15 +68,11 @@ class MysqlUserDaoTest {
 		});
 	}
 
-	// spravne otestovat, hodnoty sa mohli zmenit
 	@Test
 	void getAllTouristsTest() {
 		assertEquals(userDao.getAllTourists(1).size(), 3);
-		//assertEquals(userDao.getAllTourists(10).size(), 2);
-
 	}
-
-	// spravne otestovat
+	
 	@Test
 	void getAllFavouriteGuidemansTest() {
 		assertEquals(userDao.getAllFavouriteGuidemans(1).size(), 2);
@@ -157,26 +155,29 @@ class MysqlUserDaoTest {
 	
 	@Test
 	void saveAndDeleteRatingTest() {
-		EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
-		Event event = new Event();
-		event.setDateOfTour(LocalDateTime.parse("2022-12-30T08:00:00"));
-		event.setDuration(LocalTime.parse("03:00:00"));
-		event.setPrice(10.00);
-		event.setTourId(1l);
-		Event savedEvent = eventDao.save(event);
-		
-		int ratingSizeBefore = eventDao.getRatings(2L).size();
-		userDao.saveRating(savedUser.getId(), savedEvent.getId(), 5);
-		int ratingSizeAfter = eventDao.getRatings(2L).size();
-		int sum = ratingSizeAfter - ratingSizeBefore;
-		assertEquals(ratingSizeBefore + sum, ratingSizeAfter);
-		userDao.deleteRating(savedUser.getId(), savedEvent.getId());
-		int ratingSizeAfterDelete = eventDao.getRatings(2L).size();
+		int ratingSizeBefore = eventDao.getRatings(16l).size();
+		userDao.saveRating(3l, 16l, 5);
+		int ratingSizeAfter = eventDao.getRatings(16l).size();
+		assertEquals(ratingSizeBefore + 1, ratingSizeAfter);
+		userDao.deleteRating(3l, 16l);
+		int ratingSizeAfterDelete = eventDao.getRatings(16l).size();
 		assertEquals(ratingSizeAfterDelete, ratingSizeBefore);
 		
-		eventDao.delete(savedEvent.getId());
+		userDao.saveRating(2l, 16l, 6);
+		int badRatingSize = eventDao.getRatings(16l).size();
+		assertEquals(ratingSizeBefore, badRatingSize);
+	}
+	
+	@Test
+	void saveAndDeleteReviewsTest() {
+		int reviewsSizeBefore = eventDao.getReviews(16l).size();
+		userDao.saveReview(3l, 16l, "dajaky review");
+		int reviewsSizeAfter = eventDao.getReviews(16l).size();
+		assertEquals(reviewsSizeBefore + 1, reviewsSizeAfter);
+		userDao.deleteReview(3l, 16l);
+		int reviewSizeAfterDelete = eventDao.getReviews(16l).size();
+		assertEquals(reviewsSizeBefore, reviewSizeAfterDelete);
 		
-
 	}
 
 }

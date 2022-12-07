@@ -75,7 +75,7 @@ public class MysqlUserDao implements UserDao {
 		List<User> favourites = jdbcTemplate.query(sql, new UserRowMapper());
 		return favourites;
 	}
-	
+
 	@Override
 	public User getUserByUsername(String username) throws EntityNotFoundException {
 		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
@@ -176,32 +176,36 @@ public class MysqlUserDao implements UserDao {
 
 	@Override
 	public void saveRating(Long userId, Long eventId, Integer rating) throws EntityNotFoundException {
-		String sql = "UPDATE user_has_event uhe " + "SET rating = " + rating
-				+ " WHERE rating IS NULL AND uhe.user_id = " + userId + "AND uhe.event_id = " + eventId;
-		try {
-			jdbcTemplate.update(sql);
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException(
-					"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
+		if (rating == 0 || rating == 1 || rating == 2 || rating == 3 || rating == 4 || rating == 5) {
+			String sql = "UPDATE user_has_event uhe " + "SET rating = " + rating
+					+ " WHERE rating IS NULL AND uhe.user_id = " + userId + " AND uhe.event_id = " + eventId;
+			try {
+				jdbcTemplate.update(sql);
+			} catch (DataAccessException e) {
+				throw new EntityNotFoundException(
+						"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
+			}
 		}
 	}
 
 	@Override
 	public void saveReview(Long userId, Long eventId, String review) throws EntityNotFoundException {
-		String sql = "UPDATE user_has_event uhe " + "SET review =? " + " WHERE review IS NULL AND uhe.user_id = "
-				+ userId + "AND uhe.event_id = " + eventId;
-		try {
-			jdbcTemplate.update(sql, review);
-		} catch (DataAccessException e) {
-			throw new EntityNotFoundException(
-					"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
+		if (review != "") {
+			String sql = "UPDATE user_has_event uhe " + "SET review =? " + " WHERE review IS NULL AND uhe.user_id = "
+					+ userId + " AND uhe.event_id = " + eventId;
+			try {
+				jdbcTemplate.update(sql, review);
+			} catch (DataAccessException e) {
+				throw new EntityNotFoundException(
+						"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
+			}
 		}
 	}
 
 	@Override
 	public void deleteRating(Long userId, Long eventId) throws EntityNotFoundException {
 		String sql = "UPDATE user_has_event uhe " + "SET rating = null" + " WHERE rating IS NOT NULL AND uhe.user_id = "
-				+ userId + "AND uhe.event_id = " + eventId;
+				+ userId + " AND uhe.event_id = " + eventId;
 		try {
 			jdbcTemplate.update(sql);
 		} catch (DataAccessException e) {
@@ -213,7 +217,7 @@ public class MysqlUserDao implements UserDao {
 	@Override
 	public void deleteReview(Long userId, Long eventId) throws EntityNotFoundException {
 		String sql = "UPDATE user_has_event uhe " + "SET review = null "
-				+ " WHERE review IS NOT NULL AND uhe.user_id = " + userId + "AND uhe.event_id = " + eventId;
+				+ " WHERE review IS NOT NULL AND uhe.user_id = " + userId + " AND uhe.event_id = " + eventId;
 		try {
 			jdbcTemplate.update(sql);
 		} catch (DataAccessException e) {

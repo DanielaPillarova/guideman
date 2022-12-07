@@ -16,7 +16,6 @@ public class Event {
 	private Long tourId;
 	private List<User> tourists;
 	
-	// added
 	private List<Integer> ratings;
 	private List<String> reviews;
 	
@@ -28,9 +27,12 @@ public class Event {
 		this.tourId = tourId;
 	}
 	
-//	public Event(Long id) {
-//		this.id = id;
-//	}
+	public Event(LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId) {
+		this.dateOfTour = dateOfTour;
+		this.duration = duration;
+		this.price = price;
+		this.tourId = tourId;
+	}
 	
 	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId) {
 		this.id = id;

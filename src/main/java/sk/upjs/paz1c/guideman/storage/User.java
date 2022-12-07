@@ -71,6 +71,7 @@ public class User {
 		this.telNumber = telNumber;
 		this.birthdate = birthdate;
 		this.login = login;
+		this.password = password;
 	}
 
 	public User(String name, String surname, String email, LocalDate birthdate, String login, String password,
