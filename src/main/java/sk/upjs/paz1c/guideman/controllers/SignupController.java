@@ -2,7 +2,10 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
+
+import org.springframework.dao.DuplicateKeyException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +25,7 @@ import javafx.stage.Window;
 import sk.upjs.paz1c.guideman.JdbcSignupDao;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.EntityNotFoundException;
 import sk.upjs.paz1c.guideman.storage.User;
 import sk.upjs.paz1c.guideman.storage.UserDao;
 
@@ -204,29 +208,37 @@ public class SignupController {
 		// User userByUsername =
 		// DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
 
-		User user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password);
+		User user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password, null);
+
 		int sizeBe4 = userDao.getAll().size();
-		savedUser = userDao.save(user);
+
+		try {
+			savedUser = userDao.save(user);
+		} catch (DuplicateKeyException e) {
+			showAlert(Alert.AlertType.ERROR, owner, "Error!",
+					"Username already exists ! \nPlease enter different username !");
+		}
+
 		int sizeAfter = userDao.getAll().size();
 
-		if (sizeBe4 == sizeAfter) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Username already exists !");
-			return;
-		} else {
-			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
-				fxmlLoader.setController(controller);
-				Parent parent = fxmlLoader.load();
-				Scene scene = new Scene(parent);
-				Stage stage = new Stage();
-				stage.setScene(scene);
-				stage.setTitle("Congratulations");
-				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.showAndWait();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (sizeBe4 + 1 == sizeAfter) {
+			System.out.println("new user has been made");
+//			try {
+//				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
+//				fxmlLoader.setController(controller);
+//				Parent parent = fxmlLoader.load();
+//				Scene scene = new Scene(parent);
+//				Stage stage = new Stage();
+//				stage.setScene(scene);
+//				stage.setTitle("Congratulations");
+//				stage.initModality(Modality.APPLICATION_MODAL);
+//				stage.showAndWait();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		}
+
 	}
 
 	// TU CHCEM NORMALNE OKNO ZE SOM SIGNUP SUCCESSFULLY
