@@ -5,9 +5,9 @@ import java.util.NoSuchElementException;
 
 public interface EventDao {
 
-	List<Integer> getRatings(Event event);
+	List<Integer> getRatings(Long eventId);
 
-	List<String> getReviews(Event event);
+	List<String> getReviews(Long eventId);
 	
 	List<Event> getAllByTour(Long tourId);
 

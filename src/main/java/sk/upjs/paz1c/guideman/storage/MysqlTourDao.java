@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -99,25 +100,36 @@ public class MysqlTourDao implements TourDao {
 	}
 	
 
+//	@Override
+//	public boolean delete(long tourId) {
+//		List<Event> allEvents = DaoFactory.INSTANCE.getEventDao().getAllByTour(tourId);
+//		for (Event e : allEvents) {
+//			int changed1 = jdbcTemplate.update("DELETE FROM user_has_event uhe WHERE uhe.event_id = " + e.getId());
+//			int changed2 = jdbcTemplate.update("DELETE FROM event WHERE id = " + e.getId());
+//			// bude to 1 ak v uhe sa moze ale aj nemusi nic vymazat?
+//			// surroundnut by try catch
+//			if (changed1 == 1 && changed2 == 1) {
+//				continue;
+//			} else {
+//				return false;
+//			}
+//		}
+//		String sql = "DELETE FROM tour WHERE id = " + tourId;
+//		int changed = jdbcTemplate.update(sql);
+//		return changed == 1;
+//	}
+
 	@Override
-	public boolean delete(long tourId) {
-		List<Event> allEvents = DaoFactory.INSTANCE.getEventDao().getAllByTour(tourId);
-		for (Event e : allEvents) {
-			int changed1 = jdbcTemplate.update("DELETE FROM user_has_event uhe WHERE uhe.event_id = " + e.getId());
-			int changed2 = jdbcTemplate.update("DELETE FROM event WHERE id = " + e.getId());
-			// bude to 1 ak v uhe sa moze ale aj nemusi nic vymazat?
-			// surroundnut by try catch
-			if (changed1 == 1 && changed2 == 1) {
-				continue;
-			} else {
-				return false;
-			}
+	public boolean delete(long tourId) throws EntityNotFoundException {
+		int changed = 0;
+		try {
+			changed = jdbcTemplate.update("DELETE FROM tour WHERE id = " + tourId);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Tour with id " + tourId + " not in DB");
 		}
-		String sql = "DELETE FROM tour WHERE id = " + tourId;
-		int changed = jdbcTemplate.update(sql);
 		return changed == 1;
 	}
-
+	
 	private class TourRowMapper implements RowMapper<Tour> {
 
 		@Override

@@ -17,18 +17,11 @@ class MysqlUserDaoTest {
 
 	private UserDao userDao;
 	private User savedUser;
-	private EventDao eventDao;
-	private LocationDao locationDao;
-	private TourDao tourDao;
 	private int size;
 
 	public MysqlUserDaoTest() {
 		DaoFactory.INSTANCE.testing();
 		userDao = DaoFactory.INSTANCE.getUserDao();
-		eventDao = DaoFactory.INSTANCE.getEventDao();
-		locationDao = DaoFactory.INSTANCE.getLocationDao();
-		tourDao = DaoFactory.INSTANCE.getTourDao();
-		
 	}
 
 	@BeforeEach
@@ -162,46 +155,28 @@ class MysqlUserDaoTest {
 		assertEquals(sizeDelete - 1, userDao.getAll().size());
 	}
 	
-//	@Test
-//	void saveAndDeleteRatingTest() {
-//		Location location = new Location();
-//		location.setCountry("Slovensko");
-//		location.setCity("Bratiska");
-//		location.setStreet("Hviezdoslavovo namestie");
-////		location.setStreet_number(null);
-//		Location savedLocation = locationDao.save(location);
-//		
-//		Tour tour = new Tour();
-//		tour.setTitle("Testovacia Tour");
-//		tour.setBio("testujem tour aj s eventom");
-//		tour.setMaxSlots(15);
-//		tour.setLocationId(savedLocation.getId());
-//		tour.setGuidemanId(savedUser.getId());
-////		tour.setImage(null);
-//		Tour savedTour = tourDao.save(tour);
-//		
-//		Event event = new Event();
-//		// tu mi to zhuci cele
-//		event.setDateOfTour(LocalDateTime.parse("2022-12-24 09:00:00"));
-//		event.setDuration(LocalTime.parse("03:00:00"));
-//		event.setPrice(10.00);
-//		event.setTourId(savedTour.getId());
-//		Event savedEvent = eventDao.save(event);
-//		
-//		int sizeBefore = eventDao.getRatings(savedEvent).size();
-//		userDao.saveRating(savedUser.getId(), savedEvent.getId(), 1);
-//		int sizeAfterSave = eventDao.getRatings(savedEvent).size();
-//		assertEquals(sizeBefore + 1, sizeAfterSave);
-//		userDao.deleteRating(savedUser.getId(), savedEvent.getId());
-//		int sizeAfterDelete = eventDao.getRatings(savedEvent).size();
-//		assertEquals(sizeBefore, sizeAfterDelete);
-//
-//		eventDao.delete(savedEvent.getId());
-//		tourDao.delete(savedTour.getId());
-//		locationDao.delete(savedLocation.getId());
-//		
-//		
-//
-//	}
+	@Test
+	void saveAndDeleteRatingTest() {
+		EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
+		Event event = new Event();
+		event.setDateOfTour(LocalDateTime.parse("2022-12-30T08:00:00"));
+		event.setDuration(LocalTime.parse("03:00:00"));
+		event.setPrice(10.00);
+		event.setTourId(1l);
+		Event savedEvent = eventDao.save(event);
+		
+		int ratingSizeBefore = eventDao.getRatings(2L).size();
+		userDao.saveRating(savedUser.getId(), savedEvent.getId(), 5);
+		int ratingSizeAfter = eventDao.getRatings(2L).size();
+		int sum = ratingSizeAfter - ratingSizeBefore;
+		assertEquals(ratingSizeBefore + sum, ratingSizeAfter);
+		userDao.deleteRating(savedUser.getId(), savedEvent.getId());
+		int ratingSizeAfterDelete = eventDao.getRatings(2L).size();
+		assertEquals(ratingSizeAfterDelete, ratingSizeBefore);
+		
+		eventDao.delete(savedEvent.getId());
+		
+
+	}
 
 }

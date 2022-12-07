@@ -61,7 +61,7 @@ class MysqlEventDaoTest {
 		savedTour = tourDao.save(tour);
 
 		Event event = new Event();
-		event.setDateOfTour(LocalDateTime.parse("2022-12-24 09:00:00"));
+		event.setDateOfTour(LocalDateTime.parse("2022-12-24T09:00:00"));
 		event.setDuration(LocalTime.parse("03:00:00"));
 		event.setPrice(10.00);
 		event.setTourId(savedTour.getId());

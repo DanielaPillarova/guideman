@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -87,14 +88,25 @@ public class MysqlLocationDao implements LocationDao {
 		}
 	}
 
+//	@Override
+//	public boolean delete(Long locationId) {
+//		List<Tour> allTours = DaoFactory.INSTANCE.getTourDao().getAllToursByLocation(locationId);
+//		for (Tour t : allTours) {
+//			// takto staci?
+//			DaoFactory.INSTANCE.getTourDao().delete(t.getId());
+//		}
+//		int changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
+//		return changed == 1;
+//	}
+	
 	@Override
-	public boolean delete(Long locationId) {
-		List<Tour> allTours = DaoFactory.INSTANCE.getTourDao().getAllToursByLocation(locationId);
-		for (Tour t : allTours) {
-			// takto staci?
-			DaoFactory.INSTANCE.getTourDao().delete(t.getId());
+	public boolean delete(Long locationId) throws EntityNotFoundException {
+		int changed = 0;
+		try {
+			changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
+		} catch (DataAccessException e) {
+			throw new EntityNotFoundException("Location with id " + locationId + " not in DB");
 		}
-		int changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
 		return changed == 1;
 	}
 

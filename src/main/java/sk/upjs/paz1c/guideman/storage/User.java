@@ -60,6 +60,7 @@ public class User {
 		this.email = email;
 		this.birthdate = birthdate;
 		this.login = login;
+		this.password = password;
 	}
 
 	public User(String name, String surname, String email, String telNumber, LocalDate birthdate, String login,
