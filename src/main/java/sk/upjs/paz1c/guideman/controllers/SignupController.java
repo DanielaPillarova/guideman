@@ -197,18 +197,19 @@ public class SignupController {
 		String name = nameTextField.getText();
 		String surname = surnameTextField.getText();
 		String email = emailTextField.getText();
-		String tel_number = null;
-		if (telNumberTextField.getText() != null) {
-			tel_number = telNumberTextField.getText();
-		}
+		String tel_number = telNumberTextField.getText();
+
 		String birthdate = birthdateTextField.getText();
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
 
-		// User userByUsername =
-		// DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
+		User user = null;
 
-		User user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password, null);
+		if (tel_number != "") {
+			user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password, null);
+		} else {
+			user = new User(name, surname, email, null, LocalDate.parse("2022-02-02"), username, password, null);
+		}
 
 		int sizeBe4 = userDao.getAll().size();
 
