@@ -23,8 +23,9 @@ public class MysqlEventDao implements EventDao {
 	}
 	
 	@Override
-	public List<Integer> getRatings(Event event) {
-		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + event.getId();
+	public List<Integer> getRatings(Long eventId) {
+		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + eventId
+				+ " AND rating IS NOT NULL";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Integer>>() {
 
 			@Override
@@ -32,10 +33,8 @@ public class MysqlEventDao implements EventDao {
 				List<Integer> ratings = new ArrayList<>();
 				while (rs.next()) {
 					Integer rat = rs.getInt("rating");
-					if (rat != null) {
-						if (rat >= 0 && rat <= 5) {
-							ratings.add(rat);
-						}
+					if (rat == 0 || rat == 1 || rat == 2 || rat == 3 || rat == 4 || rat == 5) {
+						ratings.add(rat);
 					}
 				}
 				return ratings;
@@ -44,8 +43,9 @@ public class MysqlEventDao implements EventDao {
 	}
 	
 	@Override
-	public List<String> getReviews(Event event) {
-		String sql = "SELECT review FROM user_has_event WHERE event_id = " + event.getId();
+	public List<String> getReviews(Long eventId) {
+		String sql = "SELECT review FROM user_has_event WHERE event_id = " + eventId
+				+ " AND review IS NOT NULL";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
 
 			@Override
@@ -53,9 +53,7 @@ public class MysqlEventDao implements EventDao {
 				List<String> reviews = new ArrayList<>();
 				while (rs.next()) {
 					String rev = rs.getString("review");
-					if (rev != null) {
 						reviews.add(rev);
-					}
 				}
 				return reviews;
 			}
@@ -87,8 +85,8 @@ public class MysqlEventDao implements EventDao {
 						// musi mat tento event aj parametre z tabulky uhe?
 						lastEvent.setTourists(DaoFactory.INSTANCE.getUserDao().getAllTourists(id));
 						// nie je to blbost?
-						lastEvent.setRatings(getRatings(lastEvent));
-						lastEvent.setReviews(getReviews(lastEvent));
+						lastEvent.setRatings(getRatings(id));
+						lastEvent.setReviews(getReviews(id));
 						//
 						events.add(lastEvent);
 					}
@@ -155,7 +153,10 @@ public class MysqlEventDao implements EventDao {
 	}
 	
 	private void saveTourists(Event event) {
-		if (event.getTourists().isEmpty()) {
+//		if (event.getTourists().isEmpty()) {
+//			return;
+//		}
+		if (event.getTourists() == null) {
 			return;
 		}
 		StringBuilder sb = new StringBuilder();
@@ -166,7 +167,7 @@ public class MysqlEventDao implements EventDao {
 			}
 			sb.append("(").append(u.getId());
 			sb.append(", ").append(event.getId());
-			sb.append("), ");
+			sb.append("),");
 		}
 		String sql = sb.substring(0, sb.length() - 1);
 		jdbcTemplate.update(sql);
@@ -187,9 +188,6 @@ public class MysqlEventDao implements EventDao {
 		}
 		return (changedUhe == 1 && changedE == 1);
 	}
-	
-	// TODO
-	// metoda na savovanie ratingu a reviewu, mozno bude v userovi?
 	
 	
 }

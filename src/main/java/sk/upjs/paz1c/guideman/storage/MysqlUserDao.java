@@ -4,7 +4,6 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -156,23 +154,6 @@ public class MysqlUserDao implements UserDao {
 		int changed = jdbcTemplate.update("DELETE FROM user WHERE id = " + id);
 		return changed == 1;
 	}
-
-	// TODO
-	// spravit delete pre usera aj z ostatnych tabuliek
-
-	// pokus o delete usera zo vsetkych tabuliek, kvoli JUnit testom, inak deletovat
-	// usera ako takeho nikdy v appke nebudeme
-	// mozno ani netreba tento rozsireny delete
-
-//	public boolean delete2(long id) throws EntityNotFoundException {
-//		String sqlUhu = "DELETE FROM user_has_user WHERE user_id = " + id;
-//		
-//		String sqlU = "DELETE FROM user WHERE id = " + id;
-//		
-//		
-//		int changed = jdbcTemplate.update("DELETE FROM user WHERE id = " + id);
-//		return changed == 1;
-//	}
 
 	private class UserRowMapper implements RowMapper<User> {
 

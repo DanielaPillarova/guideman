@@ -40,14 +40,12 @@ public class MysqlTourDaoTest {
 		tourDao.delete(savedTour.getId());
 	}
 
-	// spravne otestovat
 	@Test
 	void testGetAll() {
 		List<Tour> tours = tourDao.getAll();
-		assertTrue(tours.size() == 3);
+		assertEquals(tours.size(), 3);
 	}
 
-	// spravne otestovat
 	@Test
 	void getAllToursByGuideman() {
 		List<Tour> toursByGuideman = DaoFactory.INSTANCE.getTourDao().getAllToursByGuideman(2L);
