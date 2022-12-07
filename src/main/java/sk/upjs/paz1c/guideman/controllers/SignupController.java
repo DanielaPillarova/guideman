@@ -23,10 +23,13 @@ import sk.upjs.paz1c.guideman.JdbcSignupDao;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.User;
+import sk.upjs.paz1c.guideman.storage.UserDao;
 
 public class SignupController {
 
 	private UserFxModel userModel;
+	private User savedUser;
+	private UserDao userDao;
 
 	@FXML
 	private TextField nameTextField;
@@ -53,16 +56,17 @@ public class SignupController {
 	private PasswordField passwordPasswordField;
 
 	@FXML
-	private CheckBox showPasswordCheckBox;
+	private Button selectImageButton;
 
 	public SignupController() {
 		userModel = new UserFxModel();
+		userDao = DaoFactory.INSTANCE.getUserDao();
 	}
 
 	public SignupController(User user) {
 		userModel = new UserFxModel(user);
 	}
-	
+
 	void closeWelcomeScene() {
 		signUpNewMemberButton.getScene().getWindow().hide();
 	}
@@ -152,6 +156,7 @@ public class SignupController {
 
 	}
 
+	// SIGN UP BUTTON
 	@FXML
 	void signUp(CreatingUserController controller) throws SQLException {
 		System.out.println("Klik, mam ucet");
@@ -195,33 +200,41 @@ public class SignupController {
 		String birthdate = birthdateTextField.getText();
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
-		
-//		User user = DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
-//		
-//		if (user != null) {
-//			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Username already exists !");
-//			return;
-//		}
 
-		JdbcSignupDao jdbcDao = new JdbcSignupDao();
+		// User userByUsername =
+		// DaoFactory.INSTANCE.getUserDao().getUserByUsername(username);
 
-		jdbcDao.insertRecord(name, surname, email, tel_number, birthdate, username, password);
+		User user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password);
+		int sizeBe4 = userDao.getAll().size();
+		savedUser = userDao.save(user);
+		int sizeAfter = userDao.getAll().size();
 
-		// TU CHCEM NORMALNE OKNO ZE SOM SIGNUP SUCCESSFULLY
-
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
-			fxmlLoader.setController(controller);
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.setTitle("Congratulations");
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (sizeBe4 == sizeAfter) {
+			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Username already exists !");
+			return;
+		} else {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
+				fxmlLoader.setController(controller);
+				Parent parent = fxmlLoader.load();
+				Scene scene = new Scene(parent);
+				Stage stage = new Stage();
+				stage.setScene(scene);
+				stage.setTitle("Congratulations");
+				stage.initModality(Modality.APPLICATION_MODAL);
+				stage.showAndWait();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+	}
+
+	// TU CHCEM NORMALNE OKNO ZE SOM SIGNUP SUCCESSFULLY
+
+	// IMAGINE V SIGN UP-E
+	@FXML
+	void selectImageButtonClick(ActionEvent event) {
+
 	}
 
 	// showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
