@@ -43,7 +43,7 @@ public class MysqlTourDaoTest {
 	@Test
 	void testGetAll() {
 		List<Tour> tours = tourDao.getAll();
-		assertEquals(tours.size(), 3);
+		assertEquals(tours.size(), 4);
 	}
 
 	@Test
