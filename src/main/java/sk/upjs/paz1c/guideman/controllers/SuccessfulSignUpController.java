@@ -17,23 +17,6 @@ public class SuccessfulSignUpController {
 
 	private Button button;
 
-	public SuccessfulSignUpController(Button button) {
-		this.button = button;
-	}
+// moj mrtvy button
 
-	@FXML
-	void signUpHasBeenSuccessfulButton(ActionEvent event) {
-		CreatingUserController controller = new CreatingUserController();
-		closeWindow(controller);
-	}
-
-	void closeWindow(CreatingUserController controller) {
-		button.getScene().getWindow().hide();
-		okButton.getScene().getWindow().hide();
-	}
-
-	@FXML
-	void initialize() {
-
-	}
 }

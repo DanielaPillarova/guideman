@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -61,6 +62,7 @@ public class SignupController {
 	public SignupController() {
 		userModel = new UserFxModel();
 		userDao = DaoFactory.INSTANCE.getUserDao();
+
 	}
 
 	public SignupController(User user) {
@@ -69,85 +71,12 @@ public class SignupController {
 
 	@FXML
 	void initialize() {
-		// vsetko je nato aby sa nedalo kliknut vytvorenie ked nie su fieldy
-		nameTextField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.isBlank()) {
-					signUpNewMemberButton.setDisable(true);
-				} else {
-					signUpNewMemberButton.setDisable(false);
-
-				}
-			}
-		});
-
-		surnameTextField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.isBlank()) {
-					signUpNewMemberButton.setDisable(true);
-				} else {
-					signUpNewMemberButton.setDisable(false);
-				}
-			}
-		});
-
-		emailTextField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.isBlank()) {
-					signUpNewMemberButton.setDisable(true);
-				} else {
-					signUpNewMemberButton.setDisable(false);
-				}
-			}
-		});
-
-		birthdateTextField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.isBlank()) {
-					signUpNewMemberButton.setDisable(true);
-				} else {
-					signUpNewMemberButton.setDisable(false);
-				}
-			}
-		});
-
-		usernameTextField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.isBlank()) {
-					signUpNewMemberButton.setDisable(true);
-				} else {
-					signUpNewMemberButton.setDisable(false);
-				}
-			}
-		});
-
-		passwordPasswordField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue == null || newValue.isBlank()) {
-					signUpNewMemberButton.setDisable(true);
-				} else {
-					signUpNewMemberButton.setDisable(false);
-				}
-			}
-		});
 
 	}
 
 	@FXML
 	void signUpNewMemberButton(ActionEvent event) throws SQLException {
-		SuccessfulSignUpController controller = new SuccessfulSignUpController(signUpNewMemberButton);
+		SuccessfulSignUpController controller = new SuccessfulSignUpController();
 		signUp(controller);
 
 	}
@@ -161,28 +90,28 @@ public class SignupController {
 
 		// ALERTY
 		if (nameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Please enter your name");
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your name");
 			return;
 		}
 
 		if (surnameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Please enter your surname");
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your surname");
 			return;
 		}
 		if (emailTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Please enter your email");
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your email");
 			return;
 		}
 		if (birthdateTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Please enter your birthdate");
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your birthdate");
 			return;
 		}
 		if (usernameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Please enter a username");
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter a username");
 			return;
 		}
 		if (passwordPasswordField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Please enter a password");
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter a password");
 			return;
 		}
 
@@ -190,7 +119,7 @@ public class SignupController {
 		String surname = surnameTextField.getText();
 		String email = emailTextField.getText();
 		String tel_number = telNumberTextField.getText();
-		
+
 		// parse tento birthdate
 		String birthdate = birthdateTextField.getText();
 		String username = usernameTextField.getText();
@@ -209,36 +138,34 @@ public class SignupController {
 		try {
 			savedUser = userDao.save(user);
 		} catch (DuplicateKeyException e) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!",
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!",
 					"Username already exists ! \nPlease enter different username !");
 		}
 
 		int sizeAfter = userDao.getAll().size();
-
 		if (sizeBe4 + 1 == sizeAfter) {
 			System.out.println("new user has been made");
-			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("signUpHasBeenSuccessful.fxml"));
-				fxmlLoader.setController(controller);
-				Parent parent = fxmlLoader.load();
-				Scene scene = new Scene(parent);
-				Stage stage = new Stage();
-				stage.setScene(scene);
-				stage.setTitle("Congratulations");
-				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.showAndWait();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			infoBox("Sign up has been successful !", null, "Successful sign up");
+			signUpNewMemberButton.getScene().getWindow().hide();
+
+// RIP moj mrtvy button
+
 		}
 	}
-	
-	
 
 	// IMAGE V SIGN UP-E
+
 	@FXML
 	void selectImageButtonClick(ActionEvent event) {
 
+	}
+
+	public static void infoBox(String infoMessage, String headerText, String title) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setContentText(infoMessage);
+		alert.setTitle(title);
+		alert.setHeaderText(headerText);
+		alert.showAndWait();
 	}
 
 	private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
