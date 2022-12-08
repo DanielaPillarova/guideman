@@ -1,0 +1,69 @@
+.root{
+	-fx-background-color: "white";
+}
+
+#myProfileButton{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "yellowgreen";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#myProfileButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+#myToursButton{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "yellowgreen";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#myToursButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+#searchTourButton{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "yellowgreen";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#searchTourButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+#createTourButton{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "yellowgreen";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#createTourButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+#logOutButton{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "yellowgreen";
+}
+#logOutButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+
+
+
+
+
+
+
