@@ -1,0 +1,77 @@
+.root{
+	-fx-background-image: url("myProfile.png");
+	-fx-background-color: "white";
+}
+
+#myProfileLabel{
+	-fx-font-size: 40;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: #699a1e;
+}
+
+#nameLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#surnameLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#emailLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#phoneNumberLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#dateOfBirthLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#imageLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+
+#changeImageButton{
+	-fx-font-size: 15;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "khaki";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#changeImageButton:hover {
+  -fx-background-color: #f8c857;
+}
+
+#editAndSaveButton{
+	-fx-font-size: 18;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "yellowgreen";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#editAndSaveButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+#showFavouriteGuidemansButton{
+	-fx-font-size: 18;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "khaki";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#showFavouriteGuidemansButton:hover {
+  -fx-background-color: #f8c857;
+}

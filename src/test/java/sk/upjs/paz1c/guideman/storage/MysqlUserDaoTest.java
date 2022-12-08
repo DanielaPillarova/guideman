@@ -59,13 +59,8 @@ class MysqlUserDaoTest {
 	void getByIdTest() {
 		User fromDB = userDao.getById(savedUser.getId());
 		assertEquals(savedUser.getId(), fromDB.getId());
-		assertThrows(EntityNotFoundException.class, new Executable() {
-
-			@Override
-			public void execute() throws Throwable {
-				userDao.getById(-1L);
-			}
-		});
+		assertThrows(EntityNotFoundException.class, () -> userDao.getById(-1L));
+		
 	}
 
 	@Test
