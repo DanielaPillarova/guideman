@@ -1,19 +1,11 @@
 package sk.upjs.paz1c.guideman;
 
-import java.util.List;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sk.upjs.paz1c.guideman.controllers.WelcomeController;
-import sk.upjs.paz1c.guideman.storage.DaoFactory;
-import sk.upjs.paz1c.guideman.storage.Location;
-import sk.upjs.paz1c.guideman.storage.LocationDao;
-import sk.upjs.paz1c.guideman.storage.User;
-import sk.upjs.paz1c.guideman.storage.UserDao;
 
 public class App extends Application {
 

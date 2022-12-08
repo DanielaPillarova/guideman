@@ -2,6 +2,7 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -24,12 +25,16 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.User;
+import sk.upjs.paz1c.guideman.storage.UserDao;
 
 public class LoginController {
 
 	boolean hideWindow = false;
-
 	private User currentUser;
+	private Button button;
+	private UserDao userDao;
+
+	// FXML
 
 	@FXML
 	private TextField usernameTextField;
@@ -43,7 +48,9 @@ public class LoginController {
 	@FXML
 	private CheckBox showPasswordCheckBox;
 
-	private Button button;
+	public LoginController() {
+
+	}
 
 	public LoginController(Button button) {
 		this.button = button;
@@ -52,8 +59,10 @@ public class LoginController {
 	@FXML
 	void initialize() {
 		// ide iba na jeden field, idk ako to zmenit na dva
+		userDao = DaoFactory.INSTANCE.getUserDao();
 		logInButton.disableProperty().bind(Bindings.isEmpty(usernameTextField.textProperty())
 				.and(Bindings.isEmpty(passwordPasswordField.textProperty())));
+
 	}
 
 	// button na LOGIN ked uz sa prihlasujes
@@ -81,18 +90,32 @@ public class LoginController {
 
 		String login = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
+		List<User> allUsersInDb = userDao.getAll();
+		boolean userExists = false;
 
-		currentUser = DaoFactory.INSTANCE.getUserDao().getUserByUsername(login);
-		// !(password.equals(currentUser.getPassword()))
-		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword())) ) {
+		for (User user : allUsersInDb) {
+			if (user.getLogin().equals(login)) {
+				userExists = true;
+				break;
+			}
+		}
+
+		if (userExists == false) {
+			showAlert(Alert.AlertType.WARNING, owner, "Error!", "User does not exist !");
+			return;
+		}
+
+		currentUser = userDao.getUserByUsername(login);
+
+		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword()))) {
 			infoBox("Please enter correct Login and Password", null, "Failed login");
 		} else {
-			infoBox("Login Successful!", null, "Successful login");
+			infoBox("Log in Successful !", null, "Successful log in");
+
 			hideWindow = true;
 
 			if (hideWindow = true) {
 				usernameTextField.getScene().getWindow().hide();
-				System.out.println(usernameTextField.getParent());
 				button.getScene().getWindow().hide();
 				// treba zavriet hlavne okno
 			}
@@ -104,9 +127,7 @@ public class LoginController {
 				Scene scene = new Scene(parent);
 				Stage stage = new Stage();
 				stage.setScene(scene);
-
 				stage.setTitle("Main menu");
-				// stage.initModality(Modality.APPLICATION_MODAL);
 				stage.showAndWait();
 			} catch (IOException e) {
 				e.printStackTrace();

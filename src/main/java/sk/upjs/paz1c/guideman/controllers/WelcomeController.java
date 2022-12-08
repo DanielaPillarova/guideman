@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.guideman.storage.DaoFactory;
 
 public class WelcomeController {
 
@@ -27,6 +28,7 @@ public class WelcomeController {
 	@FXML
 	void initialize() {
 		logger.debug("inicialize running");
+		
 	}
 
 	@FXML
@@ -79,8 +81,8 @@ public class WelcomeController {
 		}
 	}
 
-	void closeWelcomeScene() {
-		loginButton.getScene().getWindow().hide();
-	}
+//	void closeWelcomeScene() {
+//		loginButton.getScene().getWindow().hide();
+//	}
 
 }
