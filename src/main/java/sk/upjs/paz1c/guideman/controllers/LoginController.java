@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -45,9 +47,6 @@ public class LoginController {
 	@FXML
 	private Button logInButton;
 
-	@FXML
-	private CheckBox showPasswordCheckBox;
-
 	public LoginController() {
 
 	}
@@ -60,8 +59,22 @@ public class LoginController {
 	void initialize() {
 		// ide iba na jeden field, idk ako to zmenit na dva
 		userDao = DaoFactory.INSTANCE.getUserDao();
-		logInButton.disableProperty().bind(Bindings.isEmpty(usernameTextField.textProperty())
-				.and(Bindings.isEmpty(passwordPasswordField.textProperty())));
+
+		BooleanBinding bb = new BooleanBinding() {
+			{
+				super.bind(usernameTextField.textProperty(), passwordPasswordField.textProperty());
+			}
+
+			@Override
+			protected boolean computeValue() {
+				return (usernameTextField.getText().isEmpty() || passwordPasswordField.getText().isEmpty());
+			}
+		};
+
+		logInButton.disableProperty().bind(bb);
+
+//		logInButton.disableProperty().bind(Bindings.isEmpty(usernameTextField.textProperty())
+//				.and(Bindings.isEmpty(passwordPasswordField.textProperty())));
 
 	}
 
@@ -79,12 +92,12 @@ public class LoginController {
 		Window owner = logInButton.getScene().getWindow();
 
 		if (usernameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error", "Please enter username");
+			showAlert(Alert.AlertType.WARNING, owner, "Error", "Please enter username");
 			return;
 		}
 
 		if (passwordPasswordField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.ERROR, owner, "Error", "Please enter password");
+			showAlert(Alert.AlertType.WARNING, owner, "Error", "Please enter password");
 			return;
 		}
 

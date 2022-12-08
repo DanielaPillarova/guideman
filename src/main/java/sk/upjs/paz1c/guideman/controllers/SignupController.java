@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.util.StringUtils;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -51,10 +53,10 @@ public class SignupController {
 	private TextField usernameTextField;
 
 	@FXML
-	private Button signUpNewMemberButton;
+	private PasswordField passwordPasswordField;
 
 	@FXML
-	private PasswordField passwordPasswordField;
+	private Button signUpNewMemberButton;
 
 	@FXML
 	private Button selectImageButton;
@@ -72,6 +74,30 @@ public class SignupController {
 	@FXML
 	void initialize() {
 
+		BooleanBinding bb = new BooleanBinding() {
+			{
+				super.bind(nameTextField.textProperty(), surnameTextField.textProperty(), emailTextField.textProperty(),
+						birthdateTextField.textProperty(), usernameTextField.textProperty(),
+						passwordPasswordField.textProperty());
+			}
+
+			@Override
+			protected boolean computeValue() {
+				return (nameTextField.getText().isEmpty() || surnameTextField.getText().isEmpty()
+						|| emailTextField.getText().isEmpty() || birthdateTextField.getText().isEmpty()
+						|| usernameTextField.getText().isEmpty() || passwordPasswordField.getText().isEmpty());
+			}
+		};
+
+		signUpNewMemberButton.disableProperty().bind(bb);
+
+	}
+
+	public static String parseDatum(String datum) {
+		String pole[] = datum.split("\\.");
+		String newDate = "";
+		newDate = newDate + pole[2] + "-" + pole[1] + "-" + pole[0];
+		return newDate;
 	}
 
 	@FXML
@@ -122,15 +148,19 @@ public class SignupController {
 
 		// parse tento birthdate
 		String birthdate = birthdateTextField.getText();
+		birthdate = birthdate.trim();
+		System.out.println(birthdate + " DATUM NARODENIA");
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
 
+		String temp = parseDatum(birthdate);
+		LocalDate birthdateParsed = LocalDate.parse(temp);
 		User user = null;
 
 		if (tel_number != "") {
-			user = new User(name, surname, email, tel_number, LocalDate.parse("2022-02-02"), username, password, null);
+			user = new User(name, surname, email, tel_number, birthdateParsed, username, password, null);
 		} else {
-			user = new User(name, surname, email, null, LocalDate.parse("2022-02-02"), username, password, null);
+			user = new User(name, surname, email, null, birthdateParsed, username, password, null);
 		}
 
 		int sizeBe4 = userDao.getAll().size();
