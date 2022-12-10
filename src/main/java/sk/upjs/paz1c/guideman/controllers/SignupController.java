@@ -33,6 +33,7 @@ public class SignupController {
 	private UserFxModel userModel;
 	private User savedUser;
 	private UserDao userDao;
+	private Window owner;
 
 	@FXML
 	private TextField nameTextField;
@@ -94,10 +95,30 @@ public class SignupController {
 	}
 
 	public static String parseDatum(String datum) {
-		String pole[] = datum.split("\\.");
-		String newDate = "";
-		newDate = newDate + pole[2] + "-" + pole[1] + "-" + pole[0];
-		return newDate;
+
+		String[] pole = datum.split("\\.");
+		int first = Integer.valueOf(pole[0]);
+		int second = Integer.valueOf(pole[1]);
+		int third = Integer.valueOf(pole[2]);
+
+		int vek = first + second * 31 + (third * 365);
+
+		if (!(first >= 1 && first <= 31)) {
+			infoBox("Try using date format -> DD.MM.YYYY", null, "Wrong date format");
+		}
+
+		if (!(second >= 1 && second <= 12)) {
+			infoBox("Try using date format -> DD.MM.YYYY", null, "Wrong date format");
+		}
+
+		if (693500 < vek && vek < 732190) {
+			String newDate = "";
+			newDate = newDate + pole[2] + "-" + pole[1] + "-" + pole[0];
+			return newDate;
+		}
+
+		return null;
+
 	}
 
 	@FXML
@@ -112,7 +133,7 @@ public class SignupController {
 	void signUp(SuccessfulSignUpController controller) throws SQLException {
 		System.out.println("Klik, mam ucet");
 
-		Window owner = signUpNewMemberButton.getScene().getWindow();
+		owner = signUpNewMemberButton.getScene().getWindow();
 
 		// ALERTY
 		if (nameTextField.getText().isEmpty()) {
@@ -148,10 +169,17 @@ public class SignupController {
 
 		// parse tento birthdate
 		String birthdate = birthdateTextField.getText();
+
 		birthdate = birthdate.trim();
 		System.out.println(birthdate + " DATUM NARODENIA");
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
+
+		if (parseDatum(birthdate) == null) {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!",
+					"You need to be at least 16 years old, \nor not older then the oldest person!");
+			return;
+		}
 
 		String temp = parseDatum(birthdate);
 		LocalDate birthdateParsed = LocalDate.parse(temp);
