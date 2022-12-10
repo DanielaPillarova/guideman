@@ -7,13 +7,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="myProfileButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="My Profile" />
-      <Button fx:id="myToursButton" layoutX="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="My Tours" textFill="#699a1e" />
-      <Button fx:id="searchTourButton" layoutX="450.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="Search Tour" />
-      <Button fx:id="createTourButton" layoutX="675.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="Create Tour" />
-      <Button fx:id="logOutButton" layoutX="768.0" layoutY="581.0" mnemonicParsing="false" text="Log out" />
+      <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" text="My Profile" />
+      <Button fx:id="myToursButton" layoutX="225.0" mnemonicParsing="false" onAction="#myToursButtonAction" prefHeight="50.0" prefWidth="225.0" text="My Tours" textFill="#699a1e" />
+      <Button fx:id="searchTourButton" layoutX="450.0" mnemonicParsing="false" onAction="#searchTourButtonAction" prefHeight="50.0" prefWidth="225.0" text="Search Tour" />
+      <Button fx:id="createTourButton" layoutX="675.0" mnemonicParsing="false" onAction="#createTourButtonAction" prefHeight="50.0" prefWidth="225.0" text="Create Tour" />
+      <Button fx:id="logOutButton" layoutX="768.0" layoutY="581.0" mnemonicParsing="false" onAction="#logOutButtonAction" text="Log out" />
       <Label fx:id="myProfileLabel" layoutX="80.0" layoutY="110.0" text="My Profile" />
       <Label fx:id="nameLabel" layoutX="156.0" layoutY="192.0" text="Name :" />
       <Label fx:id="surnameLabel" layoutX="131.0" layoutY="254.0" text="Surname :" />
@@ -25,11 +25,11 @@
       <TextField fx:id="emailTextField" layoutX="253.0" layoutY="318.0" prefHeight="35.0" prefWidth="260.0" />
       <TextField fx:id="phoneNumberTextField" layoutX="253.0" layoutY="378.0" prefHeight="35.0" prefWidth="260.0" />
       <TextField fx:id="dateOfBirthTextField" layoutX="253.0" layoutY="446.0" prefHeight="35.0" prefWidth="260.0" />
-      <Button fx:id="editAndSaveButton" layoutX="582.0" layoutY="582.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="150.0" text="Edit and save" />
-      <Button fx:id="showFavouriteGuidemansButton" layoutX="268.0" layoutY="582.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="280.0" text="Show favourite Guidemans" />
+      <Button fx:id="editAndSaveButton" layoutX="582.0" layoutY="582.0" mnemonicParsing="false" onAction="#editAndSaveButtonAction" prefHeight="37.0" prefWidth="150.0" text="Edit and save" />
+      <Button fx:id="showFavouriteGuidemansButton" layoutX="268.0" layoutY="582.0" mnemonicParsing="false" onAction="#showFavouriteGuidemansButtonAction" prefHeight="39.0" prefWidth="280.0" text="Show favourite Guidemans" />
       <Label fx:id="imageLabel" layoutX="680.0" layoutY="224.0" text="Image :" />
       <ImageView fx:id="imageImageView" fitHeight="191.0" fitWidth="270.0" layoutX="578.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="changeImageButton" layoutX="723.0" layoutY="478.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Change image" />
+      <Button fx:id="changeImageButton" layoutX="723.0" layoutY="478.0" mnemonicParsing="false" onAction="#changeImageButtonAction" prefHeight="35.0" prefWidth="130.0" text="Change image" />
    </children>
    <stylesheets>
       <URL value="@mainScene.css" />
