@@ -15,4 +15,10 @@ public interface EventDao {
 
 	boolean delete(Long eventId) throws EntityNotFoundException;
 
+	List<Event> getAllEventsFromPast(Long userId) throws EntityNotFoundException;
+
+	List<Event> getAllEventsFromFuture(Long userId) throws EntityNotFoundException;
+
+	List<Event> getAllEventsWhereIAmGuideman(Long userId) throws EntityNotFoundException;
+
 }

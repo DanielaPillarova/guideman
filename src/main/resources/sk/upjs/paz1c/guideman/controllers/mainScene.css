@@ -6,6 +6,8 @@
 }
 
 #myProfileButton{
+	-fx-pref-width: 225;
+	-fx-pref-height: 50;
 	-fx-font-size: 20;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
@@ -18,6 +20,8 @@
 }
 
 #myToursButton{
+	-fx-pref-width: 225;
+	-fx-pref-height: 50;
 	-fx-font-size: 20;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
@@ -30,6 +34,8 @@
 }
 
 #searchTourButton{
+	-fx-pref-width: 225;
+	-fx-pref-height: 50;
 	-fx-font-size: 20;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
@@ -42,6 +48,8 @@
 }
 
 #createTourButton{
+	-fx-pref-width: 225;
+	-fx-pref-height: 50;
 	-fx-font-size: 20;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
@@ -62,79 +70,3 @@
 #logOutButton:hover {
   -fx-background-color: #699a1e;
 }
-
-////// my profile
-
-#myProfileLabel{
-	-fx-font-size: 40;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-	-fx-text-fill: #699a1e;
-}
-
-#nameLabel{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-#surnameLabel{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-#emailLabel{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-#phoneNumberLabel{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-#dateOfBirthLabel{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-#imageLabel{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-
-#changeImageButton{
-	-fx-font-size: 15;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-	-fx-text-fill: "black";
-	-fx-background-color: "khaki";
-  	-fx-display: inline-block;
-  	-fx-cursor: pointer;
-}
-#changeImageButton:hover {
-  -fx-background-color: #f8c857;
-}
-
-#editAndSaveButton{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-	-fx-text-fill: "black";
-	-fx-background-color: "yellowgreen";
-  	-fx-display: inline-block;
-  	-fx-cursor: pointer;
-}
-#editAndSaveButton:hover {
-  -fx-background-color: #699a1e;
-}
-
-#showFavouriteGuidemansButton{
-	-fx-font-size: 20;
-	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
-	-fx-text-fill: "black";
-	-fx-background-color: "khaki";
-  	-fx-display: inline-block;
-  	-fx-cursor: pointer;
-}
-#showFavouriteGuidemansButton:hover {
-  -fx-background-color: #f8c857;
-}
-

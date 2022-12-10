@@ -1,0 +1,100 @@
+#showTourLabel{
+	-fx-font-size: 40;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: #699a1e;
+}
+
+#titleLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#titleFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#bioLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#bioFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#numberOfFreePlacesLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#numberOfFreePlacesFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#dateAndTimeLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#dateAndTimeFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#durationLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#durationFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#priceLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#priceFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#imageLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#ratingLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+#ratingFillLabel{
+	-fx-font-size: 20;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#letsGoButton{
+	-fx-font-size: 25;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "khaki";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#letsGoButton:hover {
+  -fx-background-color: #f8c857;
+}
+
+#seeReviewsButton{
+	-fx-font-size: 18;
+	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
+	-fx-text-fill: "black";
+	-fx-background-color: "khaki";
+  	-fx-display: inline-block;
+  	-fx-cursor: pointer;
+}
+#seeReviewsButton:hover {
+  -fx-background-color: #f8c857;
+}
+
+
+

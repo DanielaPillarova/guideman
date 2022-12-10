@@ -10,8 +10,10 @@ import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 public class MysqlEventDao implements EventDao {
@@ -96,6 +98,48 @@ public class MysqlEventDao implements EventDao {
 			
 		});
 	}
+	
+	@Override
+	public List<Event> getAllEventsFromPast(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
+				+ "JOIN tour t ON e.tour_id = t.id "
+				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour < CURRENT_DATE() "
+				+ "ORDER BY e.tour_id";
+		try {
+			return jdbcTemplate.query(sql, new EventRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
+	@Override
+	public List<Event> getAllEventsFromFuture(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
+				+ "JOIN tour t ON e.tour_id = t.id "
+				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour > CURRENT_DATE() "
+				+ "ORDER BY e.tour_id";
+		try {
+			return jdbcTemplate.query(sql, new EventRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
+	@Override
+	public List<Event> getAllEventsWhereIAmGuideman(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id "
+				+ "WHERE t.user_id = " + userId
+				+ " ORDER BY e.tour_id;";
+		try {
+			return jdbcTemplate.query(sql, new EventRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
 	
 	@Override
 	public Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException {
@@ -187,6 +231,20 @@ public class MysqlEventDao implements EventDao {
 			throw new EntityNotFoundException("Event with id: " + eventId + " not found in DB");
 		}
 		return (changedUhe == 1 && changedE == 1);
+	}
+	
+	private class EventRowMapper implements RowMapper<Event> {
+
+		@Override
+		public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Event event = new Event();
+			event.setId(rs.getLong("id"));
+			event.setDateOfTour(rs.getTimestamp("date_of_tour").toLocalDateTime());
+			event.setDuration(rs.getTimestamp("duration").toLocalDateTime().toLocalTime());
+			event.setPrice(rs.getDouble("price"));
+			event.setTourId(rs.getLong("tour_id"));
+			return event;
+		}
 	}
 	
 	

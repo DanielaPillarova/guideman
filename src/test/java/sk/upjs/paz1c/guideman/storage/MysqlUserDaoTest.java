@@ -3,14 +3,11 @@ package sk.upjs.paz1c.guideman.storage;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 class MysqlUserDaoTest {

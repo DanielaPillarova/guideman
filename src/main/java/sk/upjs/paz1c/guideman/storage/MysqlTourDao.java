@@ -27,21 +27,29 @@ public class MysqlTourDao implements TourDao {
 	}
 
 	@Override
-	public List<Tour> getAllToursByGuideman(Long guidemanId) {
+	public List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException {
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE user_id = "
 				+ guidemanId;
-		return jdbcTemplate.query(sql, new TourRowMapper());
+		try {
+			return jdbcTemplate.query(sql, new TourRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + guidemanId + " not found");
+		}
 	}
 
 	@Override
-	public List<Tour> getAllToursByLocation(Long locationId) {
+	public List<Tour> getAllToursByLocation(Long locationId) throws EntityNotFoundException {
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE location_id = "
 				+ locationId;
-		return jdbcTemplate.query(sql, new TourRowMapper());
+		try {
+			return jdbcTemplate.query(sql, new TourRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Location with id " + locationId + " not found");
+		}
 	}
 	
 	@Override
-	public Tour getById(long id) throws NullPointerException {
+	public Tour getById(long id) throws EntityNotFoundException {
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = " + id;
 		try {
 			return jdbcTemplate.queryForObject(sql, new TourRowMapper());
@@ -49,6 +57,56 @@ public class MysqlTourDao implements TourDao {
 			throw new EntityNotFoundException("Location with id " + id + " not found");
 		}
 	}
+	
+	// mozu sa v liste opakovat pretoze jedna tour moze mat viac eventov
+	// a my potom budeme chciet vediet vypisat vsetky toury aj s eventami
+	// az v aplikacii sa bude priradzovat tour z listu ku eventu z listu
+	@Override
+	public List<Tour> getAllToursFromPast(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id "
+				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour < CURRENT_DATE() "
+				+ "ORDER BY t.id";
+		try {
+			return jdbcTemplate.query(sql, new TourRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
+	// mozu sa v liste opakovat pretoze jedna tour moze mat viac eventov
+	// a my potom budeme chciet vediet vypisat vsetky toury aj s eventami
+	// az v aplikacii sa bude priradzovat tour z listu ku eventu z listu
+	
+	// zobrazuje aj tours ktore sa uskutocnia dnes
+	@Override
+	public List<Tour> getAllToursFromFuture(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id "
+				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour > CURRENT_DATE() "
+				+ "ORDER BY t.id";
+		try {
+			return jdbcTemplate.query(sql, new TourRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
+	@Override
+	public List<Tour> getAllToursWhereIAmGuideman(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id "
+				+ "WHERE t.user_id = " + userId
+				+ " ORDER BY t.id";
+		try {
+			return jdbcTemplate.query(sql, new TourRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
 
 	@Override
 	public Tour save(Tour tour) throws NullPointerException, EntityNotFoundException {

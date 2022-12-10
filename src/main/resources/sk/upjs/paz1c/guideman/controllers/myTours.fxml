@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="myProfileButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="My Profile" />
+      <Button fx:id="myToursButton" layoutX="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="My Tours" />
+      <Button fx:id="searchTourButton" layoutX="450.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="Search Tour" />
+      <Button fx:id="createTourButton" layoutX="675.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="225.0" text="Create Tour" />
+      <Button fx:id="logOutButton" layoutX="768.0" layoutY="581.0" mnemonicParsing="false" text="Log out" />
+      <Label fx:id="myToursLabel" layoutX="80.0" layoutY="110.0" text="My Tours" />
+      <ListView layoutX="78.0" layoutY="214.0" prefHeight="290.0" prefWidth="744.0" />
+      <CheckBox fx:id="pastToursCheckBox" layoutX="84.0" layoutY="166.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Past tours">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="futureToursCheckBox" layoutX="289.0" layoutY="167.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Future tours">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="toursWhereIAmGuidemanCheckBox" layoutX="511.0" layoutY="166.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="239.0" text="Tours where I am a Guideman">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </CheckBox>
+      <Button fx:id="showTourButton" layoutX="361.0" layoutY="529.0" mnemonicParsing="false" text="Show tour" />
+      <Button fx:id="deleteTourButton" layoutX="600.0" layoutY="581.0" mnemonicParsing="false" text="Delete tour" />
+      <Button fx:id="addRatingOrReviewButton" layoutX="310.0" layoutY="581.0" mnemonicParsing="false" text="Add rating or review" />
+   </children>
+   <stylesheets>
+      <URL value="@mainScene.css" />
+      <URL value="@myTours.css" />
+   </stylesheets>
+</AnchorPane>

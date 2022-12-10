@@ -1,13 +1,12 @@
 package sk.upjs.paz1c.guideman.storage;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public interface TourDao {
 
-	Tour getById(long id) throws NullPointerException;
+	Tour getById(long id) throws EntityNotFoundException;
 
-	List<Tour> getAllToursByGuideman(Long guidemanId) throws NullPointerException;
+	List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException;
 
 	List<Tour> getAll() throws NullPointerException;
 
@@ -15,6 +14,12 @@ public interface TourDao {
 
 	boolean delete(long tourId) throws EntityNotFoundException;
 
-	List<Tour> getAllToursByLocation(Long locationId);
+	List<Tour> getAllToursByLocation(Long locationId) throws EntityNotFoundException;
+
+	List<Tour> getAllToursFromPast(Long userId) throws EntityNotFoundException;
+
+	List<Tour> getAllToursFromFuture(Long userId) throws EntityNotFoundException;
+
+	List<Tour> getAllToursWhereIAmGuideman(Long userId) throws EntityNotFoundException;
 
 }

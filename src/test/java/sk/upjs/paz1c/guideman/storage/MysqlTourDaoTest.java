@@ -48,10 +48,31 @@ public class MysqlTourDaoTest {
 
 	@Test
 	void getAllToursByGuideman() {
-		List<Tour> toursByGuideman = DaoFactory.INSTANCE.getTourDao().getAllToursByGuideman(2L);
+		List<Tour> toursByGuideman = tourDao.getAllToursByGuideman(2L);
 		assertTrue(toursByGuideman.size() == 1);
 	}
 
+	// checknut db
+	@Test
+	void getAllToursFromPastTest() {
+		List<Tour> tours = tourDao.getAllToursFromPast(3l);
+		assertTrue(tours.size() == 2);
+	}
+	
+	// checknut db
+	@Test
+	void getAllToursFromFutureTest() {
+		List<Tour> tours = tourDao.getAllToursFromFuture(3l);
+		assertTrue(tours.size() == 4);
+	}
+	
+	// checknut db
+	@Test
+	void getAllToursWhereIAmGuidemanTest() {
+		List<Tour> tours = tourDao.getAllToursWhereIAmGuideman(1l);
+		assertTrue(tours.size() == 5);
+	}
+	
 	@Test
 	void insertTest() throws NullPointerException {
 		assertThrows(NullPointerException.class, () -> tourDao.save(null), "Cannot save null");
