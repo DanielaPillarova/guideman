@@ -1,5 +1,8 @@
 package sk.upjs.paz1c.guideman.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,72 +11,118 @@ import javafx.scene.image.ImageView;
 
 public class MyProfileController {
 
-	@FXML
-	private Button myProfileButton;
+    @FXML
+    private ResourceBundle resources;
 
-	@FXML
-	private Button myToursButton;
+    @FXML
+    private URL location;
 
-	@FXML
-	private Button searchTourButton;
+    @FXML
+    private Button changeImageButton;
 
-	@FXML
-	private Button createTourButton;
+    @FXML
+    private Button createTourButton;
 
-	@FXML
-	private Button logOutButton;
+    @FXML
+    private Label dateOfBirthLabel;
 
-	@FXML
-	private Label myProfileLabel;
+    @FXML
+    private TextField dateOfBirthTextField;
 
-	@FXML
-	private Label nameLabel;
+    @FXML
+    private Button editAndSaveButton;
 
-	@FXML
-	private Label surnameLabel;
+    @FXML
+    private Label emailLabel;
 
-	@FXML
-	private Label emailLabel;
+    @FXML
+    private TextField emailTextField;
 
-	@FXML
-	private Label phoneNumberLabel;
+    @FXML
+    private ImageView imageImageView;
 
-	@FXML
-	private Label dateOfBirthLabel;
+    @FXML
+    private Label imageLabel;
 
-	@FXML
-	private TextField nameTextField;
+    @FXML
+    private Button logOutButton;
 
-	@FXML
-	private TextField surnameTextField;
+    @FXML
+    private Button myProfileButton;
 
-	@FXML
-	private TextField emailTextField;
+    @FXML
+    private Label myProfileLabel;
 
-	@FXML
-	private TextField phoneNumberTextField;
+    @FXML
+    private Button myToursButton;
 
-	@FXML
-	private TextField dateOfBirthTextField;
+    @FXML
+    private Label nameLabel;
 
-	@FXML
-	private Button editAndSaveButton;
+    @FXML
+    private TextField nameTextField;
 
-	@FXML
-	private Button showFavouriteGuidemansButton;
+    @FXML
+    private Label phoneNumberLabel;
 
-	@FXML
-	private Label imageLabel;
+    @FXML
+    private TextField phoneNumberTextField;
 
-	@FXML
-	private ImageView imageImageView;
+    @FXML
+    private Button searchTourButton;
 
-	@FXML
-	private Button changeImageButton;
+    @FXML
+    private Button showFavouriteGuidemansButton;
 
-	@FXML
-	void initialize() {
-		nameTextField.setText("meno");
+    @FXML
+    private Label surnameLabel;
 
-	}
+    @FXML
+    private TextField surnameTextField;
+
+    @FXML
+    void changeImageButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void createTourButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editAndSaveButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void logOutButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void myProfileButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void myToursButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void searchTourButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void showFavouriteGuidemansButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void initialize() {
+        
+    }
+
 }
