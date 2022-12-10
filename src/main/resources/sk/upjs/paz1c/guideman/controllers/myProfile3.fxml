@@ -20,10 +20,10 @@
       <TextField fx:id="emailTextField" layoutX="237.0" layoutY="252.0" prefHeight="26.0" prefWidth="254.0" />
       <TextField fx:id="phoneNumberTextField" layoutX="237.0" layoutY="311.0" prefHeight="26.0" prefWidth="254.0" />
       <TextField fx:id="dateOfBirthTextField" layoutX="237.0" layoutY="375.0" prefHeight="26.0" prefWidth="254.0" />
-      <ImageView fx:id="imageImageView" fitHeight="182.0" fitWidth="271.0" layoutX="599.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageImageView" fitHeight="182.0" fitWidth="259.0" layoutX="599.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="imageLabel" layoutX="603.0" layoutY="139.0" text="Image:" />
-      <Button fx:id="changeImageButton" layoutX="747.0" layoutY="371.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="123.0" text="Change image" />
+      <Button fx:id="changeImageButton" layoutX="736.0" layoutY="373.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="123.0" text="Change image" />
       <Button fx:id="editAndSaveButton" layoutX="381.0" layoutY="467.0" mnemonicParsing="false" text="Edit and save" />
-      <Button fx:id="showFavouriteGuidemansButton" layoutX="619.0" layoutY="467.0" mnemonicParsing="false" text="Show favourite Guidemans" />
+      <Button fx:id="showFavouriteGuidemansButton" layoutX="631.0" layoutY="466.0" mnemonicParsing="false" text="Show favourite Guidemans" />
    </children>
 </AnchorPane>
