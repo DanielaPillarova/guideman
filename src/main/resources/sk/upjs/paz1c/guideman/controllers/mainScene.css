@@ -3,6 +3,7 @@
 .root{
 	-fx-background-image: url("template3.png");
 	-fx-background-color: "white";
+	-fx-background-repeat: no-repeat;
 }
 
 #myProfileButton{
