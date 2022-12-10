@@ -71,6 +71,7 @@ public class WelcomeController {
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);
+			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle("Sign up");

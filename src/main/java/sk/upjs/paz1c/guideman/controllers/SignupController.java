@@ -119,37 +119,6 @@ public class SignupController {
 
 	}
 
-//	public static String parseDatum(String datum) {
-//
-//		String[] pole = datum.split("\\.");
-//		int first = Integer.valueOf(pole[0]);
-//		int second = Integer.valueOf(pole[1]);
-//		int third = Integer.valueOf(pole[2]);
-//
-//		int vek = first + second * 31 + (third * 365);
-//
-//		if (!(first >= 1 && first <= 31)) {
-//			infoBox("Try using date format -> DD.MM.YYYY", null, "Wrong date format");
-//			return null;
-//		}
-//
-//		if (!(second >= 1 && second <= 12)) {
-//			infoBox("Try using date format -> DD.MM.YYYY", null, "Wrong date format");
-//			// showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your
-//			// name");
-//			return null;
-//		}
-//
-//		if (693500 < vek && vek < 732190) {
-//			String newDate = "";
-//			newDate = newDate + pole[2] + "-" + pole[1] + "-" + pole[0];
-//			return newDate;
-//		}
-//
-//		return null;
-//
-//	}
-
 	@FXML
 	void signUpNewMemberButton(ActionEvent event) throws SQLException, IOException {
 		SuccessfulSignUpController controller = new SuccessfulSignUpController();
@@ -253,6 +222,8 @@ public class SignupController {
 		}
 		System.out.println(blobisko.length() + " velkost blobu");
 
+		// preco neporovnava ??? - nefunguje ale obrazky som nenasiel take zeby boli
+		// velke nez 16 mb
 		if (blobisko.length() > 16000000L) {
 			System.out.println("Error");
 			showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");

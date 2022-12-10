@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javafx.beans.binding.Bindings;
@@ -138,9 +140,14 @@ public class LoginController {
 				fxmlLoader.setController(controller);
 				Parent parent = fxmlLoader.load();
 				Scene scene = new Scene(parent);
+//				scene.getStylesheets().add(getClass().getResource("mainScene.css").toExternalForm());
+
+				String css = this.getClass().getResource("myProfile.css").toExternalForm();
+				scene.getStylesheets().add(css);
+
 				Stage stage = new Stage();
 				stage.setScene(scene);
-				stage.setTitle("Main menu");
+				stage.setTitle("Guideman");
 				stage.showAndWait();
 			} catch (IOException e) {
 				e.printStackTrace();
