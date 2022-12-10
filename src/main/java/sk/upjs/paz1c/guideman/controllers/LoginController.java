@@ -136,14 +136,17 @@ public class LoginController {
 			}
 
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myProfile2.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myTours.fxml"));
 				fxmlLoader.setController(controller);
 				Parent parent = fxmlLoader.load();
 				Scene scene = new Scene(parent);
-//				scene.getStylesheets().add(getClass().getResource("mainScene.css").toExternalForm());
+				// scene.getStylesheets().add(getClass().getResource("mainScene.css").toExternalForm());
 
-				String css = this.getClass().getResource("myProfile.css").toExternalForm();
+				String css = this.getClass().getResource("mainScene.css").toExternalForm();
+				String css2 = this.getClass().getResource("myTours.css").toExternalForm();
 				scene.getStylesheets().add(css);
+				scene.getStylesheets().add(css2);
+				
 
 				Stage stage = new Stage();
 				stage.setScene(scene);
