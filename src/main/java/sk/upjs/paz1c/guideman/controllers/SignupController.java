@@ -248,7 +248,6 @@ public class SignupController {
 		User user = null;
 
 		Blob blobisko = null;
-
 		if (bytes != null) {
 			blobisko = new SerialBlob(bytes);
 		}
@@ -291,9 +290,7 @@ public class SignupController {
 		if (event.getSource() == selectImageButton) {
 
 			JFileChooser fileChooser = new JFileChooser();
-
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png");
 			fileChooser.addChoosableFileFilter(filter);
 
