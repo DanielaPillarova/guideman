@@ -134,7 +134,7 @@ public class LoginController {
 			}
 
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainScene.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myProfile2.fxml"));
 				fxmlLoader.setController(controller);
 				Parent parent = fxmlLoader.load();
 				Scene scene = new Scene(parent);

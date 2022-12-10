@@ -251,6 +251,13 @@ public class SignupController {
 		if (bytes != null) {
 			blobisko = new SerialBlob(bytes);
 		}
+		System.out.println(blobisko.length() + " velkost blobu");
+
+		if (blobisko.length() > 16000000L) {
+			System.out.println("Error");
+			showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+			return;
+		}
 
 		if (tel_number != "") {
 			user = new User(name, surname, email, tel_number, birthdateParsed, username, password, blobisko);
@@ -290,6 +297,10 @@ public class SignupController {
 		if (event.getSource() == selectImageButton) {
 
 			JFileChooser fileChooser = new JFileChooser();
+			// System.setProperty("apple.awt.fileDialogForDirectories", "true");
+			// Danke mac nejde
+			// System.getProperty("os.name")
+			// https://community.oracle.com/tech/developers/discussion/2508757/jfilechooser-problem-on-mac-os
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png");
 			fileChooser.addChoosableFileFilter(filter);
