@@ -1,7 +1,5 @@
 package sk.upjs.paz1c.guideman.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,118 +9,112 @@ import javafx.scene.image.ImageView;
 
 public class MyProfileController {
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private Button myProfileButton;
 
-    @FXML
-    private URL location;
+	@FXML
+	private Button myToursButton;
 
-    @FXML
-    private Button changeImageButton;
+	@FXML
+	private Button searchTourButton;
 
-    @FXML
-    private Button createTourButton;
+	@FXML
+	private Button createTourButton;
 
-    @FXML
-    private Label dateOfBirthLabel;
+	@FXML
+	private Button logOutButton;
 
-    @FXML
-    private TextField dateOfBirthTextField;
+	@FXML
+	private Label myProfileLabel;
 
-    @FXML
-    private Button editAndSaveButton;
+	@FXML
+	private Label nameLabel;
 
-    @FXML
-    private Label emailLabel;
+	@FXML
+	private Label surnameLabel;
 
-    @FXML
-    private TextField emailTextField;
+	@FXML
+	private Label emailLabel;
 
-    @FXML
-    private ImageView imageImageView;
+	@FXML
+	private Label phoneNumberLabel;
 
-    @FXML
-    private Label imageLabel;
+	@FXML
+	private Label dateOfBirthLabel;
 
-    @FXML
-    private Button logOutButton;
+	@FXML
+	private TextField nameTextField;
 
-    @FXML
-    private Button myProfileButton;
+	@FXML
+	private TextField surnameTextField;
 
-    @FXML
-    private Label myProfileLabel;
+	@FXML
+	private TextField emailTextField;
 
-    @FXML
-    private Button myToursButton;
+	@FXML
+	private TextField phoneNumberTextField;
 
-    @FXML
-    private Label nameLabel;
+	@FXML
+	private TextField dateOfBirthTextField;
 
-    @FXML
-    private TextField nameTextField;
+	@FXML
+	private Button editAndSaveButton;
 
-    @FXML
-    private Label phoneNumberLabel;
+	@FXML
+	private Button showFavouriteGuidemansButton;
 
-    @FXML
-    private TextField phoneNumberTextField;
+	@FXML
+	private Label imageLabel;
 
-    @FXML
-    private Button searchTourButton;
+	@FXML
+	private ImageView imageImageView;
 
-    @FXML
-    private Button showFavouriteGuidemansButton;
+	@FXML
+	private Button changeImageButton;
 
-    @FXML
-    private Label surnameLabel;
+	@FXML
+	void changeImageButtonAction(ActionEvent event) {
 
-    @FXML
-    private TextField surnameTextField;
+	}
 
-    @FXML
-    void changeImageButtonAction(ActionEvent event) {
+	@FXML
+	void createTourButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void createTourButtonAction(ActionEvent event) {
+	@FXML
+	void editAndSaveButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void editAndSaveButtonAction(ActionEvent event) {
+	@FXML
+	void logOutButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void logOutButtonAction(ActionEvent event) {
+	@FXML
+	void myProfileButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void myProfileButtonAction(ActionEvent event) {
+	@FXML
+	void myToursButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void myToursButtonAction(ActionEvent event) {
+	@FXML
+	void searchTourButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void searchTourButtonAction(ActionEvent event) {
+	@FXML
+	void showFavouriteGuidemansButtonAction(ActionEvent event) {
 
-    }
+	}
 
-    @FXML
-    void showFavouriteGuidemansButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void initialize() {
-        
-    }
+	@FXML
+	void initialize() {
+		System.out.println("halo");
+	}
 
 }

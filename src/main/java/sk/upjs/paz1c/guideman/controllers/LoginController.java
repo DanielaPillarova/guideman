@@ -84,12 +84,12 @@ public class LoginController {
 
 	@FXML
 	void logInButtonClick(ActionEvent event) throws SQLException {
-		IntoAppController controller = new IntoAppController();
+		MyProfileController controller = new MyProfileController();
 		logIntoApp(controller);
 	}
 
 	@FXML
-	void logIntoApp(IntoAppController controller) throws SQLException {
+	void logIntoApp(MyProfileController controller) throws SQLException {
 
 		Window owner = logInButton.getScene().getWindow();
 
@@ -136,17 +136,12 @@ public class LoginController {
 			}
 
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myTours.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myProfile2.fxml"));
 				fxmlLoader.setController(controller);
 				Parent parent = fxmlLoader.load();
 				Scene scene = new Scene(parent);
-				// scene.getStylesheets().add(getClass().getResource("mainScene.css").toExternalForm());
-
-				String css = this.getClass().getResource("mainScene.css").toExternalForm();
-				String css2 = this.getClass().getResource("myTours.css").toExternalForm();
-				scene.getStylesheets().add(css);
-				scene.getStylesheets().add(css2);
-				
+				scene.getStylesheets().add(getClass().getResource("myProfile.css").toExternalForm());
+				// ma tu byt toto???
 
 				Stage stage = new Stage();
 				stage.setScene(scene);

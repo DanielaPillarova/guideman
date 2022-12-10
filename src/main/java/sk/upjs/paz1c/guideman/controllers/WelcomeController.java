@@ -28,7 +28,7 @@ public class WelcomeController {
 	@FXML
 	void initialize() {
 		logger.debug("inicialize running");
-		
+
 	}
 
 	@FXML
