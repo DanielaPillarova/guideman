@@ -85,7 +85,7 @@ CREATE TABLE `tour` (
   `max_slots` int NOT NULL,
   `location_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `image` blob,
+  `image` mediumblob,
   PRIMARY KEY (`id`,`location_id`,`user_id`),
   KEY `fk_tour_location1_idx` (`location_id`),
   KEY `fk_tour_user1_idx` (`user_id`),
@@ -119,10 +119,10 @@ CREATE TABLE `user` (
   `birthdate` date NOT NULL,
   `login` varchar(45) COLLATE utf8mb3_slovak_ci NOT NULL,
   `password` varchar(100) COLLATE utf8mb3_slovak_ci NOT NULL,
-  `image` blob,
+  `image` mediumblob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_slovak_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_slovak_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,6 +131,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'Danka','Pillárová','pillarova@gmail.com','','2022-02-02','danka','$2a$10$f6xDm4bZ71cAvk7TISnjbOZvoeUfIcEGwMWL5MXgbggq67PSHCxGi',NULL),(2,'d','d','d',NULL,'2022-02-02','d','$2a$10$I/o/lYNJk8hwrIp9261ChuNGT4H94N.IXEyjUllPiGjVWevjrGVtK',NULL),(3,'klaudi','blabla','bla@gmail.com',NULL,'2022-02-02','klaudi','$2a$10$JdCiuvjD3RIy1Q3y2742l.voqR9Qs/df3ESlDWyD2SOhEy.e17klG',NULL),(4,'alex','alex','alex',NULL,'2022-02-02','alex','$2a$10$p555BASLGTRE0wX0Sny24.Z.O1XawpOfKprBZc2A1wuSwfLYEFTDu',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +151,8 @@ CREATE TABLE `user_has_event` (
   KEY `fk_user_has_event_event1_idx` (`event_id`),
   KEY `fk_user_has_event_user1_idx` (`user_id`),
   CONSTRAINT `fk_user_has_event_event1` FOREIGN KEY (`event_id`) REFERENCES `event` (`id`),
-  CONSTRAINT `fk_user_has_event_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `fk_user_has_event_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `user_has_event_chk_1` CHECK ((`rating` in (1,2,3,4,5)))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_slovak_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -199,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-01 12:09:56
+-- Dump completed on 2022-12-10 17:16:17
