@@ -228,7 +228,7 @@ public class MyProfileController {
 
 		if (!(changedName.equals(loggedUser.getName())) || !(changedSurname.equals(loggedUser.getSurname()))
 				|| !(changedEmail.equals(loggedUser.getEmail())) || !(birthdateParsed == (loggedUser.getBirthdate()))
-				|| !(blobisko != (loggedUser.getImage()))) {
+				|| !(blobisko == (loggedUser.getImage()))) {
 			changed = true;
 			System.out.println("DALO SA NA TRUE");
 		}
