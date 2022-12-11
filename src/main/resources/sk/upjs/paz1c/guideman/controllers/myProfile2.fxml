@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
          <font>
@@ -81,8 +81,8 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <ImageView fx:id="imageImageView" fitHeight="191.0" fitWidth="270.0" layoutX="573.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="changeImageButton" layoutX="713.0" layoutY="433.0" mnemonicParsing="false" onAction="#changeImageButtonAction" prefHeight="37.0" prefWidth="125.0" style="-fx-background-color: khaki;" text="Change image">
+      <ImageView fx:id="imageImageView" fitHeight="190.0" fitWidth="190.0" layoutX="650.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="changeImageButton" layoutX="685.0" layoutY="434.0" mnemonicParsing="false" onAction="#changeImageButtonAction" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: khaki;" text="Change image">
          <font>
             <Font name="Helvetica" size="14.0" />
          </font></Button>
