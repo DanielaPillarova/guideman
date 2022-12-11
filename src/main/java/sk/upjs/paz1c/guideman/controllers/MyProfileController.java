@@ -1,7 +1,7 @@
 package sk.upjs.paz1c.guideman.controllers;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
@@ -19,7 +20,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -30,17 +30,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import sk.upjs.paz1c.guideman.App;
+import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.User;
+import sk.upjs.paz1c.guideman.storage.UserDao;
 
 public class MyProfileController {
 
 	private User loggedUser;
 	private Window owner;
+	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
 
 	// obrazok
 	private File selectedFile;
-	private String filePath;
+	private String filePath = null;
 	private String nameOfFile;
 	private byte[] bytes = null; // obrazok v bytoch
 
@@ -144,9 +146,111 @@ public class MyProfileController {
 	}
 
 	@FXML
-	void editAndSaveButtonAction(ActionEvent event) {
+	void editAndSaveButtonAction(ActionEvent event) throws IOException, SerialException, SQLException {
+		owner = editAndSaveButton.getScene().getWindow();
 		System.out.println("save");
+		boolean changed = false;
 
+		String changedName = nameTextField.getText();
+		String changedSurname = surnameTextField.getText();
+		String changedEmail = emailTextField.getText();
+		String changedPhone = phoneNumberTextField.getText();
+
+		String changedDateBirth = dateOfBirthTextField.getText();
+		String pole[] = changedDateBirth.split("\\.");
+		String finalDateBirth = pole[2] + "-" + pole[1] + "-" + pole[0];
+
+		LocalDate birthdateParsed = null;
+
+		try {
+			birthdateParsed = LocalDate.parse(finalDateBirth);
+		} catch (Exception e1) {
+			showAlert(Alert.AlertType.WARNING, owner, "Wrong date format!", "Try using date format -> DD.MM.YYYY");
+			return;
+		}
+
+		Blob blobisko = null;
+		if (filePath != null) {
+			BufferedImage image = ImageIO.read(new File(filePath));
+			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", outStreamObj);
+
+			byte[] byteArray = outStreamObj.toByteArray();
+
+			blobisko = null;
+
+			if (byteArray != null) {
+				blobisko = new SerialBlob(byteArray);
+
+				if (blobisko.length() > 16000000L) {
+					System.out.println("Error");
+					showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+					return;
+				}
+			}
+		}
+
+		// ci su prazdne
+		if (changedName == "") {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter name");
+			return;
+		}
+
+		if (changedSurname == "") {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter surname");
+			return;
+		}
+
+		if (changedEmail == "") {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter email");
+			return;
+		}
+
+		if (changedDateBirth == "") {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter date of birth");
+			return;
+		}
+
+		// telcislo treba poriesit null alebo ""
+		System.out.println(changedPhone);
+		if (changedPhone == null) {
+
+		} else {
+			if (changedPhone.equals("")) {
+				changedPhone = null;
+			} else {
+				if (!(changedPhone.equals(loggedUser.getTelNumber()))) {
+					changed = true;
+					System.out.println("DALO SA NA TRUE PRI TEL");
+				}
+			}
+		}
+
+		if (!(changedName.equals(loggedUser.getName())) || !(changedSurname.equals(loggedUser.getSurname()))
+				|| !(changedEmail.equals(loggedUser.getEmail())) || !(birthdateParsed == (loggedUser.getBirthdate()))
+				|| !(blobisko != (loggedUser.getImage()))) {
+			changed = true;
+			System.out.println("DALO SA NA TRUE");
+		}
+
+		if (changed) {
+			editAndSaveButton.setDisable(false);
+			User user = new User(loggedUser.getId(), changedName, changedSurname, changedEmail, changedPhone,
+					birthdateParsed, loggedUser.getLogin(), loggedUser.getPassword(), blobisko);
+
+			int sizeBe4 = userDao.getAll().size();
+
+			try {
+				userDao.save(user);
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+			int sizeAfter = userDao.getAll().size();
+			if (sizeBe4 == sizeAfter) {
+				System.out.println("Edited and Saved successfuly");
+				infoBox("Success", null, "Edited and Saved successfuly");
+			}
+		}
 	}
 
 	@FXML
@@ -241,10 +345,20 @@ public class MyProfileController {
 //		}
 
 		Blob usersBlob = loggedUser.getImage();
-		InputStream in = usersBlob.getBinaryStream();
-		Image image = new Image(in);
+		if (usersBlob != null) {
+			InputStream in = usersBlob.getBinaryStream();
+			Image image = new Image(in);
+			imageImageView.setImage(image);
+		}
 
-		imageImageView.setImage(image);
+//		nameTextField.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+//				if (newValue != null)
+//					sessionModel.setSession(newValue);
+//			}
+//		});
 
 	}
 
