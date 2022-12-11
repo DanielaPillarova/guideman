@@ -12,6 +12,12 @@ import javafx.scene.image.ImageView;
 public class MyProfileController {
 
     @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
     private Button changeImageButton;
 
     @FXML

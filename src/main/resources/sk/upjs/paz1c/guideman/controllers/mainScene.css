@@ -1,3 +1,8 @@
+
 .root {
 	-fx-background-image: url("template3.png");
+}
+
+#myToursButton:hover {
+  -fx-background-color: #699a1e;
 }
