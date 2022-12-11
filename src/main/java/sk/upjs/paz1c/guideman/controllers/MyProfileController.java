@@ -79,7 +79,7 @@ public class MyProfileController {
 
 	@FXML
 	void createTourButtonAction(ActionEvent event) {
-
+		System.out.println("createTourButtonAction");
 	}
 
 	@FXML
@@ -94,16 +94,17 @@ public class MyProfileController {
 
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {
-
+		System.out.println("myProfileButtonAction");
 	}
 
 	@FXML
 	void myToursButtonAction(ActionEvent event) {
-
+		System.out.println("myToursButtonAction");
 	}
 
 	@FXML
 	void searchTourButtonAction(ActionEvent event) {
+		System.out.println("searchTourButtonAction");
 
 	}
 

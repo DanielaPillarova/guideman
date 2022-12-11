@@ -7,27 +7,29 @@
 }
 
 #myProfileButton{
-	-fx-pref-width: 225;
-	-fx-pref-height: 50;
-	-fx-font-size: 20;
+	-fx-pref-width: 225px;
+	-fx-pref-height: 50px;
+	-fx-font-size: 20px;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
 	-fx-background-color: "yellowgreen";
-  	-fx-display: inline-block;
   	-fx-cursor: pointer;
 }
 #myProfileButton:hover {
-  -fx-background-color: #699a1e;
+-fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
 }
 
 #myToursButton{
-	-fx-pref-width: 225;
-	-fx-pref-height: 50;
-	-fx-font-size: 20;
+	-fx-pref-width: 225px;
+	-fx-pref-height: 50px;
+	-fx-font-size: 20px;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
 	-fx-background-color: "yellowgreen";
-  	-fx-display: inline-block;
   	-fx-cursor: pointer;
 }
 #myToursButton:hover {
@@ -35,13 +37,12 @@
 }
 
 #searchTourButton{
-	-fx-pref-width: 225;
-	-fx-pref-height: 50;
-	-fx-font-size: 20;
+	-fx-pref-width: 225px;
+	-fx-pref-height: 50px;
+	-fx-font-size: 20px;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
 	-fx-background-color: "yellowgreen";
-  	-fx-display: inline-block;
   	-fx-cursor: pointer;
 }
 #searchTourButton:hover {
@@ -49,13 +50,12 @@
 }
 
 #createTourButton{
-	-fx-pref-width: 225;
-	-fx-pref-height: 50;
-	-fx-font-size: 20;
+	-fx-pref-width: 225px;
+	-fx-pref-height: 50px;
+	-fx-font-size: 20px;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
 	-fx-background-color: "yellowgreen";
-  	-fx-display: inline-block;
   	-fx-cursor: pointer;
 }
 #createTourButton:hover {
@@ -63,7 +63,7 @@
 }
 
 #logOutButton{
-	-fx-font-size: 20;
+	-fx-font-size: 20px;
 	-fx-font-family: "Trebuchet MS", Helvetica, sans-serif;
 	-fx-text-fill: "black";
 	-fx-background-color: "yellowgreen";
