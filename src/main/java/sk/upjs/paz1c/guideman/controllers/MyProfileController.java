@@ -157,6 +157,7 @@ public class MyProfileController {
 		String changedPhone = phoneNumberTextField.getText();
 
 		String changedDateBirth = dateOfBirthTextField.getText();
+		System.out.println(changedDateBirth);
 		String pole[] = changedDateBirth.split("\\.");
 		String finalDateBirth = pole[2] + "-" + pole[1] + "-" + pole[0];
 
