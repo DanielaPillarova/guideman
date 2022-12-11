@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ///////// main scene
 
 .root{
@@ -71,3 +72,10 @@
 #logOutButton:hover {
   -fx-background-color: #699a1e;
 }
+=======
+.bodybg{
+     -fx-background-image: url('template3.png');
+     -fx-background-size: 100% 100%;    
+  }
+  	
+>>>>>>> branch 'master' of https://github.com/DanielaPillarova/guideman.git

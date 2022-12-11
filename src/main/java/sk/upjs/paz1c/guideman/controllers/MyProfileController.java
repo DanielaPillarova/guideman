@@ -74,42 +74,49 @@ public class MyProfileController {
 
 	@FXML
 	void changeImageButtonAction(ActionEvent event) {
-
+		System.out.println("change");
 	}
 
 	@FXML
 	void createTourButtonAction(ActionEvent event) {
-		System.out.println("createTourButtonAction");
+		System.out.println("create");
+
 	}
 
 	@FXML
 	void editAndSaveButtonAction(ActionEvent event) {
-
+		System.out.println("save");
 	}
 
 	@FXML
 	void logOutButtonAction(ActionEvent event) {
-
+		System.out.println("lougout");
 	}
 
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {
-		System.out.println("myProfileButtonAction");
+
+		System.out.println("profile");
+
 	}
 
 	@FXML
 	void myToursButtonAction(ActionEvent event) {
-		System.out.println("myToursButtonAction");
+
+		System.out.println("tours");
+
 	}
 
 	@FXML
 	void searchTourButtonAction(ActionEvent event) {
-		System.out.println("searchTourButtonAction");
+
+		System.out.println("search");
 
 	}
 
 	@FXML
 	void showFavouriteGuidemansButtonAction(ActionEvent event) {
+		System.out.println("guidemans");
 
 	}
 
