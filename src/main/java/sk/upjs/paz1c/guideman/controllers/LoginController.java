@@ -85,11 +85,11 @@ public class LoginController {
 	@FXML
 	void logInButtonClick(ActionEvent event) throws SQLException {
 		MyProfileController controller = new MyProfileController();
-		logIntoApp(controller);
+		logIntoApp(controller, event);
 	}
 
 	@FXML
-	void logIntoApp(MyProfileController controller) throws SQLException {
+	void logIntoApp(MyProfileController controller, ActionEvent event) throws SQLException {
 
 		Window owner = logInButton.getScene().getWindow();
 
@@ -121,6 +121,7 @@ public class LoginController {
 		}
 
 		currentUser = userDao.getUserByUsername(login);
+		LoggedUser.INSTANCE.setLoggedUser(currentUser);
 
 		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword()))) {
 			infoBox("Please enter correct Login and Password", null, "Failed login");
@@ -130,6 +131,7 @@ public class LoginController {
 			hideWindow = true;
 
 			if (hideWindow = true) {
+//				((Node) (event.getSource())).getScene().getWindow().hide();
 				usernameTextField.getScene().getWindow().hide();
 				button.getScene().getWindow().hide();
 				// treba zavriet hlavne okno

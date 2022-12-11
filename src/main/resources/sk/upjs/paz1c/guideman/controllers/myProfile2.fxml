@@ -53,11 +53,26 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <TextField fx:id="nameTextField" layoutX="255.0" layoutY="187.0" prefHeight="35.0" prefWidth="260.0" />
-      <TextField fx:id="surnameTextField" layoutX="256.0" layoutY="249.0" prefHeight="35.0" prefWidth="260.0" />
-      <TextField fx:id="emailTextField" layoutX="253.0" layoutY="318.0" prefHeight="35.0" prefWidth="260.0" />
-      <TextField fx:id="phoneNumberTextField" layoutX="253.0" layoutY="378.0" prefHeight="35.0" prefWidth="260.0" />
-      <TextField fx:id="dateOfBirthTextField" layoutX="253.0" layoutY="446.0" prefHeight="35.0" prefWidth="260.0" />
+      <TextField fx:id="nameTextField" layoutX="255.0" layoutY="187.0" prefHeight="35.0" prefWidth="260.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="surnameTextField" layoutX="256.0" layoutY="249.0" prefHeight="35.0" prefWidth="260.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="emailTextField" layoutX="253.0" layoutY="318.0" prefHeight="35.0" prefWidth="260.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="phoneNumberTextField" layoutX="253.0" layoutY="378.0" prefHeight="35.0" prefWidth="260.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <TextField fx:id="dateOfBirthTextField" layoutX="253.0" layoutY="446.0" prefHeight="35.0" prefWidth="260.0">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
       <Button fx:id="editAndSaveButton" layoutX="582.0" layoutY="582.0" mnemonicParsing="false" onAction="#editAndSaveButtonAction" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: yellowgreen;" text="Edit and save">
          <font>
             <Font size="18.0" />

@@ -1,13 +1,23 @@
 package sk.upjs.paz1c.guideman.controllers;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import sk.upjs.paz1c.guideman.App;
+import sk.upjs.paz1c.guideman.storage.User;
 
 public class MyProfileController {
+	
+	private User loggedUser;
 
 	@FXML
 	private Button changeImageButton;
@@ -112,12 +122,49 @@ public class MyProfileController {
 	@FXML
 	void logOutButtonAction(ActionEvent event) {
 		System.out.println("logout");
+		
+//		if (event.getSource() == logOutButton) {
+			
+//		}
+		
+		logOutButton.getScene().getWindow().hide();
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(WelcomeController.class.getResource("logInSignUp.fxml"));
+			Stage stage = new Stage();
+			fxmlLoader.setController(new WelcomeController());
+			Scene scene = new Scene(fxmlLoader.load());
+			stage.setTitle("Guideman");
+			stage.setScene(scene);
+//        stage.getIcons().add(new Image("sk/upjs/favicon.png")); // danko tak ma icon
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	///////////////
 
 	@FXML
 	void initialize() {
+		loggedUser = LoggedUser.INSTANCE.getLoggedUser();
+		System.out.println(loggedUser);
+		
+		nameTextField.setText(loggedUser.getName());
+		surnameTextField.setText(loggedUser.getSurname());
+		emailTextField.setText(loggedUser.getEmail());
+//		if (loggedUser.getTelNumber())
+		phoneNumberTextField.setText(loggedUser.getTelNumber());
+		// parsnut datum
+		dateOfBirthTextField.setText(loggedUser.getBirthdate().toString());
+		
+		// ak image neni null, zobrazi image... ak image je null zobrazi G.png
+//		if (loggedUser.getImage() != null) {
+//			imageImageView.setImage(loggedUser.getImage());
+//		}
+
+		
 
 	}
 

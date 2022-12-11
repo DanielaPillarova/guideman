@@ -38,7 +38,7 @@ public class SignupController {
 	private File selectedFile;
 	private String filePath;
 	private String nameOfFile;
-	private byte[] bytes; // obrazok v bytoch
+	private byte[] bytes = null; // obrazok v bytoch
 
 	@FXML
 	private TextField nameTextField;
@@ -202,15 +202,14 @@ public class SignupController {
 		Blob blobisko = null;
 		if (bytes != null) {
 			blobisko = new SerialBlob(bytes);
-		}
-		System.out.println(blobisko.length() + " velkost blobu");
+			System.out.println(blobisko.length() + " velkost blobu");
 
-		// preco neporovnava ??? - nefunguje ale obrazky som nenasiel take zeby boli
-		// velke nez 16 mb
-		if (blobisko.length() > 16000000L) {
-			System.out.println("Error");
-			showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
-			return;
+			// velke nez 16 mb
+			if (blobisko.length() > 16000000L) {
+				System.out.println("Error");
+				showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+				return;
+			}
 		}
 
 		if (tel_number != "") {
