@@ -1,5 +1,3 @@
-.bodybg{
-     -fx-background-image: url('template3.png');
-     -fx-background-size: 100% 100%;    
-  }
-  	
+.root {
+	-fx-background-image: url("template3.png");
+}

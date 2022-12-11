@@ -134,23 +134,20 @@ public class LoginController {
 				button.getScene().getWindow().hide();
 				// treba zavriet hlavne okno
 			}
-
-			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myProfile2.fxml"));
-				fxmlLoader.setController(controller);
-				Parent parent = fxmlLoader.load();
-				Scene scene = new Scene(parent);
-				scene.getStylesheets().add(getClass().getResource("myProfile.css").toExternalForm());
-				// ma tu byt toto???
-
-				Stage stage = new Stage();
-				stage.setScene(scene);
-				stage.setTitle("Guideman");
-				stage.showAndWait();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				try {
+		            FXMLLoader fxmlLoader = new FXMLLoader(MyProfileController.class.getResource("myProfile2.fxml"));
+		            Stage stage = new Stage();
+		            fxmlLoader.setController(controller);
+		            Scene scene = new Scene(fxmlLoader.load());
+		            stage.setTitle("Bugster - Projects");
+		            stage.setScene(scene);
+		            stage.show();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
 		}
+	 
+		
 	}
 
 	public static void infoBox(String infoMessage, String headerText, String title) {
