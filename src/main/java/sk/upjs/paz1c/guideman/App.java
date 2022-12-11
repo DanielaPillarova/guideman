@@ -10,22 +10,7 @@ import sk.upjs.paz1c.guideman.controllers.WelcomeController;
 public class App extends Application {
 
 	public static void main(String[] args) {
-		// Users
-
-//		UserDao userDao = DaoFactory.INSTANCE.getUserDao();
-//		List<User> users = userDao.getAll();
-//		System.out.println(users);
-//		System.out.println("halo");
-
-		// Location
-
-//		LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
-//		List<Location> locations = locationDao.getAll();
-//		System.out.println(locations);
-//		System.out.println("lok�cie sheeeesh");
-
 		launch(args);
-
 	}
 
 	@Override

@@ -7,10 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="630.0" stylesheets="@writingRating.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="630.0" stylesheets="@reviews.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="pleaseRateLabel" layoutX="57.0" layoutY="69.0" text="Please, rate this tour :" />
+      <Label fx:id="pleaseRateLabel" layoutX="57.0" layoutY="69.0" text="Please, rate this tour :" textFill="#699a1e">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
       <RadioButton fx:id="zeroRadioButton" layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="0">
          <font>
             <Font size="18.0" />
@@ -41,8 +43,14 @@
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Label fx:id="pleaseReviewLabel" layoutX="56.0" layoutY="195.0" text="Let us know, how was your experience :" />
-      <Button fx:id="saveButton" layoutX="510.0" layoutY="378.0" mnemonicParsing="false" text="Save" />
+      <Label fx:id="pleaseReviewLabel" layoutX="56.0" layoutY="195.0" text="Let us know, how was your experience :" textFill="#699a1e">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Button fx:id="saveButton" layoutX="510.0" layoutY="378.0" mnemonicParsing="false" style="-fx-background-color: yellowgreen;" text="Save">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Button>
       <Label layoutX="279.0" layoutY="73.0" text="(5 means the best)" />
       <TextArea fx:id="reviewTextArea" layoutX="53.0" layoutY="234.0" prefHeight="120.0" prefWidth="526.0" promptText="click and write">
          <font>

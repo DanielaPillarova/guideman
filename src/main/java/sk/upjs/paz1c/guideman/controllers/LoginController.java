@@ -139,8 +139,9 @@ public class LoginController {
 		            Stage stage = new Stage();
 		            fxmlLoader.setController(controller);
 		            Scene scene = new Scene(fxmlLoader.load());
-		            stage.setTitle("Bugster - Projects");
+		            stage.setTitle("Guideman");
 		            stage.setScene(scene);
+//		            stage.getIcons().add(new Image("sk/upjs/favicon.png")); // danko tak ma icon
 		            stage.show();
 		        } catch (IOException e) {
 		            e.printStackTrace();

@@ -1,8 +1,23 @@
-
 .root {
 	-fx-background-image: url("template3.png");
+	-fx-background-repeat: no-repeat;
 }
 
+/*
+#myProfileButton:hover {
+  -fx-background-color: #699a1e;
+}
 #myToursButton:hover {
   -fx-background-color: #699a1e;
 }
+#searchTourButton:hover {
+  -fx-background-color: #699a1e;
+}
+#createTourButton:hover {
+  -fx-background-color: #699a1e;
+}
+
+#logoutButton:hover {
+  -fx-background-color: #699a1e;
+}
+*/

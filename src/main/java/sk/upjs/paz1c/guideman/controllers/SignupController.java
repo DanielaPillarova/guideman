@@ -1,45 +1,28 @@
 package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 import javax.sql.rowset.serial.SerialBlob;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.util.StringUtils;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import sk.upjs.paz1c.guideman.models.UserFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
