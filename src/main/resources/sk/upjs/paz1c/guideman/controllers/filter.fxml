@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="630.0" stylesheets="@reviews.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ComboBox fx:id="filterByCountryComboBox" layoutX="77.0" layoutY="129.0" prefHeight="36.0" prefWidth="210.0" promptText="Filter by country" style="-fx-background-color: khaki;" />
+      <ComboBox fx:id="filterByMonthComboBox" layoutX="77.0" layoutY="209.0" prefHeight="36.0" prefWidth="210.0" promptText="Filter by month" style="-fx-background-color: khaki;" />
+      <ComboBox fx:id="filterByGuidemanComboBox" layoutX="77.0" layoutY="294.0" prefHeight="36.0" prefWidth="210.0" promptText="Filter by Guideman" style="-fx-background-color: khaki;" />
+      <Label layoutX="50.0" layoutY="50.0" text="Filters :" textFill="#699a1e">
+         <font>
+            <Font name="Helvetica" size="40.0" />
+         </font>
+      </Label>
+      <Slider fx:id="filterByPriceSlider" layoutX="359.0" layoutY="85.0" majorTickUnit="10.0" orientation="VERTICAL" prefHeight="307.0" prefWidth="16.0" showTickLabels="true" showTickMarks="true" />
+      <Label layoutX="318.0" layoutY="65.0" text="(100€ or more)" />
+      <Label layoutX="422.0" layoutY="197.0" text="Filter by price (€) :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceLabel" layoutX="466.0" layoutY="238.0" prefHeight="25.0" prefWidth="76.0" text="*price*" textFill="#699a1e">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="saveAndFilterButton" layoutX="438.0" layoutY="373.0" mnemonicParsing="false" onAction="#saveAndFilterButtonAction" style="-fx-background-color: yellowgreen;" text="Save and filter">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
