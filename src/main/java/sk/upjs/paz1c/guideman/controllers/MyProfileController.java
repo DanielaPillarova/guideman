@@ -365,10 +365,9 @@ public class MyProfileController {
 //		}
 
 		Blob usersBlob = loggedUser.getImage();
+		
 		if (usersBlob != null) {
 			System.out.println(usersBlob);
-		}
-		if (usersBlob != null) {
 			InputStream in = usersBlob.getBinaryStream();
 			Image image = new Image(in);
 			imageImageView.setImage(image);
