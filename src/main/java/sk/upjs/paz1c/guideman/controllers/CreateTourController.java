@@ -139,6 +139,7 @@ public class CreateTourController {
 		try {
 			// location
 			savedLocation = locationDao.save(location);
+			System.out.println(savedLocation + " = saved location");
 
 			// tour
 			if (bio == "") {
@@ -151,6 +152,11 @@ public class CreateTourController {
 			//
 			// event
 			LocalDateTime dateAndTimeOfTour = LocalDateTime.parse(dateAndTimeOfTourString, formatter);
+			LocalDateTime now = LocalDateTime.now();
+			if (now.isAfter(dateAndTimeOfTour)) {
+				throw new DateTimeException("Date needs to be set in the future"); // ?
+			}
+
 			LocalTime duration = LocalTime.parse(durationString);
 			double price = Double.parseDouble(priceString);
 			Event newEvent = new Event(dateAndTimeOfTour, duration, price, savedTour.getId());
@@ -160,51 +166,70 @@ public class CreateTourController {
 
 		} catch (NullPointerException e) {
 			infoBox("Wrong format", null, "Warning");
-			if (savedLocation != null) {
-				locationDao.delete(savedLocation.getId());
-				savedLocation = null;
+			if (savedEvent != null) {
+				eventDao.delete(savedEvent.getId());
+				savedEvent = null;
 			}
 			if (savedTour != null) {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
-			if (savedEvent != null) {
-				eventDao.delete(savedEvent.getId());
-				savedEvent = null;
+			if (savedLocation != null) {
+				System.out.println(savedLocation.getId());
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
 			}
 
 			return;
 		} catch (NumberFormatException e) {
 			infoBox("Wrong number format", null, "Warning");
-			if (savedLocation != null) {
-				locationDao.delete(savedLocation.getId());
-				savedLocation = null;
+			if (savedEvent != null) {
+				eventDao.delete(savedEvent.getId());
+				savedEvent = null;
 			}
 			if (savedTour != null) {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
-			if (savedEvent != null) {
-				eventDao.delete(savedEvent.getId());
-				savedEvent = null;
+			if (savedLocation != null) {
+				System.out.println(savedLocation.getId());
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
 			}
 
 			return;
 		} catch (DateTimeParseException e) {
 			infoBox("Wrong date format", null, "Warning");
-			if (savedLocation != null) {
-				locationDao.delete(savedLocation.getId());
-				savedLocation = null;
+			if (savedEvent != null) {
+				eventDao.delete(savedEvent.getId());
+				savedEvent = null;
 			}
 			if (savedTour != null) {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
+			if (savedLocation != null) {
+				System.out.println(savedLocation.getId());
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
+			}
+
+			return;
+		} catch (DateTimeException e) {
+			infoBox("Date needs to be set in the future ", null, "Warning");
 			if (savedEvent != null) {
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
 			}
-
+			if (savedTour != null) {
+				tourDao.delete(savedTour.getId());
+				savedTour = null;
+			}
+			if (savedLocation != null) {
+				System.out.println(savedLocation.getId());
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
+			}
 			return;
 		}
 
