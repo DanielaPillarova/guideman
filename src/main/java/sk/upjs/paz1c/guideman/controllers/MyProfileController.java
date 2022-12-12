@@ -258,8 +258,12 @@ public class MyProfileController {
 		byte[] blobiskoAsBytes = blobisko.getBytes(1, blobiskoL);
 
 		Blob zDB = loggedUser.getImage();
-		int zDBL = (int) zDB.length();
-		byte[] zDBLAsBytes = zDB.getBytes(1, zDBL);
+		int zDBL = 0;
+		byte[] zDBLAsBytes = null;
+		if (zDB != null) {
+			zDBL = (int) zDB.length();
+			zDBLAsBytes = zDB.getBytes(1, zDBL);
+		}
 
 		if (Arrays.equals(zDBLAsBytes, blobiskoAsBytes)) {
 			System.out.println("su rovnake bloby");
@@ -349,7 +353,7 @@ public class MyProfileController {
 	///////////////
 
 	@FXML
-	void initialize() throws SQLException {
+	void initialize() throws SQLException, IOException {
 		loggedUser = LoggedUser.INSTANCE.getLoggedUser();
 		System.out.println(loggedUser);
 
@@ -377,8 +381,23 @@ public class MyProfileController {
 			imageImageView.setImage(image);
 			centerImage();
 			System.out.println(image + " image");
-		}
+		} else {
+			// treba poriesit obrazok
+			System.out.println("bez obrazka dam default");
+			BufferedImage image = ImageIO.read(new File(
+					"C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\G-light.png"));
+			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", outStreamObj);
 
+			byte[] byteArray = outStreamObj.toByteArray();
+
+			Blob blobisko = new SerialBlob(byteArray);
+			InputStream in = blobisko.getBinaryStream();
+			Image defaultImage = new Image(in);
+			imageImageView.setImage(defaultImage);
+			centerImage();
+
+		}
 	}
 
 	public void centerImage() {
