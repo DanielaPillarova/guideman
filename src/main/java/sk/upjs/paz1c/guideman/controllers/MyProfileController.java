@@ -43,6 +43,7 @@ public class MyProfileController {
 	// obrazok
 	private File selectedFile;
 	private String filePath = null;
+	private String oldFilePath = null;
 	private String nameOfFile;
 	private byte[] bytes = null; // obrazok v bytoch
 
@@ -138,7 +139,6 @@ public class MyProfileController {
 				Blob usersBlob = blobisko;
 				InputStream in = usersBlob.getBinaryStream();
 				Image image = new Image(in);
-
 				imageImageView.setImage(image);
 			}
 		}
@@ -174,7 +174,9 @@ public class MyProfileController {
 		if (filePath != null) {
 			BufferedImage image = ImageIO.read(new File(filePath));
 			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-			ImageIO.write(image, "jpg", outStreamObj);
+			if (filePath.contains(".jpg")) {
+				ImageIO.write(image, "jpg", outStreamObj);
+			}
 
 			byte[] byteArray = outStreamObj.toByteArray();
 
@@ -189,6 +191,9 @@ public class MyProfileController {
 					return;
 				}
 			}
+			filePath = null;
+		} else {
+			blobisko = loggedUser.getImage();
 		}
 
 		// ci su prazdne
@@ -227,15 +232,40 @@ public class MyProfileController {
 			}
 		}
 
-		if (!(changedName.equals(loggedUser.getName())) || !(changedSurname.equals(loggedUser.getSurname()))
-				|| !(changedEmail.equals(loggedUser.getEmail())) || !(birthdateParsed == (loggedUser.getBirthdate()))
-				|| !(blobisko == (loggedUser.getImage()))) {
+//		if (!(changedName.equals(loggedUser.getName())) || !(changedSurname.equals(loggedUser.getSurname()))
+//				|| !(changedEmail.equals(loggedUser.getEmail())) || !(birthdateParsed == (loggedUser.getBirthdate()))
+//				|| !(blobisko == (loggedUser.getImage()))) {
+//			changed = true;
+//			System.out.println("DALO SA NA TRUE");
+//		}
+
+		if (!(changedName.equals(loggedUser.getName()))) {
+			System.out.println("chyba v name");
 			changed = true;
-			System.out.println("DALO SA NA TRUE");
+		}
+
+		if (!(changedSurname.equals(loggedUser.getSurname()))) {
+			System.out.println("chyba v surname");
+			changed = true;
+		}
+
+		if (!(changedEmail.equals(loggedUser.getEmail()))) {
+			System.out.println("chyba v mail");
+			changed = true;
+		}
+
+		if (!(birthdateParsed.equals(LocalDate.parse(loggedUser.getBirthdate().toString())))) {
+			System.out.println("chyba v date");
+			changed = true;
+		}
+
+		if (blobisko != (loggedUser.getImage())) {
+			System.out.println("chyba v blobe");
+			changed = true;
 		}
 
 		if (changed) {
-			editAndSaveButton.setDisable(false);
+			changed = false;
 			User user = new User(loggedUser.getId(), changedName, changedSurname, changedEmail, changedPhone,
 					birthdateParsed, loggedUser.getLogin(), loggedUser.getPassword(), blobisko);
 
@@ -251,6 +281,15 @@ public class MyProfileController {
 				System.out.println("Edited and Saved successfuly");
 				infoBox("Success", null, "Edited and Saved successfuly");
 			}
+			System.out.println(loggedUser + " stary");
+			LoggedUser.INSTANCE.setLoggedUser(user);
+
+			// loggedUser = user;
+
+			loggedUser = LoggedUser.INSTANCE.getLoggedUser();
+			// loggedUser = user;
+			System.out.println(loggedUser + " novy");
+			// System.out.println(LoggedUser.INSTANCE.getLoggedUser().toString());
 		}
 	}
 
@@ -346,6 +385,9 @@ public class MyProfileController {
 //		}
 
 		Blob usersBlob = loggedUser.getImage();
+		if (usersBlob != null) {
+			System.out.println(usersBlob);
+		}
 		if (usersBlob != null) {
 			InputStream in = usersBlob.getBinaryStream();
 			Image image = new Image(in);
