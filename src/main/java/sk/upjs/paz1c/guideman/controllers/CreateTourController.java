@@ -2,14 +2,19 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -33,6 +38,8 @@ import sk.upjs.paz1c.guideman.storage.TourDao;
 import sk.upjs.paz1c.guideman.storage.User;
 import sk.upjs.paz1c.guideman.storage.UserDao;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.stage.Window;
 
 public class CreateTourController {
 
@@ -43,6 +50,7 @@ public class CreateTourController {
 	private Location savedLocation;
 	private Event savedEvent;
 	private Tour savedTour;
+	private Window owner;
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
@@ -109,7 +117,23 @@ public class CreateTourController {
 	private TextField titleTextField;
 
 	@FXML
-	void createButtonAction(ActionEvent event) {
+	void createButtonAction(ActionEvent event) throws SerialException, SQLException {
+		Blob blobisko = null;
+		if (bytes != null) {
+			blobisko = new SerialBlob(bytes);
+
+			System.out.println(blobisko.length() + " velkost blobu");
+
+			// velke nez 16 mb
+			if (blobisko.length() > 16000000L) {
+				System.out.println("Error");
+				showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+				// owner neexistuje, robil problem, ak toto bude robit problem , tak treba tu
+				// dat infobox
+				return;
+			}
+		}
+
 		String title = titleTextField.getText();
 		String bio = bioTextArea.getText();
 		String maxPeopleString = numberOfPeopleTextField.getText(); // int
@@ -147,7 +171,7 @@ public class CreateTourController {
 			}
 			int maxPeople = Integer.parseInt(maxPeopleString);
 			User user = userDao.getById(LoggedUser.INSTANCE.getLoggedUser().getId());
-			Tour tour = new Tour(title, bio, maxPeople, savedLocation.getId(), user.getId(), null);
+			Tour tour = new Tour(title, bio, maxPeople, savedLocation.getId(), user.getId(), blobisko);
 			savedTour = tourDao.save(tour);
 			//
 			// event
@@ -162,7 +186,23 @@ public class CreateTourController {
 			Event newEvent = new Event(dateAndTimeOfTour, duration, price, savedTour.getId());
 			savedEvent = eventDao.save(newEvent);
 			//
-			infoBox("Tour has been successfuly created", null, "Congratulations");
+			// infoBox("Tour has been successfuly created", null, "Congratulations");
+			showAlert(Alert.AlertType.CONFIRMATION, owner, "Success", "Tour has been successfully created !");
+
+			// reset vsetkeho
+			titleTextField.setText("");
+			bioTextArea.setText("");
+			numberOfPeopleTextField.setText(""); // int
+			countryTextField.setText("");
+			cityTextField.setText("");
+			streetTextField.setText("");
+			streetNumberTextField.setText(""); // int
+			dateAndTimeOfTourTextField.setText("");
+			durationTextField.setText("");
+			priceTextField.setText("");
+
+			bytes = null;
+			noSelectedImageLabel.setText("No selected file");
 
 		} catch (NullPointerException e) {
 			infoBox("Wrong format", null, "Warning");
@@ -325,6 +365,15 @@ public class CreateTourController {
 		alert.setTitle(title);
 		alert.setHeaderText(headerText);
 		alert.showAndWait();
+	}
+
+	private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initOwner(owner);
+		alert.show();
 	}
 
 }
