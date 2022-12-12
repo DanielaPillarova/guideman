@@ -1,11 +1,10 @@
-package sk.upjs.paz1c.guideman;
+package sk.upjs.paz1c.guideman.controllers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sk.upjs.paz1c.guideman.controllers.WelcomeController;
 
 public class App extends Application {
 

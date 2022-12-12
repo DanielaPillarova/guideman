@@ -323,42 +323,22 @@ public class MyProfileController {
 
 	@FXML
 	void myToursButtonAction(ActionEvent event) {
-		System.out.println("tours");
+		Menu.INSTANCE.openMyTours(changeImageButton);
 	}
 
 	@FXML
 	void searchTourButtonAction(ActionEvent event) {
-		System.out.println("search");
+		Menu.INSTANCE.openSearchTour(changeImageButton);
 	}
 
 	@FXML
 	void createTourButtonAction(ActionEvent event) {
-		System.out.println("create");
+		Menu.INSTANCE.openCreateTour(changeImageButton);
 	}
 
 	@FXML
 	void logOutButtonAction(ActionEvent event) {
-		System.out.println("logout");
-
-//		if (event.getSource() == logOutButton) {
-
-//		}
-
-		logOutButton.getScene().getWindow().hide();
-
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(WelcomeController.class.getResource("logInSignUp.fxml"));
-			Stage stage = new Stage();
-			fxmlLoader.setController(new WelcomeController());
-			Scene scene = new Scene(fxmlLoader.load());
-			stage.setTitle("Guideman");
-			stage.setScene(scene);
-//        stage.getIcons().add(new Image("sk/upjs/favicon.png")); // danko tak ma icon
-			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Menu.INSTANCE.logOut(changeImageButton);
 	}
 
 	///////////////

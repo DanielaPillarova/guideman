@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
@@ -26,7 +25,7 @@
             <Font name="Helvetica" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="createTourButton" layoutX="675.0" mnemonicParsing="false" onAction="#createTourButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="CreateTour">
+      <Button fx:id="createTourButton" layoutX="675.0" mnemonicParsing="false" onAction="#createTourButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="Create Tour">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font>

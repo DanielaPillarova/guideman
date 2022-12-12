@@ -44,30 +44,6 @@ public class SearchTourController {
     @FXML
     private Button showTourButton;
 
-    @FXML
-    void createTourButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void logOutButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void myProfileButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void myToursButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void searchTourButtonAction(ActionEvent event) {
-
-    }
 
     @FXML
     void showFilterTableButtonAction(ActionEvent event) {
@@ -78,7 +54,33 @@ public class SearchTourController {
     void showTourButtonAction(ActionEvent event) {
 
     }
+    
+    
+    @FXML
+    void myProfileButtonAction(ActionEvent event) {
+		Menu.INSTANCE.openMyProfile(showFilterTableButton);
+    }
 
+    @FXML
+    void myToursButtonAction(ActionEvent event) {
+		Menu.INSTANCE.openMyTours(showFilterTableButton);
+    }
+    
+    @FXML
+    void searchTourButtonAction(ActionEvent event) {
+    	System.out.println("search");
+    }
+    
+    @FXML
+    void createTourButtonAction(ActionEvent event) {
+    	Menu.INSTANCE.openCreateTour(showFilterTableButton);
+    }
+
+    @FXML
+    void logOutButtonAction(ActionEvent event) {
+    	Menu.INSTANCE.logOut(showFilterTableButton);
+    }
+    
     @FXML
     void initialize() {
        

@@ -15,6 +15,9 @@ public enum LoggedUser {
 
     public void setLoggedUser(User loggedUser) {
         System.out.println("Setting user");
+//        if (loggedUser == null) {
+//        	this.loggedUser = null;
+//        }
         this.loggedUser = loggedUser;
     }
 }

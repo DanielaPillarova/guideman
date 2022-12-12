@@ -71,37 +71,38 @@ public class CreateTourController {
     void createButtonAction(ActionEvent event) {
 
     }
-
-    @FXML
-    void createTourButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void logOutButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void myProfileButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void myToursButtonAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void searchTourButtonAction(ActionEvent event) {
-
-    }
-
+   
     @FXML
     void selectImageButtonAction(ActionEvent event) {
 
     }
+    
+    
+    @FXML
+    void myProfileButtonAction(ActionEvent event) {
+		Menu.INSTANCE.openMyProfile(createButton);
+    }
 
+    @FXML
+    void myToursButtonAction(ActionEvent event) {
+		Menu.INSTANCE.openMyTours(createButton);
+    }
+    
+    @FXML
+    void searchTourButtonAction(ActionEvent event) {
+    	Menu.INSTANCE.openSearchTour(createButton);
+    }
+    
+    @FXML
+    void createTourButtonAction(ActionEvent event) {
+    	System.out.println("create");
+    }
+
+    @FXML
+    void logOutButtonAction(ActionEvent event) {
+    	Menu.INSTANCE.logOut(createButton);
+    }
+    
     @FXML
     void initialize() {
        
