@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,6 +22,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.EntityNotFoundException;
+import sk.upjs.paz1c.guideman.storage.Event;
+import sk.upjs.paz1c.guideman.storage.EventDao;
+import sk.upjs.paz1c.guideman.storage.Location;
+import sk.upjs.paz1c.guideman.storage.LocationDao;
+import sk.upjs.paz1c.guideman.storage.Tour;
+import sk.upjs.paz1c.guideman.storage.TourDao;
+import sk.upjs.paz1c.guideman.storage.User;
+import sk.upjs.paz1c.guideman.storage.UserDao;
 import javafx.scene.control.Alert.AlertType;
 
 public class CreateTourController {
@@ -25,6 +40,16 @@ public class CreateTourController {
 	private String nameOfFile;
 	private String filePath;
 	private File selectedFile;
+	private Location savedLocation;
+	private Event savedEvent;
+	private Tour savedTour;
+
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+	private TourDao tourDao = DaoFactory.INSTANCE.getTourDao();
+	private LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
+	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
 
 	@FXML
 	private TextArea bioTextArea;
@@ -85,6 +110,103 @@ public class CreateTourController {
 
 	@FXML
 	void createButtonAction(ActionEvent event) {
+		String title = titleTextField.getText();
+		String bio = bioTextArea.getText();
+		String maxPeopleString = numberOfPeopleTextField.getText(); // int
+		String country = countryTextField.getText();
+		String city = cityTextField.getText();
+		String street = streetTextField.getText();
+		String streetNumberString = streetNumberTextField.getText(); // int
+		String dateAndTimeOfTourString = dateAndTimeOfTourTextField.getText();
+		String durationString = durationTextField.getText();
+		String priceString = priceTextField.getText();
+
+		Integer streetNumber = null;
+		if (streetNumberString != "") {
+			try {
+				streetNumber = Integer.parseInt(streetNumberString);
+			} catch (NumberFormatException e) {
+				infoBox("Warning", null, "Wrong format, check your street number");
+				return;
+			}
+		}
+
+		Location location = new Location(country, city, street, streetNumber);
+		// este upravit ked uz taka existuje
+
+		// ulozime location najprv potom tour a tak event
+
+		try {
+			// location
+			savedLocation = locationDao.save(location);
+
+			// tour
+			if (bio == "") {
+				bio = "No bio";
+			}
+			int maxPeople = Integer.parseInt(maxPeopleString);
+			User user = userDao.getById(LoggedUser.INSTANCE.getLoggedUser().getId());
+			Tour tour = new Tour(title, bio, maxPeople, savedLocation.getId(), user.getId(), null);
+			savedTour = tourDao.save(tour);
+			//
+			// event
+			LocalDateTime dateAndTimeOfTour = LocalDateTime.parse(dateAndTimeOfTourString, formatter);
+			LocalTime duration = LocalTime.parse(durationString);
+			double price = Double.parseDouble(priceString);
+			Event newEvent = new Event(dateAndTimeOfTour, duration, price, savedTour.getId());
+			savedEvent = eventDao.save(newEvent);
+			//
+			infoBox("Tour has been successfuly created", null, "Congratulations");
+
+		} catch (NullPointerException e) {
+			infoBox("Wrong format", null, "Warning");
+			if (savedLocation != null) {
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
+			}
+			if (savedTour != null) {
+				tourDao.delete(savedTour.getId());
+				savedTour = null;
+			}
+			if (savedEvent != null) {
+				eventDao.delete(savedEvent.getId());
+				savedEvent = null;
+			}
+
+			return;
+		} catch (NumberFormatException e) {
+			infoBox("Wrong number format", null, "Warning");
+			if (savedLocation != null) {
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
+			}
+			if (savedTour != null) {
+				tourDao.delete(savedTour.getId());
+				savedTour = null;
+			}
+			if (savedEvent != null) {
+				eventDao.delete(savedEvent.getId());
+				savedEvent = null;
+			}
+
+			return;
+		} catch (DateTimeParseException e) {
+			infoBox("Wrong date format", null, "Warning");
+			if (savedLocation != null) {
+				locationDao.delete(savedLocation.getId());
+				savedLocation = null;
+			}
+			if (savedTour != null) {
+				tourDao.delete(savedTour.getId());
+				savedTour = null;
+			}
+			if (savedEvent != null) {
+				eventDao.delete(savedEvent.getId());
+				savedEvent = null;
+			}
+
+			return;
+		}
 
 	}
 

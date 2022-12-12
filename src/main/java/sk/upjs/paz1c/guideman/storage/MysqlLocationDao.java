@@ -119,7 +119,7 @@ public class MysqlLocationDao implements LocationDao {
 			location.setCountry(rs.getString("country"));
 			location.setCity(rs.getString("city"));
 			location.setStreet(rs.getString("street"));
-			location.setStreet_number(rs.getLong("street_number"));
+			location.setStreet_number(rs.getInt("street_number"));
 
 			return location;
 		}

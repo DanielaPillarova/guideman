@@ -21,9 +21,6 @@ public class TourFxModel {
 		title.set(tour.getTitle());
 		bio.set(tour.getBio());
 		maxSlots.set(tour.getMaxSlots().toString());
-		
-		
-		
-	}
 
+	}
 }

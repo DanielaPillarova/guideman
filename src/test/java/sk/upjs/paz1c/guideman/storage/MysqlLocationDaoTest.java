@@ -27,7 +27,7 @@ class MysqlLocationDaoTest {
 		location.setCountry("Amerika");
 		location.setCity("Los Angeles");
 		location.setStreet("Main street");
-		location.setStreet_number((long) 1);
+		location.setStreet_number((int) 1);
 
 		size = locationDao.getAll().size(); // pocet userov pred pridanim noveho
 		savedLocation = locationDao.save(location);
@@ -79,25 +79,25 @@ class MysqlLocationDaoTest {
 //				"Location has already been created");
 		// ???
 
-		assertThrows(NullPointerException.class, () -> locationDao.save(new Location(null, "City", "Street", (long) 2)),
+		assertThrows(NullPointerException.class, () -> locationDao.save(new Location(null, "City", "Street", (int) 2)),
 				"Country cannot be null");
 
 		assertThrows(NullPointerException.class,
-				() -> locationDao.save(new Location("Country", null, "Street", (long) 2)), "City cannot be null");
+				() -> locationDao.save(new Location("Country", null, "Street", (int) 2)), "City cannot be null");
 
-		assertThrows(NullPointerException.class,
-				() -> locationDao.save(new Location("Country", "City", null, (long) 2)), "Street cannot be null");
+		assertThrows(NullPointerException.class, () -> locationDao.save(new Location("Country", "City", null, (int) 2)),
+				"Street cannot be null");
 	}
 
 	@Test
 	void updateTest() {
-		Location updated = new Location(savedLocation.getId(), "Changed Country", "city", "street", (long) 1);
+		Location updated = new Location(savedLocation.getId(), "Changed Country", "city", "street", (int) 1);
 		int sizeUpdate = locationDao.getAll().size();
 		assertEquals(sizeUpdate, locationDao.getAll().size());
 		Location fromDB = locationDao.getById(updated.getId());
 		assertEquals(updated.getId(), fromDB.getId());
 		assertThrows(EntityNotFoundException.class,
-				() -> locationDao.save(new Location(-1L, "Changed Country", "city", "street", (long) 1)));
+				() -> locationDao.save(new Location(-1L, "Changed Country", "city", "street", (int) 1)));
 	}
 
 	@Test
@@ -106,7 +106,7 @@ class MysqlLocationDaoTest {
 		locationToDelete.setCountry("Delete Country");
 		locationToDelete.setCity("Delete City");
 		locationToDelete.setStreet("Delete Street");
-		locationToDelete.setStreet_number((long) 1);
+		locationToDelete.setStreet_number((int) 1);
 
 		Location saved = locationDao.save(locationToDelete);
 		int sizeDelete = locationDao.getAll().size();
@@ -121,21 +121,21 @@ class MysqlLocationDaoTest {
 		location1.setCountry("Random");
 		location1.setCity("Koöice");
 		location1.setStreet("Hlavn·");
-		location1.setStreet_number((long) 1);
+		location1.setStreet_number((int) 1);
 
 		Location location2 = new Location();
 		location2.setId((long) 101);
 		location2.setCountry("Random");
 		location2.setCity("Budapeöù");
 		location2.setStreet("Main street");
-		location2.setStreet_number((long) 1);
+		location2.setStreet_number((int) 1);
 
 		Location location3 = new Location();
 		location3.setId((long) 102);
 		location3.setCountry("Random");
 		location3.setCity("Bratislava");
 		location3.setStreet("Rudolfovo n·mestie");
-		location3.setStreet_number((long) 1);
+		location3.setStreet_number((int) 1);
 
 		int test = 0;
 		test = test - size;

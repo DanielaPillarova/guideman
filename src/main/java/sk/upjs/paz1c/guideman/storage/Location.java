@@ -6,13 +6,13 @@ public class Location {
 	private String country;
 	private String city;
 	private String street;
-	private Long street_number;
+	private Integer street_number;
 
 	public Location() {
 
 	}
 
-	public Location(Long id, String country, String city, String street, Long street_number) {
+	public Location(Long id, String country, String city, String street, Integer street_number) {
 		this.id = id;
 		this.country = country;
 		this.city = city;
@@ -20,7 +20,7 @@ public class Location {
 		this.street_number = street_number;
 	}
 
-	public Location(String country, String city, String street, Long street_number) {
+	public Location(String country, String city, String street, Integer street_number) {
 		this.country = country;
 		this.city = city;
 		this.street = street;
@@ -72,11 +72,11 @@ public class Location {
 		this.street = street;
 	}
 
-	public Long getStreet_number() {
+	public Integer getStreet_number() {
 		return street_number;
 	}
 
-	public void setStreet_number(Long street_number) {
+	public void setStreet_number(Integer street_number) {
 		this.street_number = street_number;
 	}
 
