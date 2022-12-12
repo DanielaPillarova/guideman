@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
@@ -122,12 +123,15 @@ public class MyProfileController {
 
 				} else {
 					infoBox("Please Select Image File", null, "Warning !");
+					selectedFile = null;
+					filePath = null;
 				}
 			}
 
-			Blob blobisko = null;
 			if (bytes != null) {
+				Blob blobisko = null;
 				blobisko = new SerialBlob(bytes);
+
 				System.out.println(blobisko.length() + " velkost blobu");
 
 				// velke nez 16 mb
@@ -140,9 +144,9 @@ public class MyProfileController {
 				InputStream in = usersBlob.getBinaryStream();
 				Image image = new Image(in);
 				imageImageView.setImage(image);
+				centerImage();
 			}
 		}
-
 	}
 
 	@FXML
@@ -171,16 +175,12 @@ public class MyProfileController {
 		}
 
 		Blob blobisko = null;
-		if (filePath != null) {
+		if (filePath != null && filePath != oldFilePath) {
 			BufferedImage image = ImageIO.read(new File(filePath));
 			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-			if (filePath.contains(".jpg")) {
-				ImageIO.write(image, "jpg", outStreamObj);
-			}
+			ImageIO.write(image, "jpg", outStreamObj);
 
 			byte[] byteArray = outStreamObj.toByteArray();
-
-			blobisko = null;
 
 			if (byteArray != null) {
 				blobisko = new SerialBlob(byteArray);
@@ -191,6 +191,7 @@ public class MyProfileController {
 					return;
 				}
 			}
+			oldFilePath = filePath;
 			filePath = null;
 		} else {
 			blobisko = loggedUser.getImage();
@@ -232,13 +233,6 @@ public class MyProfileController {
 			}
 		}
 
-//		if (!(changedName.equals(loggedUser.getName())) || !(changedSurname.equals(loggedUser.getSurname()))
-//				|| !(changedEmail.equals(loggedUser.getEmail())) || !(birthdateParsed == (loggedUser.getBirthdate()))
-//				|| !(blobisko == (loggedUser.getImage()))) {
-//			changed = true;
-//			System.out.println("DALO SA NA TRUE");
-//		}
-
 		if (!(changedName.equals(loggedUser.getName()))) {
 			System.out.println("chyba v name");
 			changed = true;
@@ -259,8 +253,18 @@ public class MyProfileController {
 			changed = true;
 		}
 
-		if (blobisko != (loggedUser.getImage())) {
-			System.out.println("chyba v blobe");
+		// porovnanie ci si nedal rovnaky obrazok dnu
+		int blobiskoL = (int) blobisko.length();
+		byte[] blobiskoAsBytes = blobisko.getBytes(1, blobiskoL);
+
+		Blob zDB = loggedUser.getImage();
+		int zDBL = (int) zDB.length();
+		byte[] zDBLAsBytes = zDB.getBytes(1, zDBL);
+
+		if (Arrays.equals(zDBLAsBytes, blobiskoAsBytes)) {
+			System.out.println("su rovnake bloby");
+		} else {
+			System.out.println("nie su rovnake bloby");
 			changed = true;
 		}
 
@@ -287,9 +291,10 @@ public class MyProfileController {
 			// loggedUser = user;
 
 			loggedUser = LoggedUser.INSTANCE.getLoggedUser();
-			// loggedUser = user;
 			System.out.println(loggedUser + " novy");
 			// System.out.println(LoggedUser.INSTANCE.getLoggedUser().toString());
+		} else {
+
 		}
 	}
 
@@ -351,9 +356,8 @@ public class MyProfileController {
 		nameTextField.setText(loggedUser.getName());
 		surnameTextField.setText(loggedUser.getSurname());
 		emailTextField.setText(loggedUser.getEmail());
-//		if (loggedUser.getTelNumber())
 		phoneNumberTextField.setText(loggedUser.getTelNumber());
-		// parsnut datum
+
 		String dateOfBirth = loggedUser.getBirthdate().toString();
 		String pole[] = dateOfBirth.split("-");
 		String newDate = pole[2] + "." + pole[1] + "." + pole[0];
@@ -365,24 +369,41 @@ public class MyProfileController {
 //		}
 
 		Blob usersBlob = loggedUser.getImage();
+
 		if (usersBlob != null) {
 			System.out.println(usersBlob);
-		}
-		if (usersBlob != null) {
 			InputStream in = usersBlob.getBinaryStream();
 			Image image = new Image(in);
 			imageImageView.setImage(image);
+			centerImage();
+			System.out.println(image + " image");
 		}
 
-//		nameTextField.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-//				if (newValue != null)
-//					sessionModel.setSession(newValue);
-//			}
-//		});
+	}
 
+	public void centerImage() {
+		Image img = imageImageView.getImage();
+		if (img != null) {
+			double w = 0;
+			double h = 0;
+
+			double ratioX = imageImageView.getFitWidth() / img.getWidth();
+			double ratioY = imageImageView.getFitHeight() / img.getHeight();
+
+			double reducCoeff = 0;
+			if (ratioX >= ratioY) {
+				reducCoeff = ratioY;
+			} else {
+				reducCoeff = ratioX;
+			}
+
+			w = img.getWidth() * reducCoeff;
+			h = img.getHeight() * reducCoeff;
+
+			imageImageView.setX((imageImageView.getFitWidth() - w) / 2);
+			imageImageView.setY((imageImageView.getFitHeight() - h) / 2);
+
+		}
 	}
 
 	public static void infoBox(String infoMessage, String headerText, String title) {

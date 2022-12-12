@@ -205,6 +205,11 @@ public class SignupController {
 			System.out.println(blobisko.length() + " velkost blobu");
 
 			// velke nez 16 mb
+			if (blobisko.length() > 16000000L) {
+				System.out.println("Error");
+				showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+				return;
+			}
 
 		}
 

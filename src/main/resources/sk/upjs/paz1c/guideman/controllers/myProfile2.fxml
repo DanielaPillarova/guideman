@@ -81,8 +81,8 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <ImageView fx:id="imageImageView" fitHeight="190.0" fitWidth="190.0" layoutX="650.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="changeImageButton" layoutX="685.0" layoutY="434.0" mnemonicParsing="false" onAction="#changeImageButtonAction" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: khaki;" text="Change image">
+      <ImageView fx:id="imageImageView" fitHeight="215.0" fitWidth="192.0" layoutX="662.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="changeImageButton" layoutX="698.0" layoutY="434.0" mnemonicParsing="false" onAction="#changeImageButtonAction" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: khaki;" text="Change image">
          <font>
             <Font name="Helvetica" size="14.0" />
          </font></Button>
