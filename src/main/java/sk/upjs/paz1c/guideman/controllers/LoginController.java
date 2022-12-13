@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -143,6 +144,7 @@ public class LoginController {
 				fxmlLoader.setController(controller);
 				Scene scene = new Scene(fxmlLoader.load());
 				stage.setTitle("Guideman");
+				stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
 				stage.setScene(scene);
 //		            stage.getIcons().add(new Image("sk/upjs/favicon.png")); // danko tak ma icon
 				stage.show();

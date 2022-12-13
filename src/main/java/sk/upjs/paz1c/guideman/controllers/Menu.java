@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public enum Menu {
@@ -20,6 +21,7 @@ public enum Menu {
             fxmlLoader.setController(new MyProfileController());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Guideman");
+            stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
             stage.setScene(scene);
             stage.show();
             button.getScene().getWindow().hide();
@@ -37,6 +39,7 @@ public enum Menu {
             fxmlLoader.setController(new MyToursController());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Guideman");
+            stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
             stage.setScene(scene);
             stage.show();
             button.getScene().getWindow().hide();
@@ -54,6 +57,7 @@ public enum Menu {
             fxmlLoader.setController(new SearchTourController());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Guideman");
+            stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
             stage.setScene(scene);
             stage.show();
             button.getScene().getWindow().hide();
@@ -71,6 +75,7 @@ public enum Menu {
             fxmlLoader.setController(new CreateTourController());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Guideman");
+            stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
             stage.setScene(scene);
             stage.show();
             button.getScene().getWindow().hide();
@@ -89,6 +94,7 @@ public enum Menu {
             fxmlLoader.setController(new WelcomeController());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Guideman");
+            stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
             stage.setScene(scene);
             stage.show();
             button.getScene().getWindow().hide();
