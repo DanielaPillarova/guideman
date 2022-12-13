@@ -21,4 +21,6 @@ public interface EventDao {
 
 	List<Event> getAllEventsWhereIAmGuideman(Long userId) throws EntityNotFoundException;
 
+	List<Event> getAllLetsGoEvents(Long userId) throws EntityNotFoundException;
+
 }
