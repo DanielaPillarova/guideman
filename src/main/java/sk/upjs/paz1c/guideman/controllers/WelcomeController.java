@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
@@ -55,6 +56,7 @@ public class WelcomeController {
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle("Login");
+			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 		} catch (IOException e) {
@@ -75,6 +77,7 @@ public class WelcomeController {
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.setTitle("Sign up");
+			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.showAndWait();
 		} catch (IOException e) {

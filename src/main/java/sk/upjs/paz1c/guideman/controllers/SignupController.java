@@ -39,6 +39,7 @@ public class SignupController {
 	private String filePath;
 	private String nameOfFile;
 	private byte[] bytes = null; // obrazok v bytoch
+	private boolean guidemanInstead;
 
 	@FXML
 	private TextField nameTextField;
@@ -199,6 +200,12 @@ public class SignupController {
 
 		User user = null;
 
+		// guideman logo
+		if (guidemanInstead == true) {
+			filePath = "controllers/G.png";
+			bytes = Files.readAllBytes(Paths.get(filePath));
+		}
+
 		Blob blobisko = null;
 		if (bytes != null) {
 			blobisko = new SerialBlob(bytes);
@@ -244,6 +251,7 @@ public class SignupController {
 	@FXML
 	void selectImageButtonClick(ActionEvent event) throws IOException {
 		// sranie sa fr fr
+		guidemanInstead = true;
 
 		bytes = null;
 		selectedFileLabel.setText("No selected file");
@@ -270,6 +278,10 @@ public class SignupController {
 					bytes = Files.readAllBytes(Paths.get(filePath));
 					nameOfFile = selectedFile.getName();
 					selectedFileLabel.setText(nameOfFile);
+					guidemanInstead = false;
+					// reset
+					selectedFile = null;
+					filePath = null;
 				} else {
 					infoBox("Please Select Image File", null, "Warning !");
 				}
