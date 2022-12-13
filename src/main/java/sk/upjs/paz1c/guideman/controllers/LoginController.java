@@ -125,6 +125,7 @@ public class LoginController {
 
 		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword()))) {
 			infoBox("Please enter correct Login and Password", null, "Failed login");
+			passwordPasswordField.setText("");
 		} else {
 			infoBox("Log in Successful !", null, "Successful log in");
 

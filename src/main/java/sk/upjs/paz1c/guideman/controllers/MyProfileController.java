@@ -178,14 +178,22 @@ public class MyProfileController {
 		if (filePath != null && filePath != oldFilePath) {
 			BufferedImage image = ImageIO.read(new File(filePath));
 			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-			ImageIO.write(image, "jpg", outStreamObj);
+			// zmena
+			if (filePath.endsWith(".jpg")) {
+				ImageIO.write(image, "jpg", outStreamObj);
+				System.out.println("je jpg");
+			}
+			if (filePath.endsWith(".png")) {
+				ImageIO.write(image, "png", outStreamObj);
+				System.out.println("je jpg");
+			}
 
 			byte[] byteArray = outStreamObj.toByteArray();
 
 			if (byteArray != null) {
 				blobisko = new SerialBlob(byteArray);
-
-				if (blobisko.length() > 16000000L) {
+				// zmena z 16000000L na
+				if (blobisko.length() > 62000000L) {
 					System.out.println("Error");
 					showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
 					return;
@@ -287,7 +295,7 @@ public class MyProfileController {
 			int sizeAfter = userDao.getAll().size();
 			if (sizeBe4 == sizeAfter) {
 				System.out.println("Edited and Saved successfuly");
-				infoBox("Success", null, "Edited and Saved successfuly");
+				infoBox("Edited and Saved successfuly !", null, "Success");
 			}
 			System.out.println(loggedUser + " stary");
 			LoggedUser.INSTANCE.setLoggedUser(user);
@@ -298,7 +306,7 @@ public class MyProfileController {
 			System.out.println(loggedUser + " novy");
 			// System.out.println(LoggedUser.INSTANCE.getLoggedUser().toString());
 		} else {
-
+			infoBox("No change has been made !", null, "Warning");
 		}
 	}
 
@@ -383,19 +391,20 @@ public class MyProfileController {
 			System.out.println(image + " image");
 		} else {
 			// treba poriesit obrazok
-			System.out.println("bez obrazka dam default");
-			BufferedImage image = ImageIO.read(new File(
-					"C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\G-light.png"));
-			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-			ImageIO.write(image, "jpg", outStreamObj);
 
-			byte[] byteArray = outStreamObj.toByteArray();
-
-			Blob blobisko = new SerialBlob(byteArray);
-			InputStream in = blobisko.getBinaryStream();
-			Image defaultImage = new Image(in);
-			imageImageView.setImage(defaultImage);
-			centerImage();
+//			System.out.println("bez obrazka dam default");
+//			BufferedImage image = ImageIO.read(new File(
+//					"C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\G-light.png"));
+//			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
+//			ImageIO.write(image, "jpg", outStreamObj);
+//
+//			byte[] byteArray = outStreamObj.toByteArray();
+//
+//			Blob blobisko = new SerialBlob(byteArray);
+//			InputStream in = blobisko.getBinaryStream();
+//			Image defaultImage = new Image(in);
+//			imageImageView.setImage(defaultImage);
+//			centerImage();
 
 		}
 	}

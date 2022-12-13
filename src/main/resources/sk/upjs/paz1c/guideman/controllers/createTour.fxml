@@ -102,15 +102,15 @@
          </font>
       </Label>
       <TextField fx:id="titleTextField" layoutX="137.0" layoutY="257.0" prefHeight="33.0" prefWidth="310.0" />
-      <TextField fx:id="countryTextField" layoutX="611.0" layoutY="206.0" prefHeight="33.0" prefWidth="218.0" />
-      <TextField fx:id="streetTextField" layoutX="611.0" layoutY="308.0" prefHeight="33.0" prefWidth="217.0" />
-      <TextField fx:id="streetNumberTextField" layoutX="660.0" layoutY="354.0" prefHeight="33.0" prefWidth="168.0" />
-      <TextField fx:id="dateAndTimeOfTourTextField" layoutX="504.0" layoutY="432.0" prefHeight="33.0" prefWidth="326.0" />
       <TextArea fx:id="bioTextArea" layoutX="135.0" layoutY="308.0" prefHeight="147.0" prefWidth="312.0" promptText="Write more information about the tour.">
          <font>
             <Font size="18.0" />
          </font>
       </TextArea>
+      <TextField fx:id="countryTextField" layoutX="611.0" layoutY="206.0" prefHeight="33.0" prefWidth="218.0" />
+      <TextField fx:id="streetTextField" layoutX="611.0" layoutY="308.0" prefHeight="33.0" prefWidth="217.0" />
+      <TextField fx:id="streetNumberTextField" layoutX="660.0" layoutY="354.0" prefHeight="33.0" prefWidth="168.0" />
+      <TextField fx:id="dateAndTimeOfTourTextField" layoutX="504.0" layoutY="432.0" prefHeight="33.0" prefWidth="326.0" />
       <TextField fx:id="numberOfPeopleTextField" layoutX="296.0" layoutY="466.0" prefHeight="33.0" prefWidth="154.0" />
       <Label fx:id="noSelectedImageLabel" layoutX="300.0" layoutY="520.0" prefHeight="23.0" prefWidth="148.0" text="No selected file">
          <font>

@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -154,24 +156,53 @@ public class CreateTourController {
 				return;
 			}
 		}
-
 		Location location = new Location(country, city, street, streetNumber);
 		// este upravit ked uz taka existuje
 
 		// ulozime location najprv potom tour a tak event
 
+		boolean sameLocation = false;
+
+		List<Location> locations = locationDao.getAll();
+
+		// chcem tu z databazy ak vytvaram nejaku ktora uz je v databaze
+		Location locationFromDB = null;
+
+		for (Location eachLocation : locations) {
+			String locationCountry = eachLocation.getCountry();
+			String locationCity = eachLocation.getCity();
+			String locationStreet = eachLocation.getStreet();
+			Integer locationStreetNumber = eachLocation.getStreet_number();
+
+			if (locationCountry.equals(location.getCountry()) && locationCity.equals(location.getCity())
+					&& locationStreet.equals(location.getStreet())
+					&& locationStreetNumber == location.getStreet_number()) {
+				System.out.println("su rovnake");
+				locationFromDB = eachLocation;
+				sameLocation = true;
+			}
+
+		}
+
 		try {
 			// location
-			savedLocation = locationDao.save(location);
-			System.out.println(savedLocation + " = saved location");
-
+			Long idLocation;
+			if (sameLocation == false) {
+				savedLocation = locationDao.save(location);
+				System.out.println(savedLocation + " = saved location");
+				idLocation = savedLocation.getId();
+			} else {
+				savedLocation = locationFromDB;
+				System.out.println(savedLocation + " = saved location");
+				idLocation = locationFromDB.getId();
+			}
 			// tour
 			if (bio == "") {
 				bio = "No bio";
 			}
 			int maxPeople = Integer.parseInt(maxPeopleString);
 			User user = userDao.getById(LoggedUser.INSTANCE.getLoggedUser().getId());
-			Tour tour = new Tour(title, bio, maxPeople, savedLocation.getId(), user.getId(), blobisko);
+			Tour tour = new Tour(title, bio, maxPeople, idLocation, user.getId(), blobisko);
 			savedTour = tourDao.save(tour);
 			//
 			// event
@@ -184,6 +215,7 @@ public class CreateTourController {
 			LocalTime duration = LocalTime.parse(durationString);
 			double price = Double.parseDouble(priceString);
 			Event newEvent = new Event(dateAndTimeOfTour, duration, price, savedTour.getId());
+
 			savedEvent = eventDao.save(newEvent);
 			//
 			// infoBox("Tour has been successfuly created", null, "Congratulations");
@@ -207,14 +239,17 @@ public class CreateTourController {
 		} catch (NullPointerException e) {
 			infoBox("Wrong format", null, "Warning");
 			if (savedEvent != null) {
+				e.printStackTrace();
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
 			}
 			if (savedTour != null) {
+				e.printStackTrace();
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
-			if (savedLocation != null) {
+			if (savedLocation != null && sameLocation == false) {
+				e.printStackTrace();
 				System.out.println(savedLocation.getId());
 				locationDao.delete(savedLocation.getId());
 				savedLocation = null;
@@ -231,7 +266,7 @@ public class CreateTourController {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
-			if (savedLocation != null) {
+			if (savedLocation != null && sameLocation == false) {
 				System.out.println(savedLocation.getId());
 				locationDao.delete(savedLocation.getId());
 				savedLocation = null;
@@ -248,7 +283,7 @@ public class CreateTourController {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
-			if (savedLocation != null) {
+			if (savedLocation != null && sameLocation == false) {
 				System.out.println(savedLocation.getId());
 				locationDao.delete(savedLocation.getId());
 				savedLocation = null;
@@ -265,7 +300,7 @@ public class CreateTourController {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
-			if (savedLocation != null) {
+			if (savedLocation != null && sameLocation == false) {
 				System.out.println(savedLocation.getId());
 				locationDao.delete(savedLocation.getId());
 				savedLocation = null;
