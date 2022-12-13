@@ -99,6 +99,21 @@ public class MysqlEventDao implements EventDao {
 		});
 	}
 	
+	// otestovat
+	@Override
+	public List<Event> getAllLetsGoEvents(Long userId) throws EntityNotFoundException{
+		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
+				+ "JOIN tour t ON e.tour_id = t.id "
+				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId
+				+ " ORDER BY e.tour_id";
+		try {
+			return jdbcTemplate.query(sql, new EventRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id " + userId + " not found");
+		}
+	}
+	
 	@Override
 	public List<Event> getAllEventsFromPast(Long userId) throws EntityNotFoundException{
 		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
