@@ -124,8 +124,8 @@ public class LoginController {
 		LoggedUser.INSTANCE.setLoggedUser(currentUser);
 
 		if (currentUser == null || !(BCrypt.checkpw(password, currentUser.getPassword()))) {
-			infoBox("Please enter correct Login and Password", null, "Failed login");
 			passwordPasswordField.setText("");
+			infoBox("Please enter correct Login and Password", null, "Failed login");
 		} else {
 			infoBox("Log in Successful !", null, "Successful log in");
 
@@ -137,21 +137,20 @@ public class LoginController {
 				button.getScene().getWindow().hide();
 				// treba zavriet hlavne okno
 			}
-				try {
-		            FXMLLoader fxmlLoader = new FXMLLoader(MyProfileController.class.getResource("myProfile2.fxml"));
-		            Stage stage = new Stage();
-		            fxmlLoader.setController(controller);
-		            Scene scene = new Scene(fxmlLoader.load());
-		            stage.setTitle("Guideman");
-		            stage.setScene(scene);
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(MyProfileController.class.getResource("myProfile2.fxml"));
+				Stage stage = new Stage();
+				fxmlLoader.setController(controller);
+				Scene scene = new Scene(fxmlLoader.load());
+				stage.setTitle("Guideman");
+				stage.setScene(scene);
 //		            stage.getIcons().add(new Image("sk/upjs/favicon.png")); // danko tak ma icon
-		            stage.show();
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
+				stage.show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-	 
-		
+
 	}
 
 	public static void infoBox(String infoMessage, String headerText, String title) {
