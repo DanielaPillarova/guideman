@@ -409,7 +409,7 @@ public class CreateTourController {
 		Long idLoggedUser = LoggedUser.INSTANCE.getLoggedUser().getId();
 		// comboBoxModel =
 		// FXCollections.observableArrayList(tourDao.getAllToursWhereIAmGuideman(idLoggedUser));
-		List<Tour> toursTemp = tourDao.getAllToursWhereIAmGuideman(idLoggedUser);
+		List<Tour> toursTemp = tourDao.getAllToursByGuideman(idLoggedUser);
 		List<String> titles = new ArrayList<>();
 		for (Tour tour : toursTemp) {
 			titles.add(tour.getTitle());
