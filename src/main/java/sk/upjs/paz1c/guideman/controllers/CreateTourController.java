@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.beans.binding.BooleanBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -62,13 +65,18 @@ public class CreateTourController {
 	private LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
 	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
 
-	private TourFxModel model;
+	private TourFxModel tourModel;
+	private ObservableList<Tour> comboBoxModel;
+
+	public CreateTourController() {
+		this.tourModel = new TourFxModel();
+	}
 
 	@FXML
 	private TextArea bioTextArea;
 
 	@FXML
-	private ComboBox<?> chooseTourComboBox;
+	private ComboBox<String> chooseTourComboBox;
 
 	@FXML
 	private TextField cityTextField;
@@ -396,8 +404,18 @@ public class CreateTourController {
 		createButton.disableProperty().bind(bb);
 
 		// comboBox
-		List<Tour> comboBoxTours = model.getToursWhereIAmGuideman();
-		
+		// ObservableList<Tour> comboBoxTours =
+		// tourModel.getToursWhereIAmGuidemanModel();
+		Long idLoggedUser = LoggedUser.INSTANCE.getLoggedUser().getId();
+		// comboBoxModel =
+		// FXCollections.observableArrayList(tourDao.getAllToursWhereIAmGuideman(idLoggedUser));
+		List<Tour> toursTemp = tourDao.getAllToursWhereIAmGuideman(idLoggedUser);
+		List<String> titles = new ArrayList<>();
+		for (Tour tour : toursTemp) {
+			titles.add(tour.getTitle());
+		}
+
+		chooseTourComboBox.setItems(FXCollections.observableArrayList(titles));
 
 	}
 

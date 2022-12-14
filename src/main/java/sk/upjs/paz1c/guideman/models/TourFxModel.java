@@ -2,6 +2,7 @@ package sk.upjs.paz1c.guideman.models;
 
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -27,6 +28,9 @@ public class TourFxModel {
 	private ObservableList<Tour> futureTours;
 	private ObservableList<Tour> toursWhereIAmGuideman;
 
+	public TourFxModel() {
+	}
+
 	public TourFxModel(Tour tour) {
 		this.id = tour.getId();
 		title.set(tour.getTitle());
@@ -44,6 +48,7 @@ public class TourFxModel {
 		futureTours = FXCollections.observableArrayList(list3);
 
 		List<Tour> list4 = DaoFactory.INSTANCE.getTourDao().getAllToursWhereIAmGuideman(loggedUserId);
+		System.out.println(list4.toString());
 		toursWhereIAmGuideman = FXCollections.observableArrayList(list4);
 
 	}
