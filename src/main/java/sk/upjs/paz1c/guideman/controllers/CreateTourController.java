@@ -29,6 +29,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import sk.upjs.paz1c.guideman.models.TourFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.EntityNotFoundException;
 import sk.upjs.paz1c.guideman.storage.Event;
@@ -60,6 +61,8 @@ public class CreateTourController {
 	private TourDao tourDao = DaoFactory.INSTANCE.getTourDao();
 	private LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
 	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
+
+	private TourFxModel model;
 
 	@FXML
 	private TextArea bioTextArea;
@@ -391,6 +394,10 @@ public class CreateTourController {
 		};
 
 		createButton.disableProperty().bind(bb);
+
+		// comboBox
+		List<Tour> comboBoxTours = model.getToursWhereIAmGuideman();
+		
 
 	}
 
