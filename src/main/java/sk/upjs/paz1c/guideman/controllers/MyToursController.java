@@ -1,18 +1,26 @@
 package sk.upjs.paz1c.guideman.controllers;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import sk.upjs.paz1c.guideman.models.TourFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Event;
@@ -25,15 +33,19 @@ public class MyToursController {
 	private TourDao tourDao;
 	private EventDao eventDao;
 	private Long loggedUserId;
-//	private List<String> displayedTours;
 
-//	private boolean allIsSelected = false;
-//	private boolean allIsNotSelected = true;
+//	private TourFxModel model;
+//
+//	public MyToursController() {
+//		model = new TourFxModel();
+//	}
 
-	private TourFxModel model;
-
-	public MyToursController() {
-		model = new TourFxModel();
+	@FXML
+	void initialize() {
+		tourDao = DaoFactory.INSTANCE.getTourDao();
+		eventDao = DaoFactory.INSTANCE.getEventDao();
+		loggedUserId = LoggedUser.INSTANCE.getLoggedUser().getId();
+		allIsNotSelected();
 	}
 
 	@FXML
@@ -74,22 +86,7 @@ public class MyToursController {
 
 	@FXML
 	private CheckBox toursWhereIAmGuidemanCheckBox;
-
-	@FXML
-	void addRatingOrReviewButtonAction(ActionEvent event) {
-
-	}
-
-	@FXML
-	void deleteTourButtonAction(ActionEvent event) {
-
-	}
-
-	@FXML
-	void showTourButtonAction(ActionEvent event) {
-
-	}
-
+	
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {
 		Menu.INSTANCE.openMyProfile(addRatingOrReviewButton);
@@ -115,6 +112,81 @@ public class MyToursController {
 		Menu.INSTANCE.logOut(addRatingOrReviewButton);
 	}
 
+	@FXML
+	void addRatingOrReviewButtonAction(ActionEvent event) {
+		Event e1 = getEventFromListView();
+		ShowTour.INSTANCE.setLoggedEvent(e1);
+		System.out.println(e1);
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("writingRating.fxml"));
+			fxmlLoader.setController(new WritingRatingController());
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Guideman");
+			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@FXML
+	void deleteTourButtonAction(ActionEvent event) {
+
+	}
+	
+	private Event getEventFromListView() {
+		String s = toursListView.getSelectionModel().getSelectedItem();
+		String[] temp1 = s.split(" ");
+		String eventIdString = temp1[temp1.length - 1];
+		Long eventIdLong = Long.parseLong(eventIdString);
+		return eventDao.getById(eventIdLong);
+	}
+
+	@FXML
+	void showTourButtonAction(ActionEvent event) {
+		Event e1 = getEventFromListView();
+		Tour t1 = tourDao.getById(e1.getTourId());
+		ShowTour.INSTANCE.setLoggedEvent(e1);
+		ShowTour.INSTANCE.setLoggedTour(t1);
+		System.out.println(t1);
+		System.out.println(e1);
+
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(ShowTourController.class.getResource("showTour.fxml"));
+			Stage stage = new Stage();
+			fxmlLoader.setController(new ShowTourController());
+			Scene scene = new Scene(fxmlLoader.load());
+			stage.setTitle("Guideman");
+			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
+			stage.setScene(scene);
+			stage.show();
+			addRatingOrReviewButton.getScene().getWindow().hide();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private String parseDateAndTime(Tour t, Event e, LocalDateTime localDateTime) {
+		String[] dt = localDateTime.toString().split("T");
+		String[] date = dt[0].split("-");
+		String time = dt[1];
+		StringBuilder sbDate = new StringBuilder();
+		sbDate.append(date[2]);
+		sbDate.append(".");
+		sbDate.append(date[1]);
+		sbDate.append(".");
+		sbDate.append(date[0]);
+		return "Title : " + t.getTitle() + ",  date of tour : " + sbDate + ",  time of tour : " + time + ",  price : "
+				+ e.getPrice() + ",  event id : " + e.getId();
+	}
+
 	private void showTours(List<Tour> tours, List<Event> events) {
 		toursListView.setMouseTransparent(false);
 
@@ -129,55 +201,15 @@ public class MyToursController {
 		if (allTours.size() == 0) {
 			allTours.add("No tours found");
 			toursListView.setMouseTransparent(true);
+			addRatingOrReviewButton.setDisable(true);
 		}
 		toursListView.setItems(FXCollections.observableArrayList(allTours));
-
-//		if (allTours.size() != 0) {
-//			if (displayedTours.size() == allTours.size()) {
-//				boolean areTheSame = true;
-//				int idx2 = 0;
-//				while (idx2 < allTours.size()) {
-//					if (!displayedTours.get(idx2).equals(allTours.get(idx2))) {
-//						areTheSame = false;
-//						break;
-//					}
-//					idx2++;
-//				}
-//				if (areTheSame == false) {
-//					displayedTours.addAll(allTours);
-//
-//				} 
-//				
-//			}
-//			
-//			if (displayedTours.size() == 0 || displayedTours.get(0).equals("No tours found")) {
-//				displayedTours = new ArrayList<>();
-//				displayedTours.addAll(allTours);
-//			}
-//			
-//		} 
-//		
-//		toursListView.setItems(FXCollections.observableArrayList(displayedTours));
-
-	}
-
-	private String parseDateAndTime(Tour t, Event e, LocalDateTime localDateTime) {
-		String[] dt = localDateTime.toString().split("T");
-		String[] date = dt[0].split("-");
-		String time = dt[1];
-		StringBuilder sbDate = new StringBuilder();
-		sbDate.append(date[2]);
-		sbDate.append(".");
-		sbDate.append(date[1]);
-		sbDate.append(".");
-		sbDate.append(date[0]);
-		return "Title : " + t.getTitle() + ",           date of tour : " + sbDate + ",          time of tour : " + time
-				+ ",          price : " + e.getPrice();
 	}
 
 	private boolean allIsNotSelected() {
 		if (!pastToursCheckBox.isSelected() && !futureToursCheckBox.isSelected()
 				&& !toursWhereIAmGuidemanCheckBox.isSelected()) {
+			addRatingOrReviewButton.setDisable(true);
 			List<Tour> tours = tourDao.getAllLetsGoTours(loggedUserId);
 			List<Event> events = eventDao.getAllLetsGoEvents(loggedUserId);
 			showTours(tours, events);
@@ -186,89 +218,57 @@ public class MyToursController {
 		return false;
 	}
 
-//	private boolean allIsSelected() {
-//		if (pastToursCheckBox.isSelected() && futureToursCheckBox.isSelected()
-//				&& toursWhereIAmGuidemanCheckBox.isSelected()) {
-//			List<Tour> tours = tourDao.getAllLetsGoTours(loggedUserId);
-//			List<Event> events = eventDao.getAllLetsGoEvents(loggedUserId);
-//			tours.addAll(tourDao.getAllToursWhereIAmGuideman(loggedUserId));
-//			events.addAll(eventDao.getAllEventsWhereIAmGuideman(loggedUserId));
-//			showTours(tours, events);
-//			return true;
-//		}
-//		return false;
-//	}
-
-	// TODO poriesit ked su zakliknute 2 a 3 a aj ked sa odklikne jedno alebo vsetky
-
 	@FXML
 	void pastToursChecked(ActionEvent event) {
 		if (pastToursCheckBox.isSelected() == true) {
-
+			addRatingOrReviewButton.setDisable(false);
 			futureToursCheckBox.setMouseTransparent(true);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(true);
-
 			List<Tour> tours = tourDao.getAllToursFromPast(loggedUserId);
 			List<Event> events = eventDao.getAllEventsFromPast(loggedUserId);
 			showTours(tours, events);
-
 		}
 		if (pastToursCheckBox.isSelected() == false) {
 			futureToursCheckBox.setMouseTransparent(false);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(false);
 			allIsNotSelected();
 		}
-
 	}
 
 	@FXML
 	void futureToursChecked(ActionEvent event) {
 		if (futureToursCheckBox.isSelected() == true) {
-
+			addRatingOrReviewButton.setDisable(true);
 			pastToursCheckBox.setMouseTransparent(true);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(true);
-
 			List<Tour> tours = tourDao.getAllToursFromFuture(loggedUserId);
 			List<Event> events = eventDao.getAllEventsFromFuture(loggedUserId);
 			showTours(tours, events);
-
 		}
 		if (futureToursCheckBox.isSelected() == false) {
+			addRatingOrReviewButton.setDisable(false);
 			pastToursCheckBox.setMouseTransparent(false);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(false);
 			allIsNotSelected();
 		}
-
 	}
 
 	@FXML
 	void toursWhereIAmGuidemanChecked(ActionEvent event) {
 		if (toursWhereIAmGuidemanCheckBox.isSelected() == true) {
-
+			addRatingOrReviewButton.setDisable(true);
 			pastToursCheckBox.setMouseTransparent(true);
 			futureToursCheckBox.setMouseTransparent(true);
-			
 			List<Tour> tours = tourDao.getAllToursWhereIAmGuideman(loggedUserId);
 			List<Event> events = eventDao.getAllEventsWhereIAmGuideman(loggedUserId);
 			showTours(tours, events);
-
 		}
 		if (toursWhereIAmGuidemanCheckBox.isSelected() == false) {
+			addRatingOrReviewButton.setDisable(false);
 			pastToursCheckBox.setMouseTransparent(false);
 			futureToursCheckBox.setMouseTransparent(false);
 			allIsNotSelected();
 		}
-
-	}
-
-	@FXML
-	void initialize() {
-		tourDao = DaoFactory.INSTANCE.getTourDao();
-		eventDao = DaoFactory.INSTANCE.getEventDao();
-		loggedUserId = LoggedUser.INSTANCE.getLoggedUser().getId();
-//		displayedTours = new ArrayList<>();
-		allIsNotSelected();
-
 	}
 
 }

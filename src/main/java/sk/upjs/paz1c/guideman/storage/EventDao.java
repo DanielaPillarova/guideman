@@ -23,4 +23,6 @@ public interface EventDao {
 
 	List<Event> getAllLetsGoEvents(Long userId) throws EntityNotFoundException;
 
+	Event getById(Long eventId) throws EntityNotFoundException;
+
 }
