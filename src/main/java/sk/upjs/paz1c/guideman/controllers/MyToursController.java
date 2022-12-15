@@ -158,9 +158,9 @@ public class MyToursController {
 		System.out.println(e1);
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(ShowTourController.class.getResource("showTour.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(ShowTourController.class.getResource("showTour2.fxml"));
 			Stage stage = new Stage();
-			fxmlLoader.setController(new ShowTourController());
+			fxmlLoader.setController(new ShowTour2Controller());
 			Scene scene = new Scene(fxmlLoader.load());
 			stage.setTitle("Guideman");
 			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
