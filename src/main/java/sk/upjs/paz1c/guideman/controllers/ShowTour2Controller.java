@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.google.protobuf.StringValue;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Event;
+import sk.upjs.paz1c.guideman.storage.EventDao;
 import sk.upjs.paz1c.guideman.storage.Tour;
 import sk.upjs.paz1c.guideman.storage.User;
 import sk.upjs.paz1c.guideman.storage.UserDao;
@@ -30,6 +34,7 @@ import sk.upjs.paz1c.guideman.storage.UserDao;
 public class ShowTour2Controller {
 
 	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
@@ -163,7 +168,9 @@ public class ShowTour2Controller {
 		// bio text aby bolo vidno
 		// bioTextArea.set
 		// TODO
-		// numberOfFreePlacesFillLabel.setText(loggedTour.get());
+		List<User> tourits = DaoFactory.INSTANCE.getUserDao().getAllTourists(loggedEvent.getId());
+		numberOfFreePlacesFillLabel
+				.setText(String.valueOf(tourits.size()) + "/" + String.valueOf(loggedTour.getMaxSlots()));
 		LocalDateTime datetime = LocalDateTime.parse(loggedEvent.getDateOfTour().toString());
 		System.out.println(datetime.toString() + " datetime");
 		dateAndTimeFillLabel.setText(europeTimeZone(datetime));
@@ -181,6 +188,31 @@ public class ShowTour2Controller {
 			centerImage();
 		}
 
+		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getId());
+		System.out.println(listOfRatings + " list ratingov");
+		Double averageRating = (double) 0;
+		if (listOfRatings.size() > 0) {
+			for (Integer integer : listOfRatings) {
+				averageRating = averageRating + integer;
+			}
+		} else {
+			ratingFillLabel.setText("No ratings yet");
+		}
+		// treba kolko ich je prihlasenych
+		averageRating = round(averageRating / (double) listOfRatings.size(), 2);
+		ratingFillLabel.setText(averageRating.toString() + "/5");
+
+	}
+
+	// https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		long factor = (long) Math.pow(10, places);
+		value = value * factor;
+		long tmp = Math.round(value);
+		return (double) tmp / factor;
 	}
 
 	public String europeTimeZone(LocalDateTime datetime) {
