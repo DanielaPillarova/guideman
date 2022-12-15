@@ -31,6 +31,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sk.upjs.paz1c.guideman.models.TourFxModel;
@@ -58,6 +59,7 @@ public class CreateTourController {
 	private Event savedEvent;
 	private Tour savedTour;
 	private Window owner;
+	private Blob imageFromDB = null;
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
@@ -69,6 +71,7 @@ public class CreateTourController {
 	private TourFxModel tourModel;
 	private ObservableList<Tour> comboBoxModel;
 	private Tour tourToFill = null;
+	private List<String> titles = null;
 
 	public CreateTourController() {
 		this.tourModel = new TourFxModel();
@@ -149,6 +152,11 @@ public class CreateTourController {
 			}
 		}
 
+		if (imageFromDB != null) {
+			blobisko = imageFromDB;
+			imageFromDB = null;
+		}
+
 		String title = titleTextField.getText();
 		String bio = bioTextArea.getText();
 		String maxPeopleString = numberOfPeopleTextField.getText(); // int
@@ -213,10 +221,29 @@ public class CreateTourController {
 			if (bio == "") {
 				bio = "No bio";
 			}
+
 			Long maxPeople = (long) Integer.parseInt(maxPeopleString);
 			User user = userDao.getById(LoggedUser.INSTANCE.getLoggedUser().getId());
 			Tour tour = new Tour(title, bio, maxPeople, idLocation, user.getId(), blobisko);
-			savedTour = tourDao.save(tour);
+
+			// TODO
+			// aby sa nevytvarala nova tour
+			boolean sameTour = false;
+			List<Tour> toursFromDB = tourDao.getAll();
+			System.out.println(toursFromDB + " TOURS V DB");
+			for (Tour tour2 : toursFromDB) {
+				if (tour.getTitle().equals(tour2.getTitle()) && tour.getBio().equals(tour2.getBio())
+						&& tour.getMaxSlots() == tour2.getMaxSlots() && tour.getLocationId() == tour2.getLocationId()
+						&& tour.getGuidemanId() == tour2.getGuidemanId() && tour.getImage() == tour2.getImage()) {
+					System.out.println("existuje tour");
+					sameTour = true;
+					savedTour = tour2;
+				}
+			}
+			if (sameTour == false) {
+				savedTour = tourDao.save(tour);
+				System.out.println("DAVAM SAVE TOUR LEBO neexistuje");
+			}
 			//
 			// event
 			LocalDateTime dateAndTimeOfTour = LocalDateTime.parse(dateAndTimeOfTourString, formatter);
@@ -237,6 +264,8 @@ public class CreateTourController {
 			System.out.println(tour.getMaxSlots() + " max sloty");
 			showAlert(Alert.AlertType.CONFIRMATION, owner, "Success", "Tour has been successfully created !");
 
+			// Menu.INSTANCE.openCreateTour(createButton);
+
 			// reset vsetkeho
 			titleTextField.setText("");
 			bioTextArea.setText("");
@@ -251,6 +280,35 @@ public class CreateTourController {
 
 			bytes = null;
 			noSelectedImageLabel.setText("No selected file");
+
+			titleTextField.setDisable(false);
+			bioTextArea.setDisable(false);
+			numberOfPeopleTextField.setDisable(false);
+			selectImageButton.setDisable(false);
+			countryTextField.setDisable(false);
+			cityTextField.setDisable(false);
+			streetTextField.setDisable(false);
+			streetNumberTextField.setDisable(false);
+
+			titleTextField.setStyle(null);
+			bioTextArea.lookup(".content").setStyle("-fx-background-color: white;");
+			//
+			bioTextArea.setStyle("-fx-background-color: #d0d0d0;");
+			numberOfPeopleTextField.setStyle(null);
+			countryTextField.setStyle(null);
+			cityTextField.setStyle(null);
+			streetTextField.setStyle(null);
+			streetNumberTextField.setStyle(null);
+
+			// chooseTourComboBox.getSelectionModel().clearSelection();
+			// chooseTourComboBox.valueProperty().set(null);
+			// chooseTourComboBox.getEditor().setPromptText("Choose existing tour");
+			// chooseTourComboBox.setValue(null);
+
+			// chooseTourComboBox.getButtonCell().setText("");
+			// chooseTourComboBox.valueProperty().set(null);
+			chooseTourComboBox.getSelectionModel().selectFirst();
+			// reset konci
 
 		} catch (NullPointerException e) {
 			infoBox("Wrong format", null, "Warning");
@@ -415,11 +473,13 @@ public class CreateTourController {
 		// comboBoxModel =
 		// FXCollections.observableArrayList(tourDao.getAllToursWhereIAmGuideman(idLoggedUser));
 		List<Tour> toursTemp = tourDao.getAllToursByGuideman(idLoggedUser);
-		List<String> titles = new ArrayList<>();
+		titles = new ArrayList<>();
+		titles.add("Choose existing tour");
 		for (Tour tour : toursTemp) {
 			titles.add(tour.getTitle());
 		}
 
+		chooseTourComboBox.getSelectionModel().selectFirst();
 		chooseTourComboBox.setItems(FXCollections.observableArrayList(titles));
 		chooseTourComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 			tourToFill = null;
@@ -435,52 +495,62 @@ public class CreateTourController {
 			System.out.println(tourToFill + " vybraty tour");
 			if (tourToFill != null) {
 				selectImageButton.setDisable(true);
-				
+
 				String chosenTitle = tourToFill.getTitle();
 				titleTextField.setText(chosenTitle);
-				titleTextField.setMouseTransparent(true);
+				titleTextField.setDisable(true);
 				titleTextField.setStyle("-fx-background-color: #f2f2f2;");
-				
+
 				String chosenBio = tourToFill.getBio();
 				if (!chosenBio.equals("No bio")) {
 					bioTextArea.setText(chosenBio);
 				} else {
 					bioTextArea.setText("");
 				}
-				bioTextArea.setMouseTransparent(true);
+				bioTextArea.setDisable(true);
 				bioTextArea.lookup(".content").setStyle("-fx-background-color: #f2f2f2;");
 				bioTextArea.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenMaxSlots = tourToFill.getMaxSlots().toString();
 				numberOfPeopleTextField.setText(chosenMaxSlots);
-				numberOfPeopleTextField.setMouseTransparent(true);
+				numberOfPeopleTextField.setDisable(true);
 				numberOfPeopleTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				Location locationToFill = locationDao.getById(tourToFill.getLocationId());
 
 				String chosenCountry = locationToFill.getCountry();
 				countryTextField.setText(chosenCountry);
-				countryTextField.setMouseTransparent(true);
+				countryTextField.setDisable(true);
 				countryTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenCity = locationToFill.getCity();
 				cityTextField.setText(chosenCity);
-				cityTextField.setMouseTransparent(true);
+				cityTextField.setDisable(true);
 				cityTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenStreet = locationToFill.getStreet();
 				streetTextField.setText(chosenStreet);
-				streetTextField.setMouseTransparent(true);
+				streetTextField.setDisable(true);
 				streetTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenStreetNumber = locationToFill.getStreet_number().toString();
 				streetNumberTextField.setText(chosenStreetNumber);
-				streetNumberTextField.setMouseTransparent(true);
+				streetNumberTextField.setDisable(true);
 				streetNumberTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+				// image
+				imageFromDB = tourToFill.getImage();
+				if (imageFromDB != null) {
+					noSelectedImageLabel.setText("Selected image");
+				}
 
 			}
 
 		});
+
+		// zatial nic z toho
+		// chooseTourComboBox.getItems().addAll("Choose existing tour");
+		// chooseTourComboBox.getItems().addAll(FXCollections.observableArrayList(titles));
 
 	}
 
