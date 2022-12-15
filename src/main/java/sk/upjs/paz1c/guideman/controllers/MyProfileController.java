@@ -409,6 +409,7 @@ public class MyProfileController {
 		}
 	}
 
+	// https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview
 	public void centerImage() {
 		Image img = imageImageView.getImage();
 		if (img != null) {
