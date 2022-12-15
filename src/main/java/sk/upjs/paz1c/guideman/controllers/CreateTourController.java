@@ -434,33 +434,49 @@ public class CreateTourController {
 			}
 			System.out.println(tourToFill + " vybraty tour");
 			if (tourToFill != null) {
+				selectImageButton.setDisable(true);
+				
 				String chosenTitle = tourToFill.getTitle();
 				titleTextField.setText(chosenTitle);
-
+				titleTextField.setMouseTransparent(true);
+				titleTextField.setStyle("-fx-background-color: #f2f2f2;");
+				
 				String chosenBio = tourToFill.getBio();
 				if (!chosenBio.equals("No bio")) {
 					bioTextArea.setText(chosenBio);
 				} else {
 					bioTextArea.setText("");
 				}
+				bioTextArea.setMouseTransparent(true);
+				bioTextArea.lookup(".content").setStyle("-fx-background-color: #f2f2f2;");
+				bioTextArea.setStyle("-fx-background-color: #f2f2f2;");
 
-				System.out.println(tourToFill.getMaxSlots() + " TOUR MAX SLOTS");
 				String chosenMaxSlots = tourToFill.getMaxSlots().toString();
 				numberOfPeopleTextField.setText(chosenMaxSlots);
+				numberOfPeopleTextField.setMouseTransparent(true);
+				numberOfPeopleTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				Location locationToFill = locationDao.getById(tourToFill.getLocationId());
 
 				String chosenCountry = locationToFill.getCountry();
 				countryTextField.setText(chosenCountry);
+				countryTextField.setMouseTransparent(true);
+				countryTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenCity = locationToFill.getCity();
 				cityTextField.setText(chosenCity);
+				cityTextField.setMouseTransparent(true);
+				cityTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenStreet = locationToFill.getStreet();
 				streetTextField.setText(chosenStreet);
+				streetTextField.setMouseTransparent(true);
+				streetTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 				String chosenStreetNumber = locationToFill.getStreet_number().toString();
 				streetNumberTextField.setText(chosenStreetNumber);
+				streetNumberTextField.setMouseTransparent(true);
+				streetNumberTextField.setStyle("-fx-background-color: #f2f2f2;");
 
 			}
 

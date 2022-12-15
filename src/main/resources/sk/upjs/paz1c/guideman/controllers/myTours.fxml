@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
          <font>
@@ -44,7 +44,7 @@
             <Font size="16.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="toursWhereIAmGuidemanCheckBox" layoutX="511.0" layoutY="166.0" mnemonicParsing="false" onAction="#toursWhereIAmGuidemanChecked" prefHeight="35.0" prefWidth="239.0" text="Tours where I am a Guideman">
+      <CheckBox fx:id="toursWhereIAmGuidemanCheckBox" layoutX="511.0" layoutY="166.0" mnemonicParsing="false" onAction="#toursWhereIAmGuidemanChecked" prefHeight="35.0" prefWidth="248.0" text="Tours where I am a Guideman">
          <font>
             <Font size="16.0" />
          </font>
