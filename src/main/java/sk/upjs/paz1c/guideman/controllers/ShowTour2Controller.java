@@ -1,81 +1,108 @@
 package sk.upjs.paz1c.guideman.controllers;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.Event;
 import sk.upjs.paz1c.guideman.storage.Tour;
+import sk.upjs.paz1c.guideman.storage.User;
+import sk.upjs.paz1c.guideman.storage.UserDao;
 
 public class ShowTour2Controller {
 
-    @FXML
-    private Label bioLabel;
+	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
 
-    @FXML
-    private Button createTourButton;
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-    @FXML
-    private Label dateAndTimeFillLabel;
+	@FXML
+	private Label bioLabel;
 
-    @FXML
-    private Label dateAndTimeLabel;
+	@FXML
+	private Button createTourButton;
 
-    @FXML
-    private Label durationFillLabel;
+	@FXML
+	private Label dateAndTimeFillLabel;
 
-    @FXML
-    private Label durationLabel;
+	@FXML
+	private Label dateAndTimeLabel;
 
-    @FXML
-    private Label guidemanFillLabel;
+	@FXML
+	private Label durationFillLabel;
 
-    @FXML
-    private ImageView imageImageView;
+	@FXML
+	private Label durationLabel;
 
-    @FXML
-    private Button logOutButton;
+	@FXML
+	private Label guidemanFillLabel;
 
-    @FXML
-    private Button myProfileButton;
+	@FXML
+	private ImageView imageImageView;
 
-    @FXML
-    private Button myToursButton;
+	@FXML
+	private Button logOutButton;
 
-    @FXML
-    private Label numberOfFreePlacesFillLabel;
+	@FXML
+	private Button myProfileButton;
 
-    @FXML
-    private Label numberOfFreePlacesLabel;
+	@FXML
+	private Button myToursButton;
 
-    @FXML
-    private Label priceFillLabel;
+	@FXML
+	private Label numberOfFreePlacesFillLabel;
 
-    @FXML
-    private Label priceLabel;
+	@FXML
+	private Label numberOfFreePlacesLabel;
 
-    @FXML
-    private Label ratingFillLabel;
+	@FXML
+	private Label priceFillLabel;
 
-    @FXML
-    private Label ratingLabel;
+	@FXML
+	private Label priceLabel;
 
-    @FXML
-    private Button searchTourButton;
+	@FXML
+	private Label ratingFillLabel;
 
-    @FXML
-    private Button seeReviewsButton;
+	@FXML
+	private Label ratingLabel;
 
-    @FXML
-    private Label showTourLabel;
+	@FXML
+	private Button searchTourButton;
 
-    @FXML
-    private Label titleFillLabel;
+	@FXML
+	private Button seeReviewsButton;
 
-    @FXML
-    private Label titleLabel;
-    
-    @FXML
+	@FXML
+	private Label showTourLabel;
+
+	@FXML
+	private Label titleFillLabel;
+
+	@FXML
+	private Label titleLabel;
+
+	@FXML
+	private TextArea bioTextArea;
+
+	@FXML
 	void myProfileButtonAction(ActionEvent event) {
 		Menu.INSTANCE.openMyProfile(seeReviewsButton);
 	}
@@ -94,21 +121,105 @@ public class ShowTour2Controller {
 	void createTourButtonAction(ActionEvent event) {
 		Menu.INSTANCE.openCreateTour(seeReviewsButton);
 	}
-	
+
 	@FXML
 	void logOutButtonAction(ActionEvent event) {
 		Menu.INSTANCE.logOut(seeReviewsButton);
 	}
 
-    @FXML
-    void seeReviewsButtonAction(ActionEvent event) {
+	@FXML
+	void seeReviewsButtonAction(ActionEvent event) throws IOException {
+		ShowReviewsController controller = new ShowReviewsController();
+		showReviews(controller);
 
-    }
+	}
 
-    @FXML
-    void initialize() {
-      Tour loggedTour = ShowTour.INSTANCE.getLoggedTour();
+	void showReviews(ShowReviewsController controller) {
 
-    }
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("reviews.fxml"));
+			fxmlLoader.setController(controller);
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Reviews");
+			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void initialize() throws SQLException {
+
+		Tour loggedTour = ShowTour.INSTANCE.getLoggedTour();
+		Event loggedEvent = ShowTour.INSTANCE.getLoggedEvent();
+		titleFillLabel.setText(loggedTour.getTitle());
+		bioTextArea.setText(loggedTour.getBio());
+		bioTextArea.setDisable(true);
+		// bio text aby bolo vidno
+		// bioTextArea.set
+		// TODO
+		// numberOfFreePlacesFillLabel.setText(loggedTour.get());
+		LocalDateTime datetime = LocalDateTime.parse(loggedEvent.getDateOfTour().toString());
+		System.out.println(datetime.toString() + " datetime");
+		dateAndTimeFillLabel.setText(europeTimeZone(datetime));
+		durationFillLabel.setText(loggedEvent.getDuration().toString());
+		priceFillLabel.setText(String.valueOf(loggedEvent.getPrice()));
+		User guideman = userDao.getById(loggedTour.getGuidemanId());
+		guidemanFillLabel.setText(guideman.getName() + " " + guideman.getSurname());
+
+		Blob toursBlob = loggedTour.getImage();
+
+		if (toursBlob != null) {
+			InputStream in = toursBlob.getBinaryStream();
+			Image image = new Image(in);
+			imageImageView.setImage(image);
+			centerImage();
+		}
+
+	}
+
+	public String europeTimeZone(LocalDateTime datetime) {
+		String[] dateToArray = datetime.toString().split("-");
+		String year = dateToArray[0];
+		String month = dateToArray[1];
+		String excractMore = dateToArray[2];
+
+		String day = excractMore.substring(0, 2);
+
+		String time = excractMore.substring(3, 8);
+
+		return day + "." + month + "." + year + " " + time;
+	}
+
+	// https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview
+	public void centerImage() {
+		Image img = imageImageView.getImage();
+		if (img != null) {
+			double w = 0;
+			double h = 0;
+
+			double ratioX = imageImageView.getFitWidth() / img.getWidth();
+			double ratioY = imageImageView.getFitHeight() / img.getHeight();
+
+			double reducCoeff = 0;
+			if (ratioX >= ratioY) {
+				reducCoeff = ratioY;
+			} else {
+				reducCoeff = ratioX;
+			}
+
+			w = img.getWidth() * reducCoeff;
+			h = img.getHeight() * reducCoeff;
+
+			imageImageView.setX((imageImageView.getFitWidth() - w) / 2);
+			imageImageView.setY((imageImageView.getFitHeight() - h) / 2);
+
+		}
+	}
 
 }

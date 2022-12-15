@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
          <font>
@@ -41,7 +41,7 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Label fx:id="numberOfFreePlacesLabel" layoutX="89.0" layoutY="326.0" text="Number of free places :">
+      <Label fx:id="numberOfFreePlacesLabel" layoutX="89.0" layoutY="326.0" text="Number of free spaces :">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
