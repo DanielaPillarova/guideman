@@ -262,9 +262,11 @@ public class MyProfileController {
 		}
 
 		// porovnanie ci si nedal rovnaky obrazok dnu
-		int blobiskoL = (int) blobisko.length();
-		byte[] blobiskoAsBytes = blobisko.getBytes(1, blobiskoL);
-
+		byte[] blobiskoAsBytes = null;
+		if (blobisko != null) {
+			int blobiskoL = (int) blobisko.length();
+			blobiskoAsBytes = blobisko.getBytes(1, blobiskoL);
+		}
 		Blob zDB = loggedUser.getImage();
 		int zDBL = 0;
 		byte[] zDBLAsBytes = null;
@@ -409,6 +411,7 @@ public class MyProfileController {
 		}
 	}
 
+	// https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview
 	public void centerImage() {
 		Image img = imageImageView.getImage();
 		if (img != null) {

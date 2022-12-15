@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import sk.upjs.paz1c.guideman.storage.Tour;
 
 public class ShowTour2Controller {
 
@@ -106,7 +107,7 @@ public class ShowTour2Controller {
 
     @FXML
     void initialize() {
-       
+      Tour loggedTour = ShowTour.INSTANCE.getLoggedTour();
 
     }
 

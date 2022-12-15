@@ -289,6 +289,7 @@ public class SignupController {
 		}
 	}
 
+	// https://stackoverflow.com/questions/7080205/popup-message-boxes
 	public static void infoBox(String infoMessage, String headerText, String title) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setContentText(infoMessage);
