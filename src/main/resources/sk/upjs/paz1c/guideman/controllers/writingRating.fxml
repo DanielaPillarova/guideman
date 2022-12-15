@@ -9,45 +9,45 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="630.0" stylesheets="@reviews.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="pleaseRateLabel" layoutX="57.0" layoutY="69.0" text="Please, rate this tour :" textFill="#699a1e">
+      <Label layoutX="57.0" layoutY="69.0" text="Please, rate this tour :" textFill="#699a1e">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <RadioButton fx:id="zeroRadioButton" layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="0">
+      <RadioButton fx:id="zeroRadioButton" layoutX="65.0" layoutY="121.0" mnemonicParsing="false" onAction="#zeroRadioButtonAction" prefHeight="25.0" prefWidth="45.0" text="0">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="oneRadioButton" layoutX="139.0" layoutY="122.0" mnemonicParsing="false" text="1">
+      <RadioButton fx:id="oneRadioButton" layoutX="139.0" layoutY="122.0" mnemonicParsing="false" onAction="#oneRadioButtonAction" text="1">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="twoRadioButton" layoutX="212.0" layoutY="122.0" mnemonicParsing="false" text="2">
+      <RadioButton fx:id="twoRadioButton" layoutX="212.0" layoutY="122.0" mnemonicParsing="false" onAction="#twoRadioButtonAction" text="2">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="threeRadioButton" layoutX="287.0" layoutY="122.0" mnemonicParsing="false" text="3">
+      <RadioButton fx:id="threeRadioButton" layoutX="287.0" layoutY="122.0" mnemonicParsing="false" onAction="#threeRadioButtonAction" text="3">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="fourRadioButton" layoutX="364.0" layoutY="122.0" mnemonicParsing="false" text="4">
+      <RadioButton fx:id="fourRadioButton" layoutX="364.0" layoutY="122.0" mnemonicParsing="false" onAction="#fourRadioButtonAction" text="4">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="fiveRadioButton" layoutX="442.0" layoutY="122.0" mnemonicParsing="false" text="5">
+      <RadioButton fx:id="fiveRadioButton" layoutX="442.0" layoutY="122.0" mnemonicParsing="false" onAction="#fiveRadioButtonAction" text="5">
          <font>
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Label fx:id="pleaseReviewLabel" layoutX="56.0" layoutY="195.0" text="Let us know, how was your experience :" textFill="#699a1e">
+      <Label layoutX="56.0" layoutY="195.0" text="Let us know, how was your experience :" textFill="#699a1e">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Button fx:id="saveButton" layoutX="510.0" layoutY="378.0" mnemonicParsing="false" style="-fx-background-color: yellowgreen;" text="Save">
+      <Button fx:id="saveButton" layoutX="510.0" layoutY="378.0" mnemonicParsing="false" onAction="#saveButtonAction" style="-fx-background-color: yellowgreen;" text="Save">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>

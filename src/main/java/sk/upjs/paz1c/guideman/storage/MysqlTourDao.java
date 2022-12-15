@@ -25,6 +25,18 @@ public class MysqlTourDao implements TourDao {
 		return jdbcTemplate.query("SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour",
 				new TourRowMapper());
 	}
+	
+	// otestovat
+	@Override
+	public Tour getById(Long tourId) throws EntityNotFoundException{
+		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour "
+				+ "WHERE id = ?";
+		try {
+			return jdbcTemplate.queryForObject(sql, new TourRowMapper(), tourId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Tour with id " + tourId + " not found");
+		}
+	}
 
 	@Override
 	public List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException {
@@ -57,6 +69,7 @@ public class MysqlTourDao implements TourDao {
 			throw new EntityNotFoundException("Location with id " + id + " not found");
 		}
 	}
+	
 	
 	// otestovat
 	@Override

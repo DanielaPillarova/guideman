@@ -2,9 +2,9 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 
@@ -26,12 +26,6 @@ public class WritingRatingController {
     private RadioButton oneRadioButton;
 
     @FXML
-    private Label pleaseRateLabel;
-
-    @FXML
-    private Label pleaseReviewLabel;
-
-    @FXML
     private TextArea reviewTextArea;
 
     @FXML
@@ -45,10 +39,50 @@ public class WritingRatingController {
 
     @FXML
     private RadioButton zeroRadioButton;
+    
+    @FXML
+    void zeroRadioButtonAction(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void oneRadioButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void fiveRadioButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void fourRadioButtonAction(ActionEvent event) {
+
+    }
+
+    
+
+    @FXML
+    void saveButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void threeRadioButtonAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void twoRadioButtonAction(ActionEvent event) {
+
+    }
+
+   
 
     @FXML
     void initialize() {
-        
+       
     }
 
 }
+

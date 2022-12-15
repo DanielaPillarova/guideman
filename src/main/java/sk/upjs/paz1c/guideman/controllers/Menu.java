@@ -90,6 +90,8 @@ public enum Menu {
 		try {
             FXMLLoader fxmlLoader = new FXMLLoader(WelcomeController.class.getResource("logInSignUp.fxml"));
             LoggedUser.INSTANCE.setLoggedUser(null);
+            ShowTour.INSTANCE.setLoggedTour(null);
+            ShowTour.INSTANCE.setLoggedEvent(null);
             Stage stage = new Stage();
             fxmlLoader.setController(new WelcomeController());
             Scene scene = new Scene(fxmlLoader.load());

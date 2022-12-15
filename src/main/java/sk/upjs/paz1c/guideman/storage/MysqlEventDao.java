@@ -2,6 +2,7 @@ package sk.upjs.paz1c.guideman.storage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +99,31 @@ public class MysqlEventDao implements EventDao {
 			
 		});
 	}
+	
+	// otestovat
+	@Override
+	public Event getById(Long eventId) throws EntityNotFoundException {
+		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
+				+ " WHERE id = ?";
+		try {
+			return jdbcTemplate.queryForObject(sql, new EventRowMapper(), eventId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Event with id : " + eventId + " not found");
+		}
+	}
+	
+//	// otestovat
+//	@Override
+//	public Event getEventByDateOfTourAndPrice(LocalDateTime dateOfTour, Double price) throws EntityNotFoundException {
+//		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
+//				+ "WHERE date_of_tour = ? AND price = ? ";
+//		try {
+//			return jdbcTemplate.queryForObject(sql, new EventRowMapper(), dateOfTour, price);
+//		} catch (EmptyResultDataAccessException e) {
+//			throw new EntityNotFoundException("Event with : " + dateOfTour + " and price : " + price + " not found");
+//		}
+//		
+//	}
 	
 	// otestovat
 	@Override

@@ -24,4 +24,6 @@ public interface TourDao {
 
 	List<Tour> getAllLetsGoTours(Long userId) throws EntityNotFoundException;
 
+	Tour getById(Long tourId) throws EntityNotFoundException;
+
 }
