@@ -18,7 +18,7 @@ public class TourFxModel {
 	private Long id;
 	private StringProperty title = new SimpleStringProperty();
 	private StringProperty bio = new SimpleStringProperty();
-	private Integer maxSlots;
+	private Long maxSlots;
 	private Long locationId;
 	private Long guidemanId;
 	private Blob image;
@@ -77,7 +77,7 @@ public class TourFxModel {
 		this.bio.set(bio);
 	}
 
-	public Integer getMaxSlots() {
+	public Long getMaxSlots() {
 		return maxSlots;
 	}
 

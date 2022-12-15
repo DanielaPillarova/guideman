@@ -22,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -67,6 +68,7 @@ public class CreateTourController {
 
 	private TourFxModel tourModel;
 	private ObservableList<Tour> comboBoxModel;
+	private Tour tourToFill = null;
 
 	public CreateTourController() {
 		this.tourModel = new TourFxModel();
@@ -211,7 +213,7 @@ public class CreateTourController {
 			if (bio == "") {
 				bio = "No bio";
 			}
-			int maxPeople = Integer.parseInt(maxPeopleString);
+			Long maxPeople = (long) Integer.parseInt(maxPeopleString);
 			User user = userDao.getById(LoggedUser.INSTANCE.getLoggedUser().getId());
 			Tour tour = new Tour(title, bio, maxPeople, idLocation, user.getId(), blobisko);
 			savedTour = tourDao.save(tour);
@@ -230,6 +232,9 @@ public class CreateTourController {
 			savedEvent = eventDao.save(newEvent);
 			//
 			// infoBox("Tour has been successfuly created", null, "Congratulations");
+
+			System.out.println(tour);
+			System.out.println(tour.getMaxSlots() + " max sloty");
 			showAlert(Alert.AlertType.CONFIRMATION, owner, "Success", "Tour has been successfully created !");
 
 			// reset vsetkeho
@@ -416,6 +421,50 @@ public class CreateTourController {
 		}
 
 		chooseTourComboBox.setItems(FXCollections.observableArrayList(titles));
+		chooseTourComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+			tourToFill = null;
+
+			String chosen = chooseTourComboBox.getValue();
+			for (Tour tour : toursTemp) {
+				String tourString = tour.getTitle();
+
+				if (chosen == tourString) {
+					tourToFill = tour;
+				}
+			}
+			System.out.println(tourToFill + " vybraty tour");
+			if (tourToFill != null) {
+				String chosenTitle = tourToFill.getTitle();
+				titleTextField.setText(chosenTitle);
+
+				String chosenBio = tourToFill.getBio();
+				if (!chosenBio.equals("No bio")) {
+					bioTextArea.setText(chosenBio);
+				} else {
+					bioTextArea.setText("");
+				}
+
+				System.out.println(tourToFill.getMaxSlots() + " TOUR MAX SLOTS");
+				String chosenMaxSlots = tourToFill.getMaxSlots().toString();
+				numberOfPeopleTextField.setText(chosenMaxSlots);
+
+				Location locationToFill = locationDao.getById(tourToFill.getLocationId());
+
+				String chosenCountry = locationToFill.getCountry();
+				countryTextField.setText(chosenCountry);
+
+				String chosenCity = locationToFill.getCity();
+				cityTextField.setText(chosenCity);
+
+				String chosenStreet = locationToFill.getStreet();
+				streetTextField.setText(chosenStreet);
+
+				String chosenStreetNumber = locationToFill.getStreet_number().toString();
+				streetNumberTextField.setText(chosenStreetNumber);
+
+			}
+
+		});
 
 	}
 

@@ -26,7 +26,7 @@ public class MysqlTourDaoTest {
 		tour = new Tour();
 		tour.setTitle("Nejaky title");
 		tour.setBio("Nejake bio");
-		tour.setMaxSlots(20);
+		tour.setMaxSlots(20L);
 		tour.setLocationId(1L);
 		tour.setGuidemanId(1L);
 		tour.setImage(null);
@@ -81,13 +81,13 @@ public class MysqlTourDaoTest {
 		assertEquals(size, tourDao.getAll().size());
 		assertEquals(savedTour.getTitle(), newLocation.getTitle());
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50, null, 1L, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50L, null, 1L, null)),
 				"Location_id cannot be null");
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50, 1L, null, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", 50L, 1L, null, null)),
 				"Guideman (user_id) cannot be null");
 
-		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour(null, "bio", 50, 1L, 1L, null)),
+		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour(null, "bio", 50L, 1L, 1L, null)),
 				"Title cannot be null");
 
 		assertThrows(NullPointerException.class, () -> tourDao.save(new Tour("Title", "bio", null, 1L, 1L, null)),
@@ -97,13 +97,13 @@ public class MysqlTourDaoTest {
 
 	@Test
 	void updateTest() throws NullPointerException {
-		Tour updated = new Tour(savedTour.getId(), "Changed title", "bio", 2, 1L, 1L, null);
+		Tour updated = new Tour(savedTour.getId(), "Changed title", "bio", 2L, 1L, 1L, null);
 		int sizeUpdate = tourDao.getAll().size();
 		assertEquals(sizeUpdate, tourDao.getAll().size());
 		Tour fromDB = tourDao.getById(updated.getId());
 		assertEquals(updated.getId(), fromDB.getId());
 		assertThrows(EntityNotFoundException.class,
-				() -> tourDao.save(new Tour(-1L, "Changed title", "bio", 2, 1L, 1L, null)));
+				() -> tourDao.save(new Tour(-1L, "Changed title", "bio", 2L, 1L, 1L, null)));
 
 	}
 
@@ -112,7 +112,7 @@ public class MysqlTourDaoTest {
 		Tour tourToDelete = new Tour();
 		tourToDelete.setTitle("title");
 		tourToDelete.setBio("bio");
-		tourToDelete.setMaxSlots(3);
+		tourToDelete.setMaxSlots(3L);
 		tourToDelete.setLocationId(1L);
 		tourToDelete.setGuidemanId(2L);
 		tourToDelete.setImage(null);
