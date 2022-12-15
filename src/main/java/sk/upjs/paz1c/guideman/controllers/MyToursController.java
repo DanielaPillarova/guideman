@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import sk.upjs.paz1c.guideman.models.TourFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Event;
@@ -33,12 +35,8 @@ public class MyToursController {
 	private TourDao tourDao;
 	private EventDao eventDao;
 	private Long loggedUserId;
+	private Window owner;
 
-//	private TourFxModel model;
-//
-//	public MyToursController() {
-//		model = new TourFxModel();
-//	}
 
 	@FXML
 	void initialize() {
@@ -114,7 +112,13 @@ public class MyToursController {
 
 	@FXML
 	void addRatingOrReviewButtonAction(ActionEvent event) {
-		Event e1 = getEventFromListView();
+		Event e1 = new Event();
+		try {
+			e1 = getEventFromListView();
+		} catch (NullPointerException e2) {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
+			return;
+		}
 		ShowTour.INSTANCE.setLoggedEvent(e1);
 		System.out.println(e1);
 		
@@ -141,7 +145,8 @@ public class MyToursController {
 	}
 	
 	private Event getEventFromListView() {
-		String s = toursListView.getSelectionModel().getSelectedItem();
+		String s;
+			s = toursListView.getSelectionModel().getSelectedItem();
 		String[] temp1 = s.split(" ");
 		String eventIdString = temp1[temp1.length - 1];
 		Long eventIdLong = Long.parseLong(eventIdString);
@@ -150,7 +155,13 @@ public class MyToursController {
 
 	@FXML
 	void showTourButtonAction(ActionEvent event) {
-		Event e1 = getEventFromListView();
+		Event e1 = new Event();
+		try {
+			e1 = getEventFromListView();
+		} catch (NullPointerException e2) {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
+			return;
+		}
 		Tour t1 = tourDao.getById(e1.getTourId());
 		ShowTour.INSTANCE.setLoggedEvent(e1);
 		ShowTour.INSTANCE.setLoggedTour(t1);
@@ -269,6 +280,15 @@ public class MyToursController {
 			futureToursCheckBox.setMouseTransparent(false);
 			allIsNotSelected();
 		}
+	}
+	
+	private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initOwner(owner);
+		alert.show();
 	}
 
 }
