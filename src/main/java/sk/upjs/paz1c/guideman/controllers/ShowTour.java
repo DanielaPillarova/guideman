@@ -10,7 +10,7 @@ public enum ShowTour {
     private Tour loggedTour;
     private Event loggedEvent;
 
-    public Tour getLoggedUser() {
+    public Tour getLoggedTour() {
         return loggedTour;
     }
     
