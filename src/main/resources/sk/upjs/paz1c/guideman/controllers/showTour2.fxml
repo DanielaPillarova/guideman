@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Button>
+      <Button fx:id="myToursButton" layoutX="225.0" mnemonicParsing="false" onAction="#myToursButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Tours">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Button>
+      <Button fx:id="searchTourButton" layoutX="450.0" mnemonicParsing="false" onAction="#searchTourButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="Search Tour">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Button>
+      <Button fx:id="createTourButton" layoutX="675.0" mnemonicParsing="false" onAction="#createTourButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="Create Tour">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Button>
+      <Button fx:id="logOutButton" layoutX="768.0" layoutY="581.0" mnemonicParsing="false" onAction="#logOutButtonAction" style="-fx-background-color: yellowgreen;" text="Log out">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Button>
+      <Label fx:id="showTourLabel" layoutX="80.0" layoutY="110.0" text="Show tour" textFill="#699a1e">
+         <font>
+            <Font name="Helvetica" size="40.0" />
+         </font></Label>
+      <Label fx:id="titleLabel" layoutX="81.0" layoutY="178.0" text="Title :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="bioLabel" layoutX="82.0" layoutY="218.0" text="Bio :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="numberOfFreePlacesLabel" layoutX="89.0" layoutY="326.0" text="Number of free places :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="dateAndTimeLabel" layoutX="89.0" layoutY="369.0" text="Date and time :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="durationLabel" layoutX="90.0" layoutY="413.0" text="Duration :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="priceLabel" layoutX="92.0" layoutY="455.0" text="Price :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="titleFillLabel" layoutX="163.0" layoutY="172.0" prefHeight="36.0" prefWidth="403.0" text="*title*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="numberOfFreePlacesFillLabel" layoutX="318.0" layoutY="321.0" prefHeight="34.0" prefWidth="88.0" text="*num*" textFill="#eb3939">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="dateAndTimeFillLabel" layoutX="248.0" layoutY="362.0" prefHeight="36.0" prefWidth="297.0" text="*date and time*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="durationFillLabel" layoutX="199.0" layoutY="407.0" prefHeight="34.0" prefWidth="190.0" text="*duration*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="priceFillLabel" layoutX="170.0" layoutY="450.0" prefHeight="34.0" prefWidth="120.0" text="*price*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <ImageView fx:id="imageImageView" fitHeight="183.0" fitWidth="264.0" layoutX="596.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="ratingLabel" layoutX="640.0" layoutY="443.0" text="Rating :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Label fx:id="ratingFillLabel" layoutX="739.0" layoutY="439.0" prefHeight="36.0" prefWidth="97.0" text="*rating*" textFill="#699a1e">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font></Label>
+      <Button fx:id="seeReviewsButton" layoutX="656.0" layoutY="486.0" mnemonicParsing="false" onAction="#seeReviewsButtonAction" style="-fx-background-color: khaki;" text="See reviews">
+         <font>
+            <Font name="Helvetica" size="18.0" />
+         </font></Button>
+      <TextArea layoutX="151.0" layoutY="219.0" prefHeight="87.0" prefWidth="389.0" promptText="More information about the tour.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="89.0" layoutY="499.0" text="Guideman :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="guidemanFillLabel" layoutX="209.0" layoutY="499.0" prefHeight="25.0" prefWidth="253.0" text="*name and surname*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
