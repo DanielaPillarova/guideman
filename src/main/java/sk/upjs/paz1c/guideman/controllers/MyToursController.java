@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,7 +38,6 @@ public class MyToursController {
 	private Long loggedUserId;
 	private Window owner;
 
-
 	@FXML
 	void initialize() {
 		tourDao = DaoFactory.INSTANCE.getTourDao();
@@ -53,7 +53,7 @@ public class MyToursController {
 	private Button createTourButton;
 
 	@FXML
-	private Button deleteTourButton;
+	private Button signOffOfTourButton;
 
 	@FXML
 	private CheckBox futureToursCheckBox;
@@ -84,7 +84,7 @@ public class MyToursController {
 
 	@FXML
 	private CheckBox toursWhereIAmGuidemanCheckBox;
-	
+
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {
 		Menu.INSTANCE.openMyProfile(addRatingOrReviewButton);
@@ -115,13 +115,13 @@ public class MyToursController {
 		Event e1 = new Event();
 		try {
 			e1 = getEventFromListView();
-		} catch (NullPointerException e2) {
+		} catch (NullPointerException ex) {
 			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
 			return;
 		}
 		ShowTour.INSTANCE.setLoggedEvent(e1);
-		System.out.println(e1);
-		
+//		System.out.println(e1);
+
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("writingRating.fxml"));
 			fxmlLoader.setController(new WritingRatingController());
@@ -140,13 +140,33 @@ public class MyToursController {
 	}
 
 	@FXML
-	void deleteTourButtonAction(ActionEvent event) {
+	void signOffOfTourButtonAction(ActionEvent event) {
+		Event e1 = new Event();
+		try {
+			e1 = getEventFromListView();
+		} catch (NullPointerException ex) {
+			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
+			return;
+		}
+//		ShowTour.INSTANCE.setLoggedEvent(e1);
+//		System.out.println(e1);
+//		showAlert(Alert.AlertType.INFORMATION, owner, "Question!", "Are you sure  !");
+		if (eventDao.deleteFromUHE(e1.getId())) {
+			showAlert(Alert.AlertType.INFORMATION, owner, "Success!", "You have been signed off !");
+			int idx = toursListView.getSelectionModel().getSelectedIndex();
+			toursListView.getItems().remove(idx);
+		} else {
+			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Tour has been not been deleted !");
+
+		}
+		
+		
 
 	}
-	
+
 	private Event getEventFromListView() {
 		String s;
-			s = toursListView.getSelectionModel().getSelectedItem();
+		s = toursListView.getSelectionModel().getSelectedItem();
 		String[] temp1 = s.split(" ");
 		String eventIdString = temp1[temp1.length - 1];
 		Long eventIdLong = Long.parseLong(eventIdString);
@@ -158,15 +178,15 @@ public class MyToursController {
 		Event e1 = new Event();
 		try {
 			e1 = getEventFromListView();
-		} catch (NullPointerException e2) {
+		} catch (NullPointerException ex) {
 			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
 			return;
 		}
 		Tour t1 = tourDao.getById(e1.getTourId());
 		ShowTour.INSTANCE.setLoggedEvent(e1);
 		ShowTour.INSTANCE.setLoggedTour(t1);
-		System.out.println(t1);
-		System.out.println(e1);
+//		System.out.println(t1);
+//		System.out.println(e1);
 
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(ShowTourController.class.getResource("showTour2.fxml"));
@@ -194,8 +214,8 @@ public class MyToursController {
 		sbDate.append(date[1]);
 		sbDate.append(".");
 		sbDate.append(date[0]);
-		return "Title : " + t.getTitle() + ",  date of tour : " + sbDate + ",  time of tour : " + time + ",  price : "
-				+ e.getPrice() + ",  event id : " + e.getId();
+		return "Title : " + t.getTitle() + ",        date of tour : " + sbDate + ",        time of tour : " + time
+				+ ",        price : " + e.getPrice() + ",        event id : " + e.getId();
 	}
 
 	private void showTours(List<Tour> tours, List<Event> events) {
@@ -270,6 +290,7 @@ public class MyToursController {
 			addRatingOrReviewButton.setDisable(true);
 			pastToursCheckBox.setMouseTransparent(true);
 			futureToursCheckBox.setMouseTransparent(true);
+			signOffOfTourButton.setDisable(true);
 			List<Tour> tours = tourDao.getAllToursWhereIAmGuideman(loggedUserId);
 			List<Event> events = eventDao.getAllEventsWhereIAmGuideman(loggedUserId);
 			showTours(tours, events);
@@ -278,10 +299,11 @@ public class MyToursController {
 			addRatingOrReviewButton.setDisable(false);
 			pastToursCheckBox.setMouseTransparent(false);
 			futureToursCheckBox.setMouseTransparent(false);
+			signOffOfTourButton.setDisable(false);
 			allIsNotSelected();
 		}
 	}
-	
+
 	private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
 		Alert alert = new Alert(alertType);
 		alert.setTitle(title);

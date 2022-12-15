@@ -43,19 +43,24 @@
             <Font size="18.0" />
          </font>
       </RadioButton>
-      <Label layoutX="56.0" layoutY="195.0" text="Let us know, how was your experience :" textFill="#699a1e">
+      <Label layoutX="56.0" layoutY="226.0" text="Let us know, how was your experience :" textFill="#699a1e">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Button fx:id="saveButton" layoutX="510.0" layoutY="378.0" mnemonicParsing="false" onAction="#saveButtonAction" style="-fx-background-color: yellowgreen;" text="Save">
+      <Button fx:id="saveReviewButton" layoutX="442.0" layoutY="376.0" mnemonicParsing="false" onAction="#saveReviewButtonAction" style="-fx-background-color: yellowgreen;" text="Save review">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>
       <Label layoutX="279.0" layoutY="73.0" text="(5 means the best)" />
-      <TextArea fx:id="reviewTextArea" layoutX="53.0" layoutY="234.0" prefHeight="120.0" prefWidth="526.0" promptText="click and write">
+      <TextArea fx:id="reviewTextArea" layoutX="53.0" layoutY="265.0" prefHeight="89.0" prefWidth="526.0" promptText="click and write">
          <font>
             <Font size="18.0" />
          </font>
       </TextArea>
+      <Button fx:id="saveRatingButton" layoutX="450.0" layoutY="176.0" mnemonicParsing="false" onAction="#saveRatingButtonAction" style="-fx-background-color: yellowgreen;" text="Save rating">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

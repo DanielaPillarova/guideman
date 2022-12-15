@@ -2,7 +2,6 @@ package sk.upjs.paz1c.guideman.storage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,15 +19,50 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 public class MysqlEventDao implements EventDao {
 
 	private JdbcTemplate jdbcTemplate;
-	
+
 	public MysqlEventDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+	// otestovat
+	@Override
+	public List<Integer> getRating(Long userId, Long eventId) {
+		String sql = "SELECT rating FROM user_has_event " + "WHERE user_id = " + userId + " AND event_id = " + eventId;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Integer>>() {
+
+			@Override
+			public List<Integer> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Integer> rating = new ArrayList<>();
+				
+				while (rs.next()) {
+					rating.add(rs.getInt("rating"));
+				}
+				return rating;
+			}
+
+		});
+	}
 	
+	// otestovat
+	@Override
+	public List<String> getReview(Long userId, Long eventId) {
+		String sql = "SELECT review FROM user_has_event " + "WHERE user_id = " + userId + " AND event_id = " + eventId;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
+
+			@Override
+			public List<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<String> review = new ArrayList<>();
+				while (rs.next()) {
+					review.add(rs.getString("review"));
+				}
+				return review;
+			}
+		});
+	}
+
 	@Override
 	public List<Integer> getRatings(Long eventId) {
-		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + eventId
-				+ " AND rating IS NOT NULL";
+		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + eventId + " AND rating IS NOT NULL";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Integer>>() {
 
 			@Override
@@ -44,11 +78,10 @@ public class MysqlEventDao implements EventDao {
 			}
 		});
 	}
-	
+
 	@Override
 	public List<String> getReviews(Long eventId) {
-		String sql = "SELECT review FROM user_has_event WHERE event_id = " + eventId
-				+ " AND review IS NOT NULL";
+		String sql = "SELECT review FROM user_has_event WHERE event_id = " + eventId + " AND review IS NOT NULL";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
 
 			@Override
@@ -56,27 +89,26 @@ public class MysqlEventDao implements EventDao {
 				List<String> reviews = new ArrayList<>();
 				while (rs.next()) {
 					String rev = rs.getString("review");
-						reviews.add(rev);
+					reviews.add(rev);
 				}
 				return reviews;
 			}
 		});
 	}
-	
+
 	@Override
 	public List<Event> getAllByTour(Long tourId) {
 		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
-				+ "LEFT JOIN user_has_event uhe ON event.id = uhe.event_id "
-				+ "WHERE tour_id = " + tourId;
-		
+				+ "LEFT JOIN user_has_event uhe ON event.id = uhe.event_id " + "WHERE tour_id = " + tourId;
+
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Event>>() {
 
 			@Override
 			public List<Event> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<Event> events = new ArrayList<>();
-				
+
 				Event lastEvent = null;
-				while(rs.next()) {
+				while (rs.next()) {
 					long id = rs.getLong("id");
 					if (lastEvent == null || lastEvent.getId() != id) {
 						lastEvent = new Event();
@@ -96,92 +128,70 @@ public class MysqlEventDao implements EventDao {
 				}
 				return events;
 			}
-			
+
 		});
 	}
-	
+
 	// otestovat
 	@Override
 	public Event getById(Long eventId) throws EntityNotFoundException {
-		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
-				+ " WHERE id = ?";
+		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event " + " WHERE id = ?";
 		try {
 			return jdbcTemplate.queryForObject(sql, new EventRowMapper(), eventId);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException("Event with id : " + eventId + " not found");
 		}
 	}
-	
-//	// otestovat
-//	@Override
-//	public Event getEventByDateOfTourAndPrice(LocalDateTime dateOfTour, Double price) throws EntityNotFoundException {
-//		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
-//				+ "WHERE date_of_tour = ? AND price = ? ";
-//		try {
-//			return jdbcTemplate.queryForObject(sql, new EventRowMapper(), dateOfTour, price);
-//		} catch (EmptyResultDataAccessException e) {
-//			throw new EntityNotFoundException("Event with : " + dateOfTour + " and price : " + price + " not found");
-//		}
-//		
-//	}
-	
+
+
 	// otestovat
 	@Override
-	public List<Event> getAllLetsGoEvents(Long userId) throws EntityNotFoundException{
+	public List<Event> getAllLetsGoEvents(Long userId) throws EntityNotFoundException {
 		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
-				+ "JOIN tour t ON e.tour_id = t.id "
-				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
-				+ "WHERE uhe.user_id = " + userId
-				+ " ORDER BY e.tour_id";
+				+ "JOIN tour t ON e.tour_id = t.id " + "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " ORDER BY e.tour_id";
 		try {
 			return jdbcTemplate.query(sql, new EventRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException("User with id " + userId + " not found");
 		}
 	}
-	
+
 	@Override
-	public List<Event> getAllEventsFromPast(Long userId) throws EntityNotFoundException{
+	public List<Event> getAllEventsFromPast(Long userId) throws EntityNotFoundException {
 		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
-				+ "JOIN tour t ON e.tour_id = t.id "
-				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
-				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour < CURRENT_DATE() "
-				+ "ORDER BY e.tour_id";
+				+ "JOIN tour t ON e.tour_id = t.id " + "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour < CURRENT_DATE() " + "ORDER BY e.tour_id";
 		try {
 			return jdbcTemplate.query(sql, new EventRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException("User with id " + userId + " not found");
 		}
 	}
-	
+
 	@Override
-	public List<Event> getAllEventsFromFuture(Long userId) throws EntityNotFoundException{
+	public List<Event> getAllEventsFromFuture(Long userId) throws EntityNotFoundException {
 		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
-				+ "JOIN tour t ON e.tour_id = t.id "
-				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
-				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour > CURRENT_DATE() "
-				+ "ORDER BY e.tour_id";
+				+ "JOIN tour t ON e.tour_id = t.id " + "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour > CURRENT_DATE() " + "ORDER BY e.tour_id";
 		try {
 			return jdbcTemplate.query(sql, new EventRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException("User with id " + userId + " not found");
 		}
 	}
-	
+
 	@Override
-	public List<Event> getAllEventsWhereIAmGuideman(Long userId) throws EntityNotFoundException{
+	public List<Event> getAllEventsWhereIAmGuideman(Long userId) throws EntityNotFoundException {
 		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM tour t "
-				+ "JOIN event e ON e.tour_id = t.id "
-				+ "WHERE t.user_id = " + userId
-				+ " ORDER BY e.tour_id;";
+				+ "JOIN event e ON e.tour_id = t.id " + "WHERE t.user_id = " + userId + " ORDER BY e.tour_id;";
 		try {
 			return jdbcTemplate.query(sql, new EventRowMapper());
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException("User with id " + userId + " not found");
 		}
 	}
-	
-	
+
 	@Override
 	public Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException {
 		if (event == null) {
@@ -202,29 +212,30 @@ public class MysqlEventDao implements EventDao {
 		if (event.getTourId() == null) {
 			throw new NullPointerException("Cannot save event without a tour");
 		}
-		
+
 		if (event.getId() == null) { // INSERT
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("event");
 			simpleJdbcInsert.usingColumns("date_of_tour", "duration", "price", "tour_id");
 			simpleJdbcInsert.usingGeneratedKeyColumns("id");
-			
+
 			Map<String, Object> values = new HashMap<>();
 			values.put("date_of_tour", event.getDateOfTour());
 			values.put("duration", event.getDuration());
 			values.put("price", event.getPrice());
 			values.put("tour_id", event.getTourId());
-			
+
 			long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
-			Event event2 = new Event(id, event.getDateOfTour(), event.getDuration(), event.getPrice(), event.getTourId());
-			
+			Event event2 = new Event(id, event.getDateOfTour(), event.getDuration(), event.getPrice(),
+					event.getTourId());
+
 			saveTourists(event2);
 			return event2;
-			
+
 		} else { // UPDATE
 			String sql = "UPDATE event SET date_of_tour=?, duration=?, price=?, tour_id=? " + "WHERE id=?";
-			int changed = jdbcTemplate.update(sql, event.getDateOfTour(), event.getDuration(), 
-					event.getPrice(), event.getTourId(), event.getId());
+			int changed = jdbcTemplate.update(sql, event.getDateOfTour(), event.getDuration(), event.getPrice(),
+					event.getTourId(), event.getId());
 			if (changed == 1) {
 				String sqlDelete = "DELETE FROM user_has_event " + "WHERE event_id= " + event.getId();
 				jdbcTemplate.update(sqlDelete);
@@ -233,10 +244,10 @@ public class MysqlEventDao implements EventDao {
 			} else {
 				throw new NoSuchElementException("No event with id " + event.getId() + " in DB");
 			}
-			
+
 		}
 	}
-	
+
 	private void saveTourists(Event event) {
 //		if (event.getTourists().isEmpty()) {
 //			return;
@@ -258,22 +269,36 @@ public class MysqlEventDao implements EventDao {
 		jdbcTemplate.update(sql);
 	}
 	
+	//otestovat
 	@Override
-	public boolean delete(Long eventId) throws EntityNotFoundException {
+	public boolean deleteFromUHE(Long eventId) throws EntityNotFoundException {
 		String sqlUhe = "DELETE FROM user_has_event uhe WHERE uhe.event_id = " + eventId;
-		String sqlE = "DELETE FROM event WHERE event.id = " + eventId;
-
 		int changedUhe;
-		int changedE;
 		try {
 			changedUhe = jdbcTemplate.update(sqlUhe);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntityNotFoundException("Event with id: " + eventId + " not found in DB");
+		}
+		return (changedUhe == 1);
+
+	}
+
+	@Override
+	public boolean delete(Long eventId) throws EntityNotFoundException {
+//		String sqlUhe = "DELETE FROM user_has_event uhe WHERE uhe.event_id = " + eventId;
+		String sqlE = "DELETE FROM event WHERE event.id = " + eventId;
+
+//		int changedUhe;
+		int changedE;
+		try {
+//			changedUhe = jdbcTemplate.update(sqlUhe);
 			changedE = jdbcTemplate.update(sqlE);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityNotFoundException("Event with id: " + eventId + " not found in DB");
 		}
-		return (changedUhe == 1 && changedE == 1);
+		return (changedE == 1);
 	}
-	
+
 	private class EventRowMapper implements RowMapper<Event> {
 
 		@Override
@@ -287,6 +312,5 @@ public class MysqlEventDao implements EventDao {
 			return event;
 		}
 	}
-	
-	
+
 }

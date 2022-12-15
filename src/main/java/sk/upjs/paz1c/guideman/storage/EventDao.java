@@ -5,6 +5,10 @@ import java.util.NoSuchElementException;
 
 public interface EventDao {
 
+	List<Integer> getRating(Long userId, Long eventId);
+	
+	List<String> getReview(Long userId, Long eventId);
+	
 	List<Integer> getRatings(Long eventId);
 
 	List<String> getReviews(Long eventId);
@@ -24,5 +28,11 @@ public interface EventDao {
 	List<Event> getAllLetsGoEvents(Long userId) throws EntityNotFoundException;
 
 	Event getById(Long eventId) throws EntityNotFoundException;
+
+	boolean deleteFromUHE(Long eventId) throws EntityNotFoundException;
+
+	
+
+	
 
 }
