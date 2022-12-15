@@ -211,6 +211,7 @@ public class MysqlTourDao implements TourDao {
 			tour.setId(rs.getLong("id"));
 			tour.setTitle(rs.getString("title"));
 			tour.setBio(rs.getString("bio"));
+			tour.setMaxSlots(rs.getLong("max_slots"));
 			tour.setLocationId(rs.getLong("location_id"));
 			tour.setGuidemanId(rs.getLong("user_id"));
 			tour.setImage(rs.getBlob("image"));

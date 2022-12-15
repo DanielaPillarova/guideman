@@ -7,7 +7,7 @@ public class Tour {
 	private Long id;
 	private String title;
 	private String bio;
-	private Integer maxSlots;
+	private Long maxSlots;
 	private Long locationId;
 	private Long guidemanId;
 	private Blob image;
@@ -16,7 +16,7 @@ public class Tour {
 
 	}
 
-	public Tour(Long id, String title, String bio, Integer maxSlots, Long location, Long guideman, Blob image) {
+	public Tour(Long id, String title, String bio, Long maxSlots, Long location, Long guideman, Blob image) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
@@ -26,7 +26,7 @@ public class Tour {
 		this.image = image;
 	}
 
-	public Tour(String title, String bio, Integer maxSlots, Long locationId, Long guidemanId, Blob image) {
+	public Tour(String title, String bio, Long maxSlots, Long locationId, Long guidemanId, Blob image) {
 		this.title = title;
 		this.bio = bio;
 		this.maxSlots = maxSlots;
@@ -35,7 +35,7 @@ public class Tour {
 		this.image = image;
 	}
 
-	public Tour(Long id, String title, String bio, Integer maxSlots, Long locationId, Long guidemanId) {
+	public Tour(Long id, String title, String bio, Long maxSlots, Long locationId, Long guidemanId) {
 		this.id = id;
 		this.title = title;
 		this.bio = bio;
@@ -44,7 +44,7 @@ public class Tour {
 		this.guidemanId = guidemanId;
 	}
 
-	public Tour(Long id, String title, Integer maxSlots, Long locationId, Long guidemanId) {
+	public Tour(Long id, String title, Long maxSlots, Long locationId, Long guidemanId) {
 		this.id = id;
 		this.title = title;
 		this.maxSlots = maxSlots;
@@ -52,7 +52,7 @@ public class Tour {
 		this.guidemanId = guidemanId;
 	}
 
-	public Tour(Long id, String title, Integer maxSlots) {
+	public Tour(Long id, String title, Long maxSlots) {
 		this.id = id;
 		this.title = title;
 		this.maxSlots = maxSlots;
@@ -82,11 +82,11 @@ public class Tour {
 		this.bio = bio;
 	}
 
-	public Integer getMaxSlots() {
+	public Long getMaxSlots() {
 		return maxSlots;
 	}
 
-	public void setMaxSlots(Integer maxSlots) {
+	public void setMaxSlots(Long maxSlots) {
 		this.maxSlots = maxSlots;
 	}
 
