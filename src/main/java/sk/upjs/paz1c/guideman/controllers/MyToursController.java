@@ -25,9 +25,16 @@ public class MyToursController {
 	private TourDao tourDao;
 	private EventDao eventDao;
 	private Long loggedUserId;
-	private List<String> displayedTours;
-	
+//	private List<String> displayedTours;
+
+//	private boolean allIsSelected = false;
+//	private boolean allIsNotSelected = true;
+
 	private TourFxModel model;
+
+	public MyToursController() {
+		model = new TourFxModel();
+	}
 
 	@FXML
 	private Button addRatingOrReviewButton;
@@ -108,21 +115,51 @@ public class MyToursController {
 		Menu.INSTANCE.logOut(addRatingOrReviewButton);
 	}
 
-	private void showToursAtBeginning() {
-		List<String> allToursInListView = new ArrayList<>();
-		List<Tour> allTours = tourDao.getAllLetsGoTours(loggedUserId);
-		List<Event> allEvents = eventDao.getAllLetsGoEvents(loggedUserId);
+	private void showTours(List<Tour> tours, List<Event> events) {
+		toursListView.setMouseTransparent(false);
+
+		List<String> allTours = new ArrayList<>();
 		int idx = 0;
-		while (idx < allEvents.size()) {
-			String s = parseDateAndTime(allTours.get(idx), allEvents.get(idx), allEvents.get(idx).getDateOfTour());
-			allToursInListView.add(s);
+		while (idx < events.size()) {
+			String s = parseDateAndTime(tours.get(idx), events.get(idx), events.get(idx).getDateOfTour());
+			allTours.add(s);
 			System.out.println(s);
 			idx++;
 		}
-		toursListView.setItems(FXCollections.observableArrayList(allToursInListView));
+		if (allTours.size() == 0) {
+			allTours.add("No tours found");
+			toursListView.setMouseTransparent(true);
+		}
+		toursListView.setItems(FXCollections.observableArrayList(allTours));
+
+//		if (allTours.size() != 0) {
+//			if (displayedTours.size() == allTours.size()) {
+//				boolean areTheSame = true;
+//				int idx2 = 0;
+//				while (idx2 < allTours.size()) {
+//					if (!displayedTours.get(idx2).equals(allTours.get(idx2))) {
+//						areTheSame = false;
+//						break;
+//					}
+//					idx2++;
+//				}
+//				if (areTheSame == false) {
+//					displayedTours.addAll(allTours);
+//
+//				} 
+//				
+//			}
+//			
+//			if (displayedTours.size() == 0 || displayedTours.get(0).equals("No tours found")) {
+//				displayedTours = new ArrayList<>();
+//				displayedTours.addAll(allTours);
+//			}
+//			
+//		} 
+//		
+//		toursListView.setItems(FXCollections.observableArrayList(displayedTours));
+
 	}
-	
-	
 
 	private String parseDateAndTime(Tour t, Event e, LocalDateTime localDateTime) {
 		String[] dt = localDateTime.toString().split("T");
@@ -138,106 +175,99 @@ public class MyToursController {
 				+ ",          price : " + e.getPrice();
 	}
 
-	private void showToursAfterCheck(List<Tour> tours, List<Event> events, List<String> displayedTours,
-			CheckBox checkBox) {
-		List<String> allTours = new ArrayList<>();
-		if (checkBox.isSelected()) {
-			System.out.println("selecteeeeeddd");
-//			System.out.println(tours.toString());
-//			System.out.println(events.toString());
-			int idx = 0;
-			while (idx < events.size()) {
-				String s = parseDateAndTime(tours.get(idx), events.get(idx), events.get(idx).getDateOfTour());
-				allTours.add(s);
-				System.out.println(s);
-				idx++;
-			}
-			if (allTours.size() == 0) {
-				if (displayedTours.size() == 0) {
-					displayedTours.add("No tours found");
-					toursListView.setItems(FXCollections.observableArrayList(displayedTours));
-					toursListView.setMouseTransparent(true);
-				}
-			} else {
-				toursListView.setMouseTransparent(false);
-			}
+	private boolean allIsNotSelected() {
+		if (!pastToursCheckBox.isSelected() && !futureToursCheckBox.isSelected()
+				&& !toursWhereIAmGuidemanCheckBox.isSelected()) {
+			List<Tour> tours = tourDao.getAllLetsGoTours(loggedUserId);
+			List<Event> events = eventDao.getAllLetsGoEvents(loggedUserId);
+			showTours(tours, events);
+			return true;
 		}
-
+		return false;
 	}
+
+//	private boolean allIsSelected() {
+//		if (pastToursCheckBox.isSelected() && futureToursCheckBox.isSelected()
+//				&& toursWhereIAmGuidemanCheckBox.isSelected()) {
+//			List<Tour> tours = tourDao.getAllLetsGoTours(loggedUserId);
+//			List<Event> events = eventDao.getAllLetsGoEvents(loggedUserId);
+//			tours.addAll(tourDao.getAllToursWhereIAmGuideman(loggedUserId));
+//			events.addAll(eventDao.getAllEventsWhereIAmGuideman(loggedUserId));
+//			showTours(tours, events);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	// TODO poriesit ked su zakliknute 2 a 3 a aj ked sa odklikne jedno alebo vsetky
 
 	@FXML
 	void pastToursChecked(ActionEvent event) {
-		List<Tour> tours = tourDao.getAllToursFromPast(loggedUserId);
-		List<Event> events = eventDao.getAllEventsFromPast(loggedUserId);
-		showToursAfterCheck(tours, events, displayedTours, pastToursCheckBox);
+		if (pastToursCheckBox.isSelected() == true) {
 
-//		if (pastToursCheckBox.isSelected()) {
-//			System.out.println("selecteeeeeddd");
-//			List<String> allToursInListView = new ArrayList<>();
-//			List<Tour> tours = tourDao.getAllToursFromPast(loggedUserId);
-//			List<Event> events = eventDao.getAllEventsFromPast(loggedUserId);
-//			System.out.println(tours.toString());
-//			System.out.println(events.toString());
-//			int idx = 0;
-//			while (idx < events.size()) {
-//				String s = parseDateAndTime(tours.get(idx), events.get(idx), events.get(idx).getDateOfTour());
-//				allToursInListView.add(s);
-//				System.out.println(s);
-//				idx++;
-//			}
-//			if (allToursInListView.size() == 0) {
-//				allToursInListView.add("No past tours");
-//				toursListView.setMouseTransparent(true);
-//			}
-//			toursListView.setItems(FXCollections.observableArrayList(allToursInListView));
-//
-//			// TODO ked nema ziadne past
-//		}
+			futureToursCheckBox.setMouseTransparent(true);
+			toursWhereIAmGuidemanCheckBox.setMouseTransparent(true);
+
+			List<Tour> tours = tourDao.getAllToursFromPast(loggedUserId);
+			List<Event> events = eventDao.getAllEventsFromPast(loggedUserId);
+			showTours(tours, events);
+
+		}
+		if (pastToursCheckBox.isSelected() == false) {
+			futureToursCheckBox.setMouseTransparent(false);
+			toursWhereIAmGuidemanCheckBox.setMouseTransparent(false);
+			allIsNotSelected();
+		}
+
 	}
 
 	@FXML
 	void futureToursChecked(ActionEvent event) {
-		List<Tour> tours = tourDao.getAllToursFromFuture(loggedUserId);
-		List<Event> events = eventDao.getAllEventsFromFuture(loggedUserId);
-		showToursAfterCheck(tours, events, displayedTours, futureToursCheckBox);
+		if (futureToursCheckBox.isSelected() == true) {
+
+			pastToursCheckBox.setMouseTransparent(true);
+			toursWhereIAmGuidemanCheckBox.setMouseTransparent(true);
+
+			List<Tour> tours = tourDao.getAllToursFromFuture(loggedUserId);
+			List<Event> events = eventDao.getAllEventsFromFuture(loggedUserId);
+			showTours(tours, events);
+
+		}
+		if (futureToursCheckBox.isSelected() == false) {
+			pastToursCheckBox.setMouseTransparent(false);
+			toursWhereIAmGuidemanCheckBox.setMouseTransparent(false);
+			allIsNotSelected();
+		}
+
 	}
 
 	@FXML
 	void toursWhereIAmGuidemanChecked(ActionEvent event) {
-		List<Tour> tours = tourDao.getAllToursWhereIAmGuideman(loggedUserId);
-		List<Event> events = eventDao.getAllEventsWhereIAmGuideman(loggedUserId);
-		showToursAfterCheck(tours, events, displayedTours, toursWhereIAmGuidemanCheckBox);
+		if (toursWhereIAmGuidemanCheckBox.isSelected() == true) {
+
+			pastToursCheckBox.setMouseTransparent(true);
+			futureToursCheckBox.setMouseTransparent(true);
+			
+			List<Tour> tours = tourDao.getAllToursWhereIAmGuideman(loggedUserId);
+			List<Event> events = eventDao.getAllEventsWhereIAmGuideman(loggedUserId);
+			showTours(tours, events);
+
+		}
+		if (toursWhereIAmGuidemanCheckBox.isSelected() == false) {
+			pastToursCheckBox.setMouseTransparent(false);
+			futureToursCheckBox.setMouseTransparent(false);
+			allIsNotSelected();
+		}
 
 	}
-
-//	private void pastAndFutureChecked() {
-//		if (pastToursCheckBox.isSelected() && futureToursCheckBox.isSelected()
-//				&& !toursWhereIAmGuidemanCheckBox.isSelected()) {
-//			displayedTours.addAll(showToursAfterCheck(tourDao.getAllToursFromPast(loggedUserId),
-//					eventDao.getAllEventsFromPast(loggedUserId)));
-//			displayedTours.addAll(showToursAfterCheck(tourDao.getAllToursFromFuture(loggedUserId),
-//					eventDao.getAllEventsFromFuture(loggedUserId)));
-//		}
-//		toursListView.setItems(FXCollections.observableArrayList(displayedTours));
-//
-//	}
-//
-//	private void metoda(List<String> displayedTours, CheckBox checkBox) {
-//		if (checkBox.isSelected()) {
-//
-//		}
-//
-//	}
 
 	@FXML
 	void initialize() {
 		tourDao = DaoFactory.INSTANCE.getTourDao();
 		eventDao = DaoFactory.INSTANCE.getEventDao();
 		loggedUserId = LoggedUser.INSTANCE.getLoggedUser().getId();
-		displayedTours = new ArrayList<>();
-		showToursAtBeginning();
+//		displayedTours = new ArrayList<>();
+		allIsNotSelected();
 
 	}
 
