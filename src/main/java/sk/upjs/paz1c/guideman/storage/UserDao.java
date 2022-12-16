@@ -15,7 +15,7 @@ public interface UserDao {
 
 	List<User> getAllTourists(long eventId);
 
-	List<User> getAllFavouriteGuidemans(long userId);
+	List<User> getAllFavouriteGuidemans(long userId) throws EntityNotFoundException;
 
 	void saveRating(Long userId, Long eventId, Integer rating) throws EntityNotFoundException;
 

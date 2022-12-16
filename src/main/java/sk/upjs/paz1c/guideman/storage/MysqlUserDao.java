@@ -58,22 +58,25 @@ public class MysqlUserDao implements UserDao {
 	}
 
 	@Override
-	public List<User> getAllTourists(long eventId) {
+	public List<User> getAllTourists(long eventId) throws EntityNotFoundException {
 		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
 				+ "LEFT JOIN user_has_event uhe ON user.id = uhe.user_id " + "WHERE uhe.event_id = " + eventId;
-		// mozno by to chcelo surroundnut by try/catch block ak event id neexistuje ale
-		// nwm
-		List<User> tourists = jdbcTemplate.query(sql, new UserRowMapper());
-		return tourists;
+		try {
+			return jdbcTemplate.query(sql, new UserRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("Event with id : " + eventId + " not in DB");
+		}
 	}
 
 	@Override
 	public List<User> getAllFavouriteGuidemans(long userId) {
 		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "
 				+ "LEFT JOIN user_has_user uhu ON user.id = uhu.user_id " + "WHERE uhu.user_id = " + userId;
-		// try/catch ???
-		List<User> favourites = jdbcTemplate.query(sql, new UserRowMapper());
-		return favourites;
+		try {
+			return jdbcTemplate.query(sql, new UserRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntityNotFoundException("User with id : " + userId + " not in DB");
+		}
 	}
 
 	@Override
