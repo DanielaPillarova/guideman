@@ -82,7 +82,7 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Label fx:id="ratingFillLabel" layoutX="739.0" layoutY="439.0" prefHeight="36.0" prefWidth="97.0" text="*rating*" textFill="#699a1e">
+      <Label fx:id="ratingFillLabel" layoutX="720.0" layoutY="439.0" prefHeight="36.0" prefWidth="165.0" text="*rating*" textFill="#699a1e">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
