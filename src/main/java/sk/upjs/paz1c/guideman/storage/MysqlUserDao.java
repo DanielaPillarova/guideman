@@ -68,6 +68,14 @@ public class MysqlUserDao implements UserDao {
 		}
 	}
 
+	// otestovat
+	@Override
+	public List<User> getAllGuidemans() {
+		String sql = "SELECT DISTINCT u.id, u.name, u.surname, u.email, u.tel_number, u.birthdate, u.login, u.password, u.image FROM user u "
+				+ "JOIN tour t ON t.user_id = u.id";
+			return jdbcTemplate.query(sql, new UserRowMapper());
+	}
+
 	@Override
 	public List<User> getAllFavouriteGuidemans(long userId) {
 		String sql = "SELECT id, name, surname, email, tel_number, birthdate, login, password, image FROM user "

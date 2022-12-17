@@ -125,7 +125,7 @@ public class MysqlTourDao implements TourDao {
 	@Override
 	public List<Tour> getAllToursWhereIAmGuideman(Long userId) throws EntityNotFoundException{
 		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
-				+ "JOIN event e ON e.tour_id = t.id "
+				+ "LEFT JOIN event e ON e.tour_id = t.id "
 				+ "WHERE t.user_id = " + userId
 				+ " ORDER BY t.id";
 		try {
