@@ -61,6 +61,8 @@ public class CreateTourController {
 	private Window owner;
 	private Blob imageFromDB = null;
 
+	private boolean defaultTour = false;
+
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
 	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
