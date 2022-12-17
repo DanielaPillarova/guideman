@@ -74,10 +74,32 @@ public class SearchTourController {
 		System.out.println(Filter.INSTANCE.getMonth());
 		System.out.println(Filter.INSTANCE.getGuideman());
 		System.out.println(Filter.INSTANCE.getPrice());
+		fillLabels();
+    }
+    
+    private void fillLabels() {
+    	countryLabel.setText(Filter.INSTANCE.getCountry());
+    	monthLabel.setText(Filter.INSTANCE.getMonth());
+    	guidemanLabel.setText(Filter.INSTANCE.getGuideman());
+    	priceLabel.setText(Filter.INSTANCE.getPrice());
     }
 
     @FXML
     void showTourButtonAction(ActionEvent event) {
+    	try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("showTour.fxml"));
+			fxmlLoader.setController(new ShowTourController());
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Guideman");
+			stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
     }
     
