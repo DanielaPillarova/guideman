@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
          <font>
@@ -53,7 +53,7 @@
          <font>
             <Font name="Helvetica" size="18.0" />
          </font></Button>
-      <Button fx:id="signOffOfTourButton" layoutX="604.0" layoutY="581.0" mnemonicParsing="false" onAction="#signOffOfTourButtonAction" prefHeight="38.0" style="-fx-background-color: yellowgreen;" text="Sign off of tour">
+      <Button fx:id="signOffOfTourButton" layoutX="598.0" layoutY="581.0" mnemonicParsing="false" onAction="#signOffOfTourButtonAction" prefHeight="38.0" style="-fx-background-color: yellowgreen;" text="Sign off the tour">
          <font>
             <Font name="Helvetica" size="18.0" />
          </font></Button>

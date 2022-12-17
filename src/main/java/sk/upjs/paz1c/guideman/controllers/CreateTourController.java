@@ -448,6 +448,7 @@ public class CreateTourController {
 
 	@FXML
 	void initialize() {
+		bioTextArea.setWrapText(true);
 
 		BooleanBinding bb = new BooleanBinding() {
 			{
@@ -517,6 +518,7 @@ public class CreateTourController {
 							bioTextArea.setText("");
 						}
 						bioTextArea.setDisable(true);
+
 						bioTextArea.lookup(".content").setStyle("-fx-background-color: #f2f2f2;");
 						bioTextArea.setStyle("-fx-background-color: #f2f2f2;");
 

@@ -25,7 +25,7 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>
-      <Button fx:id="logOutButton" layoutX="768.0" layoutY="581.0" mnemonicParsing="false" onAction="#logOutButtonAction" style="-fx-background-color: yellowgreen;" text="Log out">
+      <Button fx:id="logOutButton" layoutX="770.0" layoutY="580.0" mnemonicParsing="false" onAction="#logOutButtonAction" style="-fx-background-color: yellowgreen;" text="Log out">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>
@@ -53,11 +53,11 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <TextField fx:id="nameTextField" layoutX="255.0" layoutY="187.0" prefHeight="35.0" prefWidth="260.0">
+      <TextField fx:id="nameTextField" layoutX="253.0" layoutY="188.0" prefHeight="35.0" prefWidth="260.0">
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <TextField fx:id="surnameTextField" layoutX="256.0" layoutY="249.0" prefHeight="35.0" prefWidth="260.0">
+      <TextField fx:id="surnameTextField" layoutX="253.0" layoutY="250.0" prefHeight="35.0" prefWidth="260.0">
          <font>
             <Font size="18.0" />
          </font></TextField>

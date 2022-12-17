@@ -83,7 +83,7 @@ public class SignupController {
 
 	@FXML
 	void initialize() {
-
+		guidemanInstead = true;
 		BooleanBinding bb = new BooleanBinding() {
 			{
 				super.bind(nameTextField.textProperty(), surnameTextField.textProperty(), emailTextField.textProperty(),
@@ -202,7 +202,7 @@ public class SignupController {
 
 		// guideman logo
 		if (guidemanInstead == true) {
-			filePath = "controllers/G.png";
+			filePath = "src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\controllers\\G.png";
 			bytes = Files.readAllBytes(Paths.get(filePath));
 		}
 
@@ -217,7 +217,6 @@ public class SignupController {
 				showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
 				return;
 			}
-
 		}
 
 		if (tel_number != "") {
@@ -251,7 +250,6 @@ public class SignupController {
 	@FXML
 	void selectImageButtonClick(ActionEvent event) throws IOException {
 		// sranie sa fr fr
-		guidemanInstead = true;
 
 		bytes = null;
 		selectedFileLabel.setText("No selected file");
@@ -283,6 +281,7 @@ public class SignupController {
 					selectedFile = null;
 					filePath = null;
 				} else {
+					guidemanInstead = true;
 					infoBox("Please Select Image File", null, "Warning !");
 				}
 			}
