@@ -137,7 +137,7 @@ public class MyProfileController {
 				// velke nez 16 mb
 				if (blobisko.length() > 16000000L) {
 					System.out.println("Error");
-					showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+					showAlert(Alert.AlertType.ERROR, owner, "Error !", "Please upload smaller image !");
 					return;
 				}
 				Blob usersBlob = blobisko;
@@ -170,7 +170,7 @@ public class MyProfileController {
 		try {
 			birthdateParsed = LocalDate.parse(finalDateBirth);
 		} catch (Exception e1) {
-			showAlert(Alert.AlertType.WARNING, owner, "Wrong date format!", "Try using date format -> DD.MM.YYYY");
+			showAlert(Alert.AlertType.WARNING, owner, "Wrong date format !", "Try using date format -> DD.MM.YYYY");
 			return;
 		}
 
@@ -195,7 +195,7 @@ public class MyProfileController {
 				// zmena z 16000000L na
 				if (blobisko.length() > 62000000L) {
 					System.out.println("Error");
-					showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+					showAlert(Alert.AlertType.ERROR, owner, "Error !", "Please upload smaller image !");
 					return;
 				}
 			}
@@ -207,22 +207,22 @@ public class MyProfileController {
 
 		// ci su prazdne
 		if (changedName == "") {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter name");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter name");
 			return;
 		}
 
 		if (changedSurname == "") {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter surname");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter surname");
 			return;
 		}
 
 		if (changedEmail == "") {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter email");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter email");
 			return;
 		}
 
 		if (changedDateBirth == "") {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please enter date of birth");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter date of birth");
 			return;
 		}
 

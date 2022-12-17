@@ -187,7 +187,7 @@ public class WritingRatingController {
 	void saveRatingButtonAction(ActionEvent event) {
 		if (!zeroRadioButton.isSelected() && !oneRadioButton.isSelected() && !twoRadioButton.isSelected()
 				&& !threeRadioButton.isSelected() && !fourRadioButton.isSelected() && !fiveRadioButton.isSelected()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!",
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !",
 					"Cannot save rating, because you have not selecting one of ratings !");
 			return;
 		}
@@ -196,13 +196,13 @@ public class WritingRatingController {
 			List<Integer> ratingFromDB = eventDao.getRating(loggedUserId, loggedEventId);
 			System.out.println("rating from db   " + ratingFromDB.toString());
 			if (ratingFromDB.get(0) != 0) {
-				showAlert(Alert.AlertType.WARNING, owner, "Warning!",
+				showAlert(Alert.AlertType.WARNING, owner, "Warning !",
 						"Cannot save rating, because you have already rated this tour !\nYour rating is : "
 								+ ratingFromDB.get(0));
 			}
 			if (ratingFromDB.get(0) == 0) {
 				userDao.saveRating(loggedUserId, loggedEventId, rating);
-				showAlert(Alert.AlertType.INFORMATION, owner, "Success!",
+				showAlert(Alert.AlertType.INFORMATION, owner, "Success !",
 						"Rating was saved ! Your rating is : " + rating);
 
 			}
@@ -215,7 +215,7 @@ public class WritingRatingController {
 		System.out.println(review);
 
 		if (reviewTextArea.getText().equals("")) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!",
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !",
 					"Cannot save review, because the text area is empty !");
 			return;
 		}
@@ -224,13 +224,13 @@ public class WritingRatingController {
 			List<String> reviewFromDB = eventDao.getReview(loggedUserId, loggedEventId);
 			System.out.println("review form db   " + reviewFromDB.toString());
 			if (reviewFromDB.get(0) != null) {
-				showAlert(Alert.AlertType.WARNING, owner, "Warning!",
+				showAlert(Alert.AlertType.WARNING, owner, "Warning !",
 						"Cannot save review, because you have already reviewed this tour !\nYour review : "
 								+ reviewFromDB.get(0));
 			}
 			if (reviewFromDB.get(0) == null) {
 				userDao.saveReview(loggedUserId, loggedEventId, review);
-				showAlert(Alert.AlertType.INFORMATION, owner, "Success!", "Review was saved !");
+				showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Review was saved !");
 			}
 		}
 	}
