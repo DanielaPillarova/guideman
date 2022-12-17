@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +14,22 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.Event;
+import sk.upjs.paz1c.guideman.storage.EventDao;
+import sk.upjs.paz1c.guideman.storage.Location;
+import sk.upjs.paz1c.guideman.storage.LocationDao;
 
 public class SearchTourController {
 
+	private String country;
+	private String month;
+	private String guideman;
+	private String price;
+	
+	private LocationDao locationDao;
+	private EventDao eventDao;
+	
     @FXML
     private Label countryLabel;
 
@@ -23,7 +37,7 @@ public class SearchTourController {
     private Button createTourButton;
 
     @FXML
-    private ListView<?> filteredToursListView;
+    private ListView<String> filteredToursListView;
 
     @FXML
     private Label guidemanLabel;
@@ -51,6 +65,12 @@ public class SearchTourController {
 
     @FXML
     private Button showTourButton;
+    
+    @FXML
+    void initialize() {
+    	locationDao = DaoFactory.INSTANCE.getLocationDao();
+    	eventDao = DaoFactory.INSTANCE.getEventDao();
+    }
 
 
     @FXML
@@ -69,12 +89,21 @@ public class SearchTourController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-    	System.out.println(Filter.INSTANCE.getCountry());
-		System.out.println(Filter.INSTANCE.getMonth());
-		System.out.println(Filter.INSTANCE.getGuideman());
-		System.out.println(Filter.INSTANCE.getPrice());
-		fillLabels();
+		
+		if (Filter.INSTANCE.getNewFilters()) {
+			fillLabels();
+			country = Filter.INSTANCE.getCountry();
+			month = Filter.INSTANCE.getMonth();
+			guideman = Filter.INSTANCE.getGuideman();
+			price = Filter.INSTANCE.getPrice();
+			
+			System.out.println(country);
+			System.out.println(month);
+			System.out.println(guideman);
+			System.out.println(price);
+			
+			// fill listview
+		}
     }
     
     private void fillLabels() {
@@ -82,6 +111,51 @@ public class SearchTourController {
     	monthLabel.setText(Filter.INSTANCE.getMonth());
     	guidemanLabel.setText(Filter.INSTANCE.getGuideman());
     	priceLabel.setText(Filter.INSTANCE.getPrice());
+    }
+    
+    private int parseMonthToInt(String monthStr) {
+    	if (monthStr.equals("January")) {
+    		return 1;
+    	}
+    	if (monthStr.equals("February")) {
+    		return 2;
+    	}
+    	if (monthStr.equals("March")) {
+    		return 3;
+    	}
+    	if (monthStr.equals("April")) {
+    		return 4;
+    	}
+    	if (monthStr.equals("May")) {
+    		return 5;
+    	}
+    	if (monthStr.equals("June")) {
+    		return 6;
+    	}
+    	if (monthStr.equals("July")) {
+    		return 7;
+    	}
+    	if (monthStr.equals("August")) {
+    		return 8;
+    	}
+    	if (monthStr.equals("September")) {
+    		return 9;
+    	}
+    	if (monthStr.equals("October")) {
+    		return 10;
+    	}
+    	if (monthStr.equals("November")) {
+    		return 11;
+    	}
+    	if (monthStr.equals("December")) {
+    		return 12;
+    	}
+    	return 0;
+    }
+    
+    private void fillListView() {
+    	List<Location> locations = locationDao.getAllByCountry(country);
+    	List<Event> events = eventDao.getAllByMonth(parseMonthToInt(month));
     }
 
     @FXML
@@ -129,9 +203,6 @@ public class SearchTourController {
     	Menu.INSTANCE.logOut(showFilterTableButton);
     }
     
-    @FXML
-    void initialize() {
-       
-    }
+   
 
 }

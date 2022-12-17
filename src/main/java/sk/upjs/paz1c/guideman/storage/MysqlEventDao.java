@@ -95,6 +95,14 @@ public class MysqlEventDao implements EventDao {
 			}
 		});
 	}
+	
+	// otestovat
+	@Override
+	public List<Event> getAllByMonth(int month) {
+		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
+				+ "WHERE MONTH(date_of_tour) = " + month;
+		return jdbcTemplate.query(sql, new EventRowMapper());
+	}
 
 	@Override
 	public List<Event> getAllByTour(Long tourId) {

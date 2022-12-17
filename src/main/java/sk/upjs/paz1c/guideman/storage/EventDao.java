@@ -31,6 +31,8 @@ public interface EventDao {
 
 	boolean deleteFromUHE(Long eventId) throws EntityNotFoundException;
 
+	List<Event> getAllByMonth(int month);
+
 	
 
 	

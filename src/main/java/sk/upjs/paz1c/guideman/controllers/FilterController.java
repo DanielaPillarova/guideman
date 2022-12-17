@@ -66,6 +66,7 @@ public class FilterController {
 		Filter.INSTANCE.setMonth("null");
 		Filter.INSTANCE.setGuideman("null");
 		Filter.INSTANCE.setPrice("0");
+		Filter.INSTANCE.setNewFilters(false);
 	}
 
 	private void fillCountryComboBox() {
@@ -246,7 +247,9 @@ public class FilterController {
 			Filter.INSTANCE.setMonth(monthNew);
 			Filter.INSTANCE.setGuideman(guidemanNew);
 			Filter.INSTANCE.setPrice(priceNew);
-			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Filter have been saved successfully !");
+			Filter.INSTANCE.setNewFilters(true);
+			
+//			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Filter have been saved successfully !");
 		}
 	}
 
