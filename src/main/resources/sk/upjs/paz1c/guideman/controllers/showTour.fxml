@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
          <font>
@@ -77,25 +77,25 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <ImageView fx:id="imageImageView" fitHeight="183.0" fitWidth="264.0" layoutX="596.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="letsGoButton" layoutX="416.0" layoutY="545.0" mnemonicParsing="false" onAction="#letsGoButtonAction" style="-fx-background-color: khaki;" text="Let's go !">
+      <ImageView fx:id="imageImageView" fitHeight="152.0" fitWidth="232.0" layoutX="577.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="letsGoButton" layoutX="539.0" layoutY="581.0" mnemonicParsing="false" onAction="#letsGoButtonAction" style="-fx-background-color: khaki;" text="Let's go !">
          <font>
-            <Font name="Helvetica" size="25.0" />
+            <Font name="Helvetica" size="20.0" />
          </font></Button>
-      <Label layoutX="299.0" layoutY="599.0" prefHeight="32.0" prefWidth="368.0" text="If you would like to go on this tour, please click the button.">
+      <Label layoutX="495.0" layoutY="547.0" prefHeight="32.0" prefWidth="196.0" text="Click here, to sign up to this tour !">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="ratingLabel" layoutX="640.0" layoutY="443.0" text="Rating :">
+      <Label fx:id="ratingLabel" layoutX="226.0" layoutY="547.0" text="Rating :">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Label fx:id="ratingFillLabel" layoutX="739.0" layoutY="439.0" prefHeight="36.0" prefWidth="97.0" text="*rating*" textFill="#699a1e">
+      <Label fx:id="ratingFillLabel" layoutX="316.0" layoutY="541.0" prefHeight="36.0" prefWidth="97.0" text="*rating*" textFill="#699a1e">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Button fx:id="seeReviewsButton" layoutX="656.0" layoutY="486.0" mnemonicParsing="false" onAction="#seeReviewsButtonAction" style="-fx-background-color: khaki;" text="See reviews">
+      <Button fx:id="seeReviewsButton" layoutX="240.0" layoutY="581.0" mnemonicParsing="false" onAction="#seeReviewsButtonAction" style="-fx-background-color: khaki;" text="See reviews">
          <font>
             <Font name="Helvetica" size="18.0" />
          </font></Button>
@@ -110,6 +110,46 @@
          </font>
       </Label>
       <Label fx:id="guidemanFillLabel" layoutX="209.0" layoutY="499.0" prefHeight="25.0" prefWidth="253.0" text="*name and surname*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfFreePlacesLabel1" layoutX="575.0" layoutY="369.0" text="Country :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfFreePlacesLabel11" layoutX="575.0" layoutY="411.0" text="City :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfFreePlacesLabel12" layoutX="575.0" layoutY="453.0" text="Street :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="numberOfFreePlacesLabel121" layoutX="575.0" layoutY="495.0" text="Street number :">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="countryFillLabel" layoutX="671.0" layoutY="364.0" prefHeight="34.0" prefWidth="192.0" text="*country*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="cityFillLabel" layoutX="639.0" layoutY="407.0" prefHeight="34.0" prefWidth="192.0" text="*city*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="streetFillLabel" layoutX="651.0" layoutY="450.0" prefHeight="34.0" prefWidth="192.0" text="*street*">
+         <font>
+            <Font name="Helvetica" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="streetNumberFillLabel" layoutX="722.0" layoutY="490.0" prefHeight="34.0" prefWidth="110.0" text="*st number*">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font>
