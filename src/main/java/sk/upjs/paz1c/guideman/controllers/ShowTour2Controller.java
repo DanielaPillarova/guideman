@@ -102,6 +102,19 @@ public class ShowTour2Controller {
 
 	@FXML
 	private TextArea bioTextArea;
+	
+	@FXML
+    private Label countryFillLabel;
+	
+	@FXML
+    private Label cityFillLabel;
+
+	@FXML
+    private Label streetFillLabel;
+
+    @FXML
+    private Label streetNumberFillLabel;
+
 
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {

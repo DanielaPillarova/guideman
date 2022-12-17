@@ -82,7 +82,7 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>
-      <Label layoutX="495.0" layoutY="547.0" prefHeight="32.0" prefWidth="196.0" text="Click here, to sign up to this tour !">
+      <Label layoutX="495.0" layoutY="547.0" prefHeight="32.0" prefWidth="212.0" text="Click here, to sign up for this tour !">
          <font>
             <Font size="14.0" />
          </font>

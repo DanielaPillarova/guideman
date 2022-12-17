@@ -65,8 +65,7 @@ public class FilterController {
 		Filter.INSTANCE.setCountry("null");
 		Filter.INSTANCE.setMonth("null");
 		Filter.INSTANCE.setGuideman("null");
-		Filter.INSTANCE.setPrice("null");
-
+		Filter.INSTANCE.setPrice("0");
 	}
 
 	private void fillCountryComboBox() {
@@ -209,15 +208,15 @@ public class FilterController {
 		}
 		//////////////
 
-		if (priceLogged.equals("null")) {
+		if (priceLogged.equals("0")) {
 			if (price != null) {
 				priceNew = price;
 			}
 			if (price.equals("0")) {
-				priceNew = "null";
+				priceNew = "0";
 			}
 		}
-		if (!priceLogged.equals("null")) {
+		if (!priceLogged.equals("0")) {
 			if (price != null) {
 				if (priceLogged.equals(price)) {
 					System.out.println("SAME PRICE JE TRUE");
@@ -226,7 +225,7 @@ public class FilterController {
 			}
 
 			if (price.equals("0")) {
-				priceNew = "null";
+				priceNew = "0";
 
 			}
 		}
