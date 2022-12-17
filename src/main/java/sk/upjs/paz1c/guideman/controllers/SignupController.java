@@ -202,7 +202,9 @@ public class SignupController {
 
 		// guideman logo
 		if (guidemanInstead == true) {
-			filePath = "src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\controllers\\G.png";
+//			filePath = "src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\controllers\\G.png";
+			filePath = "src/main/resources/sk/upjs/paz1c/guideman/G.png";
+
 			bytes = Files.readAllBytes(Paths.get(filePath));
 		}
 
