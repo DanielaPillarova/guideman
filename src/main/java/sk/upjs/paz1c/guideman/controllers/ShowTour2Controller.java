@@ -5,12 +5,8 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import com.google.protobuf.StringValue;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -164,7 +160,7 @@ public class ShowTour2Controller {
 		Event loggedEvent = ShowTour.INSTANCE.getLoggedEvent();
 		titleFillLabel.setText(loggedTour.getTitle());
 		bioTextArea.setText(loggedTour.getBio());
-		bioTextArea.setDisable(true);
+		bioTextArea.setMouseTransparent(true);
 		// bio text aby bolo vidno
 		// bioTextArea.set
 		// TODO
@@ -199,6 +195,7 @@ public class ShowTour2Controller {
 			ratingFillLabel.setText("No ratings yet");
 		}
 		// treba kolko ich je prihlasenych
+
 		averageRating = round(averageRating / (double) listOfRatings.size(), 2);
 		ratingFillLabel.setText(averageRating.toString() + "/5");
 
