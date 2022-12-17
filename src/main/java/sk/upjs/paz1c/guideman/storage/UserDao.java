@@ -15,7 +15,7 @@ public interface UserDao {
 
 	List<User> getAllTourists(long eventId);
 
-	List<User> getAllFavouriteGuidemans(long userId);
+	List<User> getAllFavouriteGuidemans(long userId) throws EntityNotFoundException;
 
 	void saveRating(Long userId, Long eventId, Integer rating) throws EntityNotFoundException;
 
@@ -26,5 +26,7 @@ public interface UserDao {
 	void deleteReview(Long userId, Long eventId) throws EntityNotFoundException;
 
 	User getUserByUsername(String username) throws EntityNotFoundException;
+
+	List<User> getAllGuidemans();
 
 }

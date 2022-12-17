@@ -191,6 +191,8 @@ public class MysqlEventDao implements EventDao {
 			throw new EntityNotFoundException("User with id " + userId + " not found");
 		}
 	}
+	
+	
 
 	@Override
 	public Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException {

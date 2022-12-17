@@ -159,8 +159,6 @@ public class MyToursController {
 			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Tour has been not been deleted !");
 
 		}
-		
-		
 
 	}
 
@@ -230,9 +228,16 @@ public class MyToursController {
 			idx++;
 		}
 		if (allTours.size() == 0) {
-			allTours.add("No tours found");
+			if (!toursWhereIAmGuidemanCheckBox.isSelected()) {
+				allTours.add("No tours found");
+			}
+			if (toursWhereIAmGuidemanCheckBox.isSelected()) {
+				allTours.add(
+						"No tours found OR you created tours but not specified date, time, duration and price parameters");
+			}
 			toursListView.setMouseTransparent(true);
 			addRatingOrReviewButton.setDisable(true);
+			signOffOfTourButton.setDisable(true);
 		}
 		toursListView.setItems(FXCollections.observableArrayList(allTours));
 	}
@@ -241,6 +246,7 @@ public class MyToursController {
 		if (!pastToursCheckBox.isSelected() && !futureToursCheckBox.isSelected()
 				&& !toursWhereIAmGuidemanCheckBox.isSelected()) {
 			addRatingOrReviewButton.setDisable(true);
+			signOffOfTourButton.setDisable(true);
 			List<Tour> tours = tourDao.getAllLetsGoTours(loggedUserId);
 			List<Event> events = eventDao.getAllLetsGoEvents(loggedUserId);
 			showTours(tours, events);
@@ -253,6 +259,7 @@ public class MyToursController {
 	void pastToursChecked(ActionEvent event) {
 		if (pastToursCheckBox.isSelected() == true) {
 			addRatingOrReviewButton.setDisable(false);
+			signOffOfTourButton.setDisable(true);
 			futureToursCheckBox.setMouseTransparent(true);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(true);
 			List<Tour> tours = tourDao.getAllToursFromPast(loggedUserId);
@@ -262,6 +269,7 @@ public class MyToursController {
 		if (pastToursCheckBox.isSelected() == false) {
 			futureToursCheckBox.setMouseTransparent(false);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(false);
+			signOffOfTourButton.setDisable(false);
 			allIsNotSelected();
 		}
 	}
@@ -272,6 +280,7 @@ public class MyToursController {
 			addRatingOrReviewButton.setDisable(true);
 			pastToursCheckBox.setMouseTransparent(true);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(true);
+			signOffOfTourButton.setDisable(false);
 			List<Tour> tours = tourDao.getAllToursFromFuture(loggedUserId);
 			List<Event> events = eventDao.getAllEventsFromFuture(loggedUserId);
 			showTours(tours, events);
@@ -280,6 +289,7 @@ public class MyToursController {
 			addRatingOrReviewButton.setDisable(false);
 			pastToursCheckBox.setMouseTransparent(false);
 			toursWhereIAmGuidemanCheckBox.setMouseTransparent(false);
+			signOffOfTourButton.setDisable(true);
 			allIsNotSelected();
 		}
 	}
@@ -288,9 +298,11 @@ public class MyToursController {
 	void toursWhereIAmGuidemanChecked(ActionEvent event) {
 		if (toursWhereIAmGuidemanCheckBox.isSelected() == true) {
 			addRatingOrReviewButton.setDisable(true);
+			signOffOfTourButton.setDisable(true);
 			pastToursCheckBox.setMouseTransparent(true);
 			futureToursCheckBox.setMouseTransparent(true);
 			signOffOfTourButton.setDisable(true);
+
 			List<Tour> tours = tourDao.getAllToursWhereIAmGuideman(loggedUserId);
 			List<Event> events = eventDao.getAllEventsWhereIAmGuideman(loggedUserId);
 			showTours(tours, events);
@@ -300,8 +312,10 @@ public class MyToursController {
 			pastToursCheckBox.setMouseTransparent(false);
 			futureToursCheckBox.setMouseTransparent(false);
 			signOffOfTourButton.setDisable(false);
+			signOffOfTourButton.setDisable(false);
 			allIsNotSelected();
 		}
+
 	}
 
 	private static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {

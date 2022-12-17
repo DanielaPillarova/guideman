@@ -92,6 +92,10 @@ public enum Menu {
             LoggedUser.INSTANCE.setLoggedUser(null);
             ShowTour.INSTANCE.setLoggedTour(null);
             ShowTour.INSTANCE.setLoggedEvent(null);
+            Filter.INSTANCE.setCountry(null);
+            Filter.INSTANCE.setMonth(null);
+            Filter.INSTANCE.setGuideman(null);
+            Filter.INSTANCE.setPrice(null);
             Stage stage = new Stage();
             fxmlLoader.setController(new WelcomeController());
             Scene scene = new Scene(fxmlLoader.load());
