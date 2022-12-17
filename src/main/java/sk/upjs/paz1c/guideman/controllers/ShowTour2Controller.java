@@ -160,7 +160,9 @@ public class ShowTour2Controller {
 		Event loggedEvent = ShowTour.INSTANCE.getLoggedEvent();
 		titleFillLabel.setText(loggedTour.getTitle());
 		bioTextArea.setText(loggedTour.getBio());
-		bioTextArea.setMouseTransparent(true);
+		// bioTextArea.setMouseTransparent(true);
+		bioTextArea.setEditable(false);
+		
 		// bio text aby bolo vidno
 		// bioTextArea.set
 		// TODO
