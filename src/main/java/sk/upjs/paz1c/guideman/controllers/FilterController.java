@@ -50,18 +50,18 @@ public class FilterController {
 		locationDao = DaoFactory.INSTANCE.getLocationDao();
 		userDao = DaoFactory.INSTANCE.getUserDao();
 		fillCountryComboBox();
-		// filterByCountryComboBox.getSelectionModel().selectFirst();
+		filterByCountryComboBox.getSelectionModel().selectFirst();
 		fillMonthComboBox();
-		// filterByMonthComboBox.getSelectionModel().selectFirst();
+		filterByMonthComboBox.getSelectionModel().selectFirst();
 		fillGuidemanComboBox();
-		// filterByGuidemanComboBox.getSelectionModel().selectFirst();
+		filterByGuidemanComboBox.getSelectionModel().selectFirst();
 
 		filterByPriceSlider.valueProperty()
 				.addListener((ObservableValue<? extends Number> num, Number oldVal, Number newVal) -> {
 					Integer roundedNewVal = (int) Math.round(Double.valueOf(newVal.toString()));
 					priceLabel.setText(roundedNewVal.toString());
 				});
-		
+
 		Filter.INSTANCE.setCountry("null");
 		Filter.INSTANCE.setMonth("null");
 		Filter.INSTANCE.setGuideman("null");
@@ -123,7 +123,7 @@ public class FilterController {
 //		System.out.println(Filter.INSTANCE.getGuideman());
 //		System.out.println(Filter.INSTANCE.getPrice());
 //		System.out.println("####");
-		
+
 		String country = filterByCountryComboBox.getSelectionModel().getSelectedItem();
 		String month = filterByMonthComboBox.getSelectionModel().getSelectedItem();
 		String guideman = filterByGuidemanComboBox.getSelectionModel().getSelectedItem();
@@ -237,7 +237,7 @@ public class FilterController {
 //		System.out.println(guidemanNew);
 //		System.out.println(priceNew);
 //		System.out.println("####");
-		
+
 		if (countryNew.equals(countryLogged) && monthNew.equals(monthLogged) && guidemanNew.equals(guidemanLogged)
 				&& priceNew.equals(priceLogged)) {
 			showAlert(Alert.AlertType.INFORMATION, owner, "Warning !", "No change has been made !");

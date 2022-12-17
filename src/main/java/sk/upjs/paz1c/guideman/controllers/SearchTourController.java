@@ -70,7 +70,10 @@ public class SearchTourController {
 			e.printStackTrace();
 		}
 
-
+    	System.out.println(Filter.INSTANCE.getCountry());
+		System.out.println(Filter.INSTANCE.getMonth());
+		System.out.println(Filter.INSTANCE.getGuideman());
+		System.out.println(Filter.INSTANCE.getPrice());
     }
 
     @FXML
