@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Event;
 import sk.upjs.paz1c.guideman.storage.EventDao;
+import sk.upjs.paz1c.guideman.storage.Location;
+import sk.upjs.paz1c.guideman.storage.LocationDao;
 import sk.upjs.paz1c.guideman.storage.Tour;
 import sk.upjs.paz1c.guideman.storage.User;
 import sk.upjs.paz1c.guideman.storage.UserDao;
@@ -30,6 +32,7 @@ import sk.upjs.paz1c.guideman.storage.UserDao;
 public class ShowTour2Controller {
 
 	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+	private LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
 	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -44,13 +47,7 @@ public class ShowTour2Controller {
 	private Label dateAndTimeFillLabel;
 
 	@FXML
-	private Label dateAndTimeLabel;
-
-	@FXML
 	private Label durationFillLabel;
-
-	@FXML
-	private Label durationLabel;
 
 	@FXML
 	private Label guidemanFillLabel;
@@ -71,9 +68,6 @@ public class ShowTour2Controller {
 	private Label numberOfFreePlacesFillLabel;
 
 	@FXML
-	private Label numberOfFreePlacesLabel;
-
-	@FXML
 	private Label priceFillLabel;
 
 	@FXML
@@ -81,9 +75,6 @@ public class ShowTour2Controller {
 
 	@FXML
 	private Label ratingFillLabel;
-
-	@FXML
-	private Label ratingLabel;
 
 	@FXML
 	private Button searchTourButton;
@@ -98,23 +89,19 @@ public class ShowTour2Controller {
 	private Label titleFillLabel;
 
 	@FXML
-	private Label titleLabel;
-
-	@FXML
 	private TextArea bioTextArea;
-	
-	@FXML
-    private Label countryFillLabel;
-	
-	@FXML
-    private Label cityFillLabel;
 
 	@FXML
-    private Label streetFillLabel;
+	private Label countryFillLabel;
 
-    @FXML
-    private Label streetNumberFillLabel;
+	@FXML
+	private Label cityFillLabel;
 
+	@FXML
+	private Label streetFillLabel;
+
+	@FXML
+	private Label streetNumberFillLabel;
 
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {
@@ -172,10 +159,10 @@ public class ShowTour2Controller {
 		Tour loggedTour = ShowTour.INSTANCE.getLoggedTour();
 		Event loggedEvent = ShowTour.INSTANCE.getLoggedEvent();
 		titleFillLabel.setText(loggedTour.getTitle());
+		bioTextArea.setWrapText(true);
 		bioTextArea.setText(loggedTour.getBio());
-		// bioTextArea.setMouseTransparent(true);
 		bioTextArea.setEditable(false);
-		
+
 		// bio text aby bolo vidno
 		// bioTextArea.set
 		// TODO
@@ -189,6 +176,16 @@ public class ShowTour2Controller {
 		priceFillLabel.setText(String.valueOf(loggedEvent.getPrice()));
 		User guideman = userDao.getById(loggedTour.getGuidemanId());
 		guidemanFillLabel.setText(guideman.getName() + " " + guideman.getSurname());
+
+		Location location = locationDao.getById(loggedTour.getLocationId());
+		countryFillLabel.setText(location.getCountry());
+		cityFillLabel.setText(location.getCity());
+		streetFillLabel.setText(location.getStreet());
+		if (location.getStreet_number() != null) {
+			streetNumberFillLabel.setText(location.getStreet_number().toString());
+		} else {
+			streetNumberFillLabel.setText("N");
+		}
 
 		Blob toursBlob = loggedTour.getImage();
 
