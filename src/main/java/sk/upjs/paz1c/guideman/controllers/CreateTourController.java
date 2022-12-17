@@ -173,7 +173,7 @@ public class CreateTourController {
 			// velke nez 16 mb
 			if (blobisko.length() > 16000000L) {
 				System.out.println("Error");
-				showAlert(Alert.AlertType.ERROR, owner, "Error", "Please upload smaller image !");
+				showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please upload smaller image !");
 				// owner neexistuje, robil problem, ak toto bude robit problem , tak treba tu
 				// dat infobox
 				return;
@@ -201,7 +201,7 @@ public class CreateTourController {
 			try {
 				streetNumber = Integer.parseInt(streetNumberString);
 			} catch (NumberFormatException e) {
-				infoBox("Warning", null, "Wrong format, check your street number");
+				infoBox("Warning !", null, "Wrong format, check your street number");
 				return;
 			}
 		}

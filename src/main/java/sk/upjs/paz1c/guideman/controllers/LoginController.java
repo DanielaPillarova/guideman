@@ -95,12 +95,12 @@ public class LoginController {
 		Window owner = logInButton.getScene().getWindow();
 
 		if (usernameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error", "Please enter username");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter username");
 			return;
 		}
 
 		if (passwordPasswordField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error", "Please enter password");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter password");
 			return;
 		}
 
@@ -117,7 +117,7 @@ public class LoginController {
 		}
 
 		if (userExists == false) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "User does not exist !");
+			showAlert(Alert.AlertType.ERROR, owner, "Error !", "User does not exist !");
 			return;
 		}
 

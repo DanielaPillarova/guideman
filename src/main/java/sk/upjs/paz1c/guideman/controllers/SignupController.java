@@ -117,28 +117,28 @@ public class SignupController {
 
 		// ALERTY
 		if (nameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your name");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter your name");
 			return;
 		}
 
 		if (surnameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your surname");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter your surname");
 			return;
 		}
 		if (emailTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your email");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter your email");
 			return;
 		}
 		if (birthdateTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter your birthdate");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter your birthdate");
 			return;
 		}
 		if (usernameTextField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter a username");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter a username");
 			return;
 		}
 		if (passwordPasswordField.getText().isEmpty()) {
-			showAlert(Alert.AlertType.WARNING, owner, "Error!", "Please enter a password");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please enter a password");
 			return;
 		}
 
@@ -162,22 +162,22 @@ public class SignupController {
 		int vek = first + second * 31 + (third * 365);
 
 		if (!(first >= 1 && first <= 31)) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Day needs to be between 1 and 31");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Day needs to be between 1 and 31");
 			return;
 		}
 
 		if (!(second >= 1 && second <= 12)) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Month needs to be between 1 and 12");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Month needs to be between 1 and 12");
 			return;
 		}
 
 		if (!(third <= 2006)) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "You need to be at least 16 years old");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "You need to be at least 16 years old");
 			return;
 		}
 
 		if (!(third >= 1900 && third <= 2006)) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Year needs to be between 1900 and 2006");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Year needs to be between 1900 and 2006");
 			return;
 		}
 
@@ -192,7 +192,7 @@ public class SignupController {
 			try {
 				birthdateParsed = LocalDate.parse(newDate);
 			} catch (Exception e) {
-				showAlert(Alert.AlertType.WARNING, owner, "Wrong date format!", "Try using date format -> DD.MM.YYYY");
+				showAlert(Alert.AlertType.WARNING, owner, "Wrong date format !", "Try using date format -> DD.MM.YYYY");
 				return;
 			}
 			System.out.println(birthdateParsed);
@@ -231,7 +231,7 @@ public class SignupController {
 		try {
 			savedUser = userDao.save(user);
 		} catch (DuplicateKeyException e) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!",
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !",
 					"Username already exists ! \nPlease enter different username !");
 		}
 

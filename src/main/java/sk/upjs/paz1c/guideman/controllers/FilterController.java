@@ -240,7 +240,7 @@ public class FilterController {
 
 		if (countryNew.equals(countryLogged) && monthNew.equals(monthLogged) && guidemanNew.equals(guidemanLogged)
 				&& priceNew.equals(priceLogged)) {
-			showAlert(Alert.AlertType.INFORMATION, owner, "Warning !", "No change has been made !");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "No change has been made !");
 			System.out.println("ALERT - NO CHANGE HAS BEEN MADE");
 		} else {
 			Filter.INSTANCE.setCountry(countryNew);

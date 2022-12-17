@@ -116,7 +116,7 @@ public class MyToursController {
 		try {
 			e1 = getEventFromListView();
 		} catch (NullPointerException ex) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please select row from list !");
 			return;
 		}
 		ShowTour.INSTANCE.setLoggedEvent(e1);
@@ -145,18 +145,18 @@ public class MyToursController {
 		try {
 			e1 = getEventFromListView();
 		} catch (NullPointerException ex) {
-			showAlert(Alert.AlertType.WARNING, owner, "Warning!", "Please select row from list !");
+			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please select row from list !");
 			return;
 		}
 //		ShowTour.INSTANCE.setLoggedEvent(e1);
 //		System.out.println(e1);
 //		showAlert(Alert.AlertType.INFORMATION, owner, "Question!", "Are you sure  !");
 		if (eventDao.deleteFromUHE(e1.getId())) {
-			showAlert(Alert.AlertType.INFORMATION, owner, "Success!", "You have been signed off !");
+			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "You have been signed off !");
 			int idx = toursListView.getSelectionModel().getSelectedIndex();
 			toursListView.getItems().remove(idx);
 		} else {
-			showAlert(Alert.AlertType.ERROR, owner, "Error!", "Tour has been not been deleted !");
+			showAlert(Alert.AlertType.ERROR, owner, "Error !", "Tour has been not been deleted !");
 
 		}
 
