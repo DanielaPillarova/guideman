@@ -169,18 +169,32 @@ public class SearchTourController {
 		return 0;
 	}
 
-	private List<Event> checkIfICanSignForTour(List<Event> events) {
+	private List<Event> checkIfIAmGuideman(List<Event> notCheckEvents) {
 		List<Event> allEvents = new ArrayList<>();
-		for (Event event : events) {
+		for (Event event : notCheckEvents) {
 			Tour tour = tourDao.getById(event.getTourId());
 			if (tour.getGuidemanId() != loggedUserId) {
-				List<User> tourists = userDao.getAllTourists(event.getId());
-				for (User u : tourists) {
-					if (u.getId() != loggedUserId) {
-						allEvents.add(event);
-					}
-				}
+				allEvents.add(event);
+//				List<User> tourists = userDao.getAllTourists(event.getId());
+//				for (User u : tourists) {
+//					if (u.getId() != loggedUserId) {
+//						allEvents.add(event);
+//					}
+//				}
 
+			}
+		}
+		return allEvents;
+	}
+
+	private List<Event> checkIfIAmAlreadySigned(List<Event> notCheckEvents) {
+		List<Event> allEvents = new ArrayList<>();
+		for (Event event : notCheckEvents) {
+			List<User> tourists = userDao.getAllTourists(event.getId());
+			for (User u : tourists) {
+				if (u.getId() != loggedUserId) {
+					allEvents.add(event);
+				}
 			}
 		}
 		return allEvents;
@@ -189,83 +203,51 @@ public class SearchTourController {
 	private void fillListView() {
 		System.out.println("#### SME VO fill list view");
 
-		// Set<Event> allEvents = new HashSet<>();
-		// List<Event> allTours = new ArrayList<>();
 		Set<String> displayedTours = new HashSet<>();
-
 		List<Event> temp = new ArrayList<>();
-		List<Event> allEvents = new ArrayList<>();
+		List<Event> toRemove = new ArrayList<>();
 
 		// country
 		System.out.println("COUNTRY : " + country);
 		System.out.println("ALL EVENTS : " + eventDao.getAll());
 
 		if (country.equals("ALL")) {
-
 			if (eventDao.getAll().size() > 0) {
-//				System.out.println(eventDao.getAll() + "   ALL EVENTS");
-//				temp = checkIfICanSignForTour(eventDao.getAll());
 				temp = eventDao.getAll();
-				System.out.println("ALL EVENTS AFTER CHECK : " + temp);
-				allEvents = temp;
-//				for (Event e : eventDao.getAll()) {
-//					if (checkIfICanSignForTour(e) == true) {
-//						temp.add(e);
-//						allEvents.add(e);
-//					}
-//				}
+//				toRemove = temp;
 			}
-
 		} else {
 			List<Event> eventsByCountry = eventDao.getAllEventsByCountry(country);
 			System.out.println(eventDao.getAll() + "   ALL EVENTS V ELSE");
 			if (eventsByCountry.size() > 0) {
 				temp = eventsByCountry;
-//				temp = checkIfICanSignForTour(eventsByCountry);
-//				for (Event e : eventsByCountry) {
-//					if (checkIfICanSignForTour(e) == true) {
-//						temp.add(e);
-//						allEvents.add(e);
-//					}
-//				}
-//				allEvents = temp;
-//				allEvents = eventsByCountry;
+//				toRemove = temp;
+
 			}
 		}
-		System.out.println("TEMP after country :   " + temp);
 
 		// month
 		List<Event> eventsByMonth = new ArrayList<>();
-//		if (month.equals("ALL")) {
-//			eventsByMonth = eventDao.getAll();
-//			System.out.println("MONTH JE 'ALL'");
-//
-//		}
-//		System.out.println("MONTH : " + month);
 		if (!month.equals("ALL")) {
 			eventsByMonth = eventDao.getAllByMonth(parseMonthToInt(month));
-//			System.out.println("MONTH : " + month);
 			System.out.println("EVENTS BY MONTH :   " + eventsByMonth);
 			if (temp.size() > 0 && eventsByMonth.size() > 0) {
 
 				for (Event e : temp) {
-					if (!eventsByMonth.contains(e)) {
-						allEvents.remove(e);
-						System.out.println("E :   " + e);
-					}
+//					if (eventsByMonth.contains(e) == true) {
+//						toRemove.add(e);
+//				temp.retainAll(eventsByMonth);
+//				System.out.println("TEMP AFTER RETAIN : " + temp);
+//						System.out.println("E :   " + e);
+//					}
+//				}
 				}
-
-				temp = allEvents;
 			}
 		}
-
-		System.out.println("TEMP after month :   " + temp);
+		toRemove = temp;
 
 		// guideman
 		List<Event> eventsByGuideman = new ArrayList<>();
-//		if (guideman.equals("ALL")) {
-//			eventsByGuideman = eventDao.getAll();
-//		}
 		System.out.println("GUIDEMAN : " + guideman);
 		if (!guideman.equals("ALL")) {
 			String[] nAs = guideman.split(" ");
@@ -275,46 +257,55 @@ public class SearchTourController {
 			System.out.println("GUIDEMAN : " + guideman);
 			System.out.println("EVENTS BY GUIDEMAN :   " + eventsByGuideman);
 			if (temp.size() > 0 && eventsByGuideman.size() > 0) {
-				for (Event e : temp) {
-					if (!eventsByGuideman.contains(e)) {
-						allEvents.remove(e);
-					}
-				}
+				temp.retainAll(eventsByGuideman);
+				System.out.println("TEMP AFTER RETAIN : " + temp);
 
-				temp = allEvents;
+//				for (Event e : temp) {
+//					if (eventsByGuideman.contains(e) == true) {
+//						toRemove.add(e);
+//						System.out.println("E : " + e);
+//
+//					}
+//				}
+
 			}
 		}
+		toRemove = temp;
 
-		System.out.println("TEMP after guideman :   " + temp);
+		System.out.println("TEMP : " + temp);
 
 		// price
 		List<Event> eventsByPrice = new ArrayList<>();
-//		if (price.equals("100")) {
-//			eventsByPrice = eventDao.getAll();
-//		}
-		System.out.println("PRICE : " + price);
 		if (!price.equals("100")) {
 			eventsByPrice = eventDao.getAllEventsWithPriceLowerThan(Integer.parseInt(price));
+//		System.out.println( "PARSE INT : " + Integer.parseInt(price));
 			System.out.println("PRICE : " + price);
 			System.out.println("EVENTS BY PRICE :   " + eventsByPrice);
 			if (temp.size() > 0 && eventsByPrice.size() > 0) {
-				for (Event e : temp) {
-					if (!eventsByPrice.contains(e)) {
-						allEvents.remove(e);
-					}
-				}
+				temp.retainAll(eventsByPrice);
+				System.out.println("TEMP AFTER RETAIN : " + temp);
 
-				temp = allEvents;
+//			for (Event e : temp) {
+//				if (eventsByPrice.contains(e) == true) {
+//					toRemove.add(e);
+//					
+//					System.out.println("E : " + e);
+//				}
+//			}
 			}
 		}
-		System.out.println("TEMP after price :   " + temp);
+		// System.out.println("TEMP after price : " + temp);
 
+		System.out.println("TO REMOVE : " + toRemove);
 		///////
 
 		if (temp.size() > 0) {
-			// allEvents = checkIfICanSignForTour(temp); // asi daco zle s tou metodou alebo ja som jelen
-			System.out.println("AFTER CHECK : " + allEvents);
-			for (Event e : allEvents) {
+//			temp.removeAll(toRemove);
+			System.out.println("***** FINAL TEMP : " + temp);
+			// allEvents = checkIfICanSignForTour(temp); // asi daco zle s tou metodou alebo
+			// ja som jelen
+//			System.out.println("AFTER CHECK : " + allEvents);
+			for (Event e : temp) {
 				// allEvents.add(e);
 				Tour t = tourDao.getById(e.getTourId());
 				String[] dt = e.getDateOfTour().toString().split("T");

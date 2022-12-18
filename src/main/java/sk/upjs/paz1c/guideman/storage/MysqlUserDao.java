@@ -86,6 +86,20 @@ public class MysqlUserDao implements UserDao {
 			throw new EntityNotFoundException("User with id : " + userId + " not in DB");
 		}
 	}
+	
+	// otestovat
+	@Override
+	public void saveUserEvent(Long userId, Long eventId) throws EntityNotFoundException {
+		String sql = "INSERT INTO user_has_event VALUES(?,?," + null + "," + null + ")";
+		try {
+			jdbcTemplate.update(sql, userId, eventId);
+
+		} catch (DataAccessException e) {
+			System.out.println(sql);
+			throw new EntityNotFoundException(
+					"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
+		}
+	}
 
 	@Override
 	public User getUserByUsername(String username) throws EntityNotFoundException {
@@ -237,17 +251,6 @@ public class MysqlUserDao implements UserDao {
 		}
 	}
 
-	@Override
-	public void saveUserEvent(Long userId, Long eventId) throws EntityNotFoundException {
-		String sql = "INSERT INTO user_has_event VALUES(?,?," + null + "," + null + ")";
-		try {
-			jdbcTemplate.update(sql, userId, eventId);
-
-		} catch (DataAccessException e) {
-			System.out.println(sql);
-			throw new EntityNotFoundException(
-					"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
-		}
-	}
+	
 
 }
