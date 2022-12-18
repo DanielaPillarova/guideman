@@ -230,7 +230,7 @@ public class SearchTourController {
 				System.out.println("TEMP : " + temp);
 				System.out.println("EVENTS BY MONTH : " + eventsByMonth);
 				var alex = temp.retainAll(eventsByMonth);
-				
+
 				System.out.println(alex);
 				System.out.println("TEMP : " + temp);
 
