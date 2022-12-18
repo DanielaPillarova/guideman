@@ -33,7 +33,7 @@ public class MysqlEventDao implements EventDao {
 			@Override
 			public List<Integer> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<Integer> rating = new ArrayList<>();
-				
+
 				while (rs.next()) {
 					rating.add(rs.getInt("rating"));
 				}
@@ -42,7 +42,7 @@ public class MysqlEventDao implements EventDao {
 
 		});
 	}
-	
+
 	// otestovat
 	@Override
 	public List<String> getReview(Long userId, Long eventId) {
@@ -98,12 +98,51 @@ public class MysqlEventDao implements EventDao {
 	
 	// otestovat
 	@Override
-	public List<Event> getAllByMonth(int month) {
-		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
-				+ "WHERE MONTH(date_of_tour) = " + month;
+	public List<Event> getAll() {
+		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event";
 		return jdbcTemplate.query(sql, new EventRowMapper());
 	}
 
+	// otestovat
+	@Override
+	public List<Event> getAllByMonth(int month) {
+		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event " + "WHERE MONTH(date_of_tour) = "
+				+ month;
+		return jdbcTemplate.query(sql, new EventRowMapper());
+	}
+
+	// otestovat
+	@Override
+	public List<Event> getAllEventsWithPriceLowerThan(int price) {
+		String sql = "";
+		if (price == 100) {
+			sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event";
+		} else {
+			sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event " + "WHERE price <= " + price;
+			
+		}
+		return jdbcTemplate.query(sql, new EventRowMapper());
+	}
+
+	// otestovat
+	@Override
+	public List<Event> getAllEventsByCountry(String country) {
+		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
+				+ "JOIN tour t ON e.tour_id = t.id " + "JOIN location l ON t.location_id = l.id "
+				+ "WHERE l.country = ? ";
+		return jdbcTemplate.query(sql, new EventRowMapper(), country);
+	}
+
+	// otestovat
+	@Override
+	public List<Event> getAllEventsByGuideman(String name, String surname) {
+		String sql = "SELECT e.id, e.date_of_tour, e.duration, e.price, e.tour_id FROM event e "
+				+ "JOIN tour t ON e.tour_id = t.id " + "JOIN user u ON t.user_id = u.id "
+				+ "WHERE u.name =? AND u.surname =?";
+		return jdbcTemplate.query(sql, new EventRowMapper(), name, surname);
+	}
+
+	// hovadina metoda, vymazat ak sa nikde nepouziva, pouziva sa...
 	@Override
 	public List<Event> getAllByTour(Long tourId) {
 		String sql = "SELECT id, date_of_tour, duration, price, tour_id FROM event "
@@ -150,7 +189,6 @@ public class MysqlEventDao implements EventDao {
 			throw new EntityNotFoundException("Event with id : " + eventId + " not found");
 		}
 	}
-
 
 	// otestovat
 	@Override
@@ -199,8 +237,6 @@ public class MysqlEventDao implements EventDao {
 			throw new EntityNotFoundException("User with id " + userId + " not found");
 		}
 	}
-	
-	
 
 	@Override
 	public Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException {
@@ -278,8 +314,8 @@ public class MysqlEventDao implements EventDao {
 		String sql = sb.substring(0, sb.length() - 1);
 		jdbcTemplate.update(sql);
 	}
-	
-	//otestovat
+
+	// otestovat
 	@Override
 	public boolean deleteFromUHE(Long eventId) throws EntityNotFoundException {
 		String sqlUhe = "DELETE FROM user_has_event uhe WHERE uhe.event_id = " + eventId;

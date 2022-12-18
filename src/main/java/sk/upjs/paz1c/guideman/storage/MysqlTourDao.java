@@ -37,6 +37,7 @@ public class MysqlTourDao implements TourDao {
 			throw new EntityNotFoundException("Tour with id " + tourId + " not found");
 		}
 	}
+	
 
 	@Override
 	public List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException {
@@ -60,16 +61,16 @@ public class MysqlTourDao implements TourDao {
 		}
 	}
 	
-	@Override
-	public Tour getById(long id) throws EntityNotFoundException {
-		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = " + id;
-		try {
-			return jdbcTemplate.queryForObject(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Location with id " + id + " not found");
-		}
-	}
-	
+//	@Override
+//	public Tour getById(long id) throws EntityNotFoundException {
+//		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = " + id;
+//		try {
+//			return jdbcTemplate.queryForObject(sql, new TourRowMapper());
+//		} catch (EmptyResultDataAccessException e) {
+//			throw new EntityNotFoundException("Location with id " + id + " not found");
+//		}
+//	}
+//	
 	
 	// otestovat
 	@Override

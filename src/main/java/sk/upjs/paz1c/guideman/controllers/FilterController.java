@@ -249,7 +249,12 @@ public class FilterController {
 			Filter.INSTANCE.setPrice(priceNew);
 			Filter.INSTANCE.setNewFilters(true);
 			
-//			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Filter have been saved successfully !");
+//			System.out.println("COUNTRY NEW : " + countryNew);
+//			System.out.println("MONTH NEW : " + monthNew);
+//			System.out.println("GUIDEMAN NEW : " + guidemanNew);
+//			System.out.println("PRICE NEW : " + priceNew);
+			
+			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Filter have been saved successfully !");
 		}
 	}
 

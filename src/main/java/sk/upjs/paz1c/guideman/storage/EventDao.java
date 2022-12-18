@@ -6,13 +6,13 @@ import java.util.NoSuchElementException;
 public interface EventDao {
 
 	List<Integer> getRating(Long userId, Long eventId);
-	
+
 	List<String> getReview(Long userId, Long eventId);
-	
+
 	List<Integer> getRatings(Long eventId);
 
 	List<String> getReviews(Long eventId);
-	
+
 	List<Event> getAllByTour(Long tourId);
 
 	Event save(Event event) throws NullPointerException, NegativeNumberException, NoSuchElementException;
@@ -33,8 +33,12 @@ public interface EventDao {
 
 	List<Event> getAllByMonth(int month);
 
-	
+	List<Event> getAllEventsWithPriceLowerThan(int price);
 
-	
+	List<Event> getAllEventsByCountry(String country);
+
+	List<Event> getAllEventsByGuideman(String name, String surname);
+
+	List<Event> getAll();
 
 }

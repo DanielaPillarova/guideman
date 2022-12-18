@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface TourDao {
 
-	Tour getById(long id) throws EntityNotFoundException;
+	// Tour getById(long id) throws EntityNotFoundException;
 
 	List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException;
 
