@@ -12,12 +12,6 @@ import javafx.scene.image.ImageView;
 public class ShowTourController {
 
 	@FXML
-	private ResourceBundle resources;
-
-	@FXML
-	private URL location;
-
-	@FXML
 	private Label bioLabel;
 
 	@FXML
@@ -85,20 +79,18 @@ public class ShowTourController {
 
 	@FXML
 	private Label guidemanFillLabel;
-	
-	@FXML
-    private Label countryFillLabel;
-	
-	@FXML
-    private Label cityFillLabel;
 
 	@FXML
-    private Label streetFillLabel;
+	private Label countryFillLabel;
 
-    @FXML
-    private Label streetNumberFillLabel;
+	@FXML
+	private Label cityFillLabel;
 
+	@FXML
+	private Label streetFillLabel;
 
+	@FXML
+	private Label streetNumberFillLabel;
 
 	@FXML
 	void myProfileButtonAction(ActionEvent event) {
@@ -119,12 +111,11 @@ public class ShowTourController {
 	void createTourButtonAction(ActionEvent event) {
 		Menu.INSTANCE.openCreateTour(seeReviewsButton);
 	}
-	
+
 	@FXML
 	void logOutButtonAction(ActionEvent event) {
 		Menu.INSTANCE.logOut(seeReviewsButton);
 	}
-	
 
 	@FXML
 	void letsGoButtonAction(ActionEvent event) {

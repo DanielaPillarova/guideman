@@ -61,6 +61,8 @@ public class CreateTourController {
 	private Window owner;
 	private Blob imageFromDB = null;
 
+	private boolean defaultTour = false;
+
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
 	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
@@ -163,7 +165,14 @@ public class CreateTourController {
 	private TextField titleTextField;
 
 	@FXML
-	void createButtonAction(ActionEvent event) throws SerialException, SQLException {
+	void createButtonAction(ActionEvent event) throws SerialException, SQLException, IOException {
+
+		if (defaultTour == true) {
+			filePath = "src/main/resources/sk/upjs/paz1c/guideman/defaultTour.jpg";
+			System.out.println("default PHOTO ----------------------");
+			bytes = Files.readAllBytes(Paths.get(filePath));
+		}
+
 		Blob blobisko = null;
 		if (bytes != null) {
 			blobisko = new SerialBlob(bytes);
@@ -178,11 +187,6 @@ public class CreateTourController {
 				// dat infobox
 				return;
 			}
-		}
-
-		if (imageFromDB != null) {
-			blobisko = imageFromDB;
-			imageFromDB = null;
 		}
 
 		String title = titleTextField.getText();
@@ -413,7 +417,7 @@ public class CreateTourController {
 
 	@FXML
 	void selectImageButtonAction(ActionEvent event) throws IOException {
-
+		defaultTour = true;
 		bytes = null;
 		noSelectedImageLabel.setText("No selected file");
 
@@ -431,6 +435,7 @@ public class CreateTourController {
 			int response = fileChooser.showSaveDialog(null); // select file to open
 
 			if (response == JFileChooser.APPROVE_OPTION) {
+				defaultTour = false;
 				selectedFile = new File(fileChooser.getSelectedFile().getAbsolutePath()); // File , jeho cesta
 				filePath = selectedFile.getAbsolutePath(); // string
 				if (filePath.endsWith(".jpg") || filePath.endsWith(".JPG") || filePath.endsWith(".PNG")
@@ -440,6 +445,7 @@ public class CreateTourController {
 					nameOfFile = selectedFile.getName();
 					noSelectedImageLabel.setText(nameOfFile);
 				} else {
+					defaultTour = true;
 					infoBox("Please Select Image File", null, "Warning !");
 				}
 			}
@@ -448,6 +454,7 @@ public class CreateTourController {
 
 	@FXML
 	void initialize() {
+		defaultTour = true;
 		bioTextArea.setWrapText(true);
 
 		BooleanBinding bb = new BooleanBinding() {

@@ -85,9 +85,9 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Button fx:id="seeReviewsButton" layoutX="392.0" layoutY="584.0" mnemonicParsing="false" onAction="#seeReviewsButtonAction" style="-fx-background-color: khaki;" text="See reviews">
+      <Button fx:id="seeReviewsButton" layoutX="392.0" layoutY="581.0" mnemonicParsing="false" onAction="#seeReviewsButtonAction" style="-fx-background-color: khaki;" text="See reviews">
          <font>
-            <Font name="Helvetica" size="18.0" />
+            <Font size="20.0" />
          </font></Button>
       <TextArea fx:id="bioTextArea" layoutX="151.0" layoutY="219.0" prefHeight="87.0" prefWidth="389.0" promptText="More information about the tour.">
          <font>
