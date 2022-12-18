@@ -44,44 +44,47 @@ class MysqlEventDaoTest {
 	@Test
 	void getRatingsTest() {
 		int size = eventDao.getRatings(1l).size();
+		// treba prerobit
 		assertTrue(size == 2);
 	}
 
 	@Test
 	void getReviewsTest() {
 		int size = eventDao.getReviews(1l).size();
+		// treba prerobit
 		assertTrue(size == 3);
 	}
 
 	// checknut db + 1
 	@Test
 	void getAllByTourTest() {
+		// treba prerobit
 		List<Event> allEvents = eventDao.getAllByTour(1l);
 		assertEquals(allEvents.size(), 4);
 	}
-	
+
 	// checknut db
 	@Test
 	void getAllEventsFromPastTest() {
 		List<Event> events = eventDao.getAllEventsFromPast(3l);
 		assertTrue(events.size() == 2);
 	}
-	
+
 	// checknut db
 	@Test
 	void getAllEventsFromFutureTest() {
 		List<Event> events = eventDao.getAllEventsFromFuture(3l);
 		assertTrue(events.size() == 4);
 	}
-	
+
 	// checknut db + 1
 	@Test
 	void getAllEventsWhereIAmGuidemanTest() {
 		List<Event> events = eventDao.getAllEventsWhereIAmGuideman(1l);
+		// treba prerobit
 		assertTrue(events.size() == 6);
 	}
-	
-	
+
 	@Test
 	void insertTest() {
 		assertThrows(NullPointerException.class, () -> eventDao.save(null), "Cannot save null");

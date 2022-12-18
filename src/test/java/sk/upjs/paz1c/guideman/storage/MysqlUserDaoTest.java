@@ -57,16 +57,18 @@ class MysqlUserDaoTest {
 		User fromDB = userDao.getById(savedUser.getId());
 		assertEquals(savedUser.getId(), fromDB.getId());
 		assertThrows(EntityNotFoundException.class, () -> userDao.getById(-1L));
-		
+
 	}
 
 	@Test
 	void getAllTouristsTest() {
+		// treba prerobit
 		assertEquals(userDao.getAllTourists(1).size(), 3);
 	}
-	
+
 	@Test
 	void getAllFavouriteGuidemansTest() {
+		// treba prerobit
 		assertEquals(userDao.getAllFavouriteGuidemans(1).size(), 2);
 		assertEquals(userDao.getAllFavouriteGuidemans(2).size(), 1);
 	}
@@ -144,32 +146,34 @@ class MysqlUserDaoTest {
 		userDao.delete(saved.getId());
 		assertEquals(sizeDelete - 1, userDao.getAll().size());
 	}
-	
+
 	@Test
 	void saveAndDeleteRatingTest() {
 		int ratingSizeBefore = eventDao.getRatings(16l).size();
 		userDao.saveRating(3l, 16l, 5);
 		int ratingSizeAfter = eventDao.getRatings(16l).size();
+		// treba prerobit
 		assertEquals(ratingSizeBefore + 1, ratingSizeAfter);
 		userDao.deleteRating(3l, 16l);
 		int ratingSizeAfterDelete = eventDao.getRatings(16l).size();
 		assertEquals(ratingSizeAfterDelete, ratingSizeBefore);
-		
+
 		userDao.saveRating(2l, 16l, 6);
 		int badRatingSize = eventDao.getRatings(16l).size();
 		assertEquals(ratingSizeBefore, badRatingSize);
 	}
-	
+
 	@Test
 	void saveAndDeleteReviewsTest() {
 		int reviewsSizeBefore = eventDao.getReviews(16l).size();
 		userDao.saveReview(3l, 16l, "dajaky review");
 		int reviewsSizeAfter = eventDao.getReviews(16l).size();
+		// treba prerobit
 		assertEquals(reviewsSizeBefore + 1, reviewsSizeAfter);
 		userDao.deleteReview(3l, 16l);
 		int reviewSizeAfterDelete = eventDao.getReviews(16l).size();
 		assertEquals(reviewsSizeBefore, reviewSizeAfterDelete);
-		
+
 	}
 
 }
