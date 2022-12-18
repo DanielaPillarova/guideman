@@ -95,7 +95,7 @@ public class MysqlEventDao implements EventDao {
 			}
 		});
 	}
-	
+
 	// otestovat
 	@Override
 	public List<Event> getAll() {

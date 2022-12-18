@@ -116,7 +116,7 @@ public class LoginController {
 			}
 		}
 
-		if (userExists == false) {
+		if (!userExists) {
 			showAlert(Alert.AlertType.ERROR, owner, "Error !", "User does not exist !");
 			return;
 		}
@@ -132,7 +132,7 @@ public class LoginController {
 
 			hideWindow = true;
 
-			if (hideWindow = true) {
+			if (hideWindow) {
 //				((Node) (event.getSource())).getScene().getWindow().hide();
 				usernameTextField.getScene().getWindow().hide();
 				button.getScene().getWindow().hide();

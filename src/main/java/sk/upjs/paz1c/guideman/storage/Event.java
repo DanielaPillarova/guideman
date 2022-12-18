@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class Event {
-	
+
 	public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
 	private Long id;
@@ -15,25 +16,24 @@ public class Event {
 	private Double price;
 	private Long tourId;
 	private List<User> tourists;
-	
+
 	private List<Integer> ratings;
 	private List<String> reviews;
-	
-	
+
 	public Event() {
 	}
 
 	public Event(Long tourId) {
 		this.tourId = tourId;
 	}
-	
+
 	public Event(LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId) {
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
 		this.tourId = tourId;
 	}
-	
+
 	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
@@ -41,15 +41,16 @@ public class Event {
 		this.price = price;
 		this.tourId = tourId;
 	}
-		
-	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId, List<User> tourists) {
+
+	public Event(Long id, LocalDateTime dateOfTour, LocalTime duration, Double price, Long tourId,
+			List<User> tourists) {
 		this.id = id;
 		this.dateOfTour = dateOfTour;
 		this.duration = duration;
 		this.price = price;
 		this.tourId = tourId;
 		if (tourists != null) {
-			this.tourists = tourists;			
+			this.tourists = tourists;
 		}
 	}
 
@@ -68,7 +69,7 @@ public class Event {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -134,4 +135,23 @@ public class Event {
 		return dateOfTour.format(formatter);
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(dateOfTour, duration, id, price, ratings, reviews, tourId, tourists);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		return Objects.equals(dateOfTour, other.dateOfTour) && Objects.equals(duration, other.duration)
+				&& Objects.equals(id, other.id) && Objects.equals(price, other.price)
+				&& Objects.equals(ratings, other.ratings) && Objects.equals(reviews, other.reviews)
+				&& Objects.equals(tourId, other.tourId) && Objects.equals(tourists, other.tourists);
+	}
 }

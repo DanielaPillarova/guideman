@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -173,7 +174,7 @@ public class SearchTourController {
 		List<Event> allEvents = new ArrayList<>();
 		for (Event event : notCheckEvents) {
 			Tour tour = tourDao.getById(event.getTourId());
-			if (tour.getGuidemanId() != loggedUserId) {
+			if (!Objects.equals(tour.getGuidemanId(), loggedUserId)) {
 				allEvents.add(event);
 //				List<User> tourists = userDao.getAllTourists(event.getId());
 //				for (User u : tourists) {
@@ -192,7 +193,7 @@ public class SearchTourController {
 		for (Event event : notCheckEvents) {
 			List<User> tourists = userDao.getAllTourists(event.getId());
 			for (User u : tourists) {
-				if (u.getId() != loggedUserId) {
+				if (!Objects.equals(u.getId(), loggedUserId)) {
 					allEvents.add(event);
 				}
 			}
@@ -205,7 +206,6 @@ public class SearchTourController {
 
 		Set<String> displayedTours = new HashSet<>();
 		List<Event> temp = new ArrayList<>();
-		List<Event> toRemove = new ArrayList<>();
 
 		// country
 		System.out.println("COUNTRY : " + country);
@@ -214,15 +214,11 @@ public class SearchTourController {
 		if (country.equals("ALL")) {
 			if (eventDao.getAll().size() > 0) {
 				temp = eventDao.getAll();
-//				toRemove = temp;
 			}
 		} else {
 			List<Event> eventsByCountry = eventDao.getAllEventsByCountry(country);
-			System.out.println(eventDao.getAll() + "   ALL EVENTS V ELSE");
 			if (eventsByCountry.size() > 0) {
 				temp = eventsByCountry;
-//				toRemove = temp;
-
 			}
 		}
 
@@ -230,83 +226,50 @@ public class SearchTourController {
 		List<Event> eventsByMonth = new ArrayList<>();
 		if (!month.equals("ALL")) {
 			eventsByMonth = eventDao.getAllByMonth(parseMonthToInt(month));
-			System.out.println("EVENTS BY MONTH :   " + eventsByMonth);
 			if (temp.size() > 0 && eventsByMonth.size() > 0) {
+				System.out.println("TEMP : " + temp);
+				System.out.println("EVENTS BY MONTH : " + eventsByMonth);
+				var alex = temp.retainAll(eventsByMonth);
+				
+				System.out.println(alex);
+				System.out.println("TEMP : " + temp);
 
-				for (Event e : temp) {
-//					if (eventsByMonth.contains(e) == true) {
-//						toRemove.add(e);
-//				temp.retainAll(eventsByMonth);
-//				System.out.println("TEMP AFTER RETAIN : " + temp);
-//						System.out.println("E :   " + e);
-//					}
-//				}
-				}
 			}
 		}
-		toRemove = temp;
 
 		// guideman
 		List<Event> eventsByGuideman = new ArrayList<>();
-		System.out.println("GUIDEMAN : " + guideman);
 		if (!guideman.equals("ALL")) {
 			String[] nAs = guideman.split(" ");
-			System.out.println(nAs[0]);
-			System.out.println(nAs[1]);
 			eventsByGuideman = eventDao.getAllEventsByGuideman(nAs[0], nAs[1]);
-			System.out.println("GUIDEMAN : " + guideman);
-			System.out.println("EVENTS BY GUIDEMAN :   " + eventsByGuideman);
 			if (temp.size() > 0 && eventsByGuideman.size() > 0) {
 				temp.retainAll(eventsByGuideman);
-				System.out.println("TEMP AFTER RETAIN : " + temp);
-
-//				for (Event e : temp) {
-//					if (eventsByGuideman.contains(e) == true) {
-//						toRemove.add(e);
-//						System.out.println("E : " + e);
-//
-//					}
-//				}
 
 			}
 		}
-		toRemove = temp;
-
-		System.out.println("TEMP : " + temp);
 
 		// price
 		List<Event> eventsByPrice = new ArrayList<>();
-		if (!price.equals("100")) {
-			eventsByPrice = eventDao.getAllEventsWithPriceLowerThan(Integer.parseInt(price));
-//		System.out.println( "PARSE INT : " + Integer.parseInt(price));
-			System.out.println("PRICE : " + price);
-			System.out.println("EVENTS BY PRICE :   " + eventsByPrice);
-			if (temp.size() > 0 && eventsByPrice.size() > 0) {
-				temp.retainAll(eventsByPrice);
-				System.out.println("TEMP AFTER RETAIN : " + temp);
-
-//			for (Event e : temp) {
-//				if (eventsByPrice.contains(e) == true) {
-//					toRemove.add(e);
-//					
-//					System.out.println("E : " + e);
-//				}
-//			}
-			}
+		eventsByPrice = eventDao.getAllEventsWithPriceLowerThan(Integer.parseInt(price));
+		if (temp.size() > 0) {
+			System.out.println("TEMP : " + temp);
+			System.out.println("EVENTS BY PRICE : " + eventsByPrice);
+			temp.retainAll(eventsByPrice);
 		}
-		// System.out.println("TEMP after price : " + temp);
 
-		System.out.println("TO REMOVE : " + toRemove);
 		///////
 
 		if (temp.size() > 0) {
-//			temp.removeAll(toRemove);
 			System.out.println("***** FINAL TEMP : " + temp);
-			// allEvents = checkIfICanSignForTour(temp); // asi daco zle s tou metodou alebo
-			// ja som jelen
-//			System.out.println("AFTER CHECK : " + allEvents);
-			for (Event e : temp) {
-				// allEvents.add(e);
+			List<Event> eventsAfterCheck1 = new ArrayList<>();
+			List<Event> eventsAfterCheck2 = new ArrayList<>();
+
+			eventsAfterCheck1 = checkIfIAmAlreadySigned(temp);
+			System.out.println("CHECK 1 : " + eventsAfterCheck1);
+			eventsAfterCheck2 = checkIfIAmGuideman(eventsAfterCheck1);
+			System.out.println("CHECK 2 : " + eventsAfterCheck2);
+
+			for (Event e : eventsAfterCheck2) {
 				Tour t = tourDao.getById(e.getTourId());
 				String[] dt = e.getDateOfTour().toString().split("T");
 				String[] date = dt[0].split("-");
