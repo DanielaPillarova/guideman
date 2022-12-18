@@ -73,7 +73,7 @@ public class MysqlUserDao implements UserDao {
 	public List<User> getAllGuidemans() {
 		String sql = "SELECT DISTINCT u.id, u.name, u.surname, u.email, u.tel_number, u.birthdate, u.login, u.password, u.image FROM user u "
 				+ "JOIN tour t ON t.user_id = u.id";
-			return jdbcTemplate.query(sql, new UserRowMapper());
+		return jdbcTemplate.query(sql, new UserRowMapper());
 	}
 
 	@Override
@@ -232,6 +232,19 @@ public class MysqlUserDao implements UserDao {
 		try {
 			jdbcTemplate.update(sql);
 		} catch (DataAccessException e) {
+			throw new EntityNotFoundException(
+					"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
+		}
+	}
+
+	@Override
+	public void saveUserEvent(Long userId, Long eventId) throws EntityNotFoundException {
+		String sql = "INSERT INTO user_has_event VALUES(?,?," + null + "," + null + ")";
+		try {
+			jdbcTemplate.update(sql, userId, eventId);
+
+		} catch (DataAccessException e) {
+			System.out.println(sql);
 			throw new EntityNotFoundException(
 					"User with id: " + userId + " or event with id: " + eventId + " is not in DB");
 		}

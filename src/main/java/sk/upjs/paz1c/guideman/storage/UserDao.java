@@ -28,5 +28,7 @@ public interface UserDao {
 	User getUserByUsername(String username) throws EntityNotFoundException;
 
 	List<User> getAllGuidemans();
+	
+	void saveUserEvent(Long userId, Long eventId) throws EntityNotFoundException;
 
 }
