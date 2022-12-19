@@ -264,9 +264,9 @@ public class CreateTourController {
 			List<Tour> toursFromDB = tourDao.getAll();
 			System.out.println(toursFromDB + " TOURS V DB");
 			for (Tour tour2 : toursFromDB) {
-				if (tour.getTitle().equals(tour2.getTitle()) && tour.getBio().equals(tour2.getBio())
-						&& tour.getMaxSlots() == tour2.getMaxSlots() && tour.getLocationId() == tour2.getLocationId()
-						&& tour.getGuidemanId() == tour2.getGuidemanId() && tour.getImage() == tour2.getImage()) {
+				if (tour.getTitle().equals(tour2.getTitle()) && tour.getMaxSlots() == tour2.getMaxSlots()
+						&& tour.getLocationId() == tour2.getLocationId()
+						&& tour.getGuidemanId() == tour2.getGuidemanId()) {
 					System.out.println("existuje tour");
 					sameTour = true;
 					savedTour = tour2;

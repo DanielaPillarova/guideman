@@ -232,6 +232,9 @@ public class MyProfileController {
 
 		} else {
 			if (changedPhone.equals("")) {
+				if (loggedUser.getTelNumber() != null) {
+					changed = true;
+				}
 				changedPhone = null;
 			} else {
 				if (!(changedPhone.equals(loggedUser.getTelNumber()))) {

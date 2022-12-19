@@ -154,6 +154,10 @@ public class ShowTourController {
 					userDao.saveUserEvent(LoggedUser.INSTANCE.getLoggedUser().getId(), loggedEvent.getId());
 					showAlert(Alert.AlertType.CONFIRMATION, owner, "Confirmation !",
 							"You have successfully signed for this tour !");
+					String temp = numberOfFreePlacesFillLabel.getText();
+					numberOfFreePlacesFillLabel
+					.setText(String.valueOf(tourists.size() + 1) + "/" + String.valueOf(loggedTour.getMaxSlots()));
+					
 				} else {
 					showAlert(Alert.AlertType.WARNING, owner, "Warning !", "You are already signed to this tour !");
 				}

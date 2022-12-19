@@ -1,5 +1,7 @@
 package sk.upjs.paz1c.guideman.storage;
 
+import java.util.Objects;
+
 public class Location {
 
 	private Long id;
@@ -85,5 +87,26 @@ public class Location {
 		return "Location [id=" + id + ", country=" + country + ", city=" + city + ", street=" + street
 				+ ", street_number=" + street_number + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(city, country, id, street, street_number);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Location other = (Location) obj;
+		return Objects.equals(city, other.city) && Objects.equals(country, other.country)
+				&& Objects.equals(id, other.id) && Objects.equals(street, other.street)
+				&& Objects.equals(street_number, other.street_number);
+	}
+	
+	
 
 }
