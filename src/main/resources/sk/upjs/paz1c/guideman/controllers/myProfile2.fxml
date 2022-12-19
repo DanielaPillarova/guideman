@@ -49,7 +49,7 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
-      <Label fx:id="dateOfBirthLabel" layoutX="84.0" layoutY="451.0" text="Date of birth :">
+      <Label fx:id="dateOfBirthLabel" layoutX="97.0" layoutY="450.0" text="Date of birth :">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Label>
