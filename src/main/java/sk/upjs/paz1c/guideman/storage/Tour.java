@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.guideman.storage;
 
 import java.sql.Blob;
+import java.util.Objects;
 
 public class Tour {
 
@@ -119,4 +120,26 @@ public class Tour {
 		return "Tour [id=" + id + ", title=" + title + ", bio=" + bio + ", maxSlots=" + maxSlots + ", location_id="
 				+ locationId + ", guideman_id=" + guidemanId + ", image=" + image + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bio, guidemanId, id, image, locationId, maxSlots, title);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tour other = (Tour) obj;
+		return Objects.equals(bio, other.bio) && Objects.equals(guidemanId, other.guidemanId)
+				&& Objects.equals(id, other.id) && Objects.equals(image, other.image)
+				&& Objects.equals(locationId, other.locationId) && Objects.equals(maxSlots, other.maxSlots)
+				&& Objects.equals(title, other.title);
+	}
+	
+	
 }

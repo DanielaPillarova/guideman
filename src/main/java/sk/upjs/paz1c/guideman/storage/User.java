@@ -1,6 +1,7 @@
 package sk.upjs.paz1c.guideman.storage;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.sql.Blob;
 
 public class User {
@@ -175,5 +176,28 @@ public class User {
 				+ telNumber + ", birthdate=" + birthdate + ", login=" + login + ", password=" + password + ", image="
 				+ image + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(birthdate, email, id, image, login, name, password, surname, telNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(birthdate, other.birthdate) && Objects.equals(email, other.email)
+				&& Objects.equals(id, other.id) && Objects.equals(image, other.image)
+				&& Objects.equals(login, other.login) && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password) && Objects.equals(surname, other.surname)
+				&& Objects.equals(telNumber, other.telNumber);
+	}
+	
+	
 
 }

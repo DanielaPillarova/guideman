@@ -71,7 +71,7 @@ public class SignupController {
 
 	@FXML
 	private Label selectedFileLabel;
-	
+
 	public static String emailReceiver;
 
 	public SignupController() {
@@ -84,14 +84,17 @@ public class SignupController {
 		userModel = new UserFxModel(user);
 	}
 
+	// https://stackoverflow.com/questions/23040531/how-to-disable-button-when-textfield-is-empty
 	@FXML
 	void initialize() {
+		selectedFileLabel.setMaxWidth(275);
+
 		guidemanInstead = true;
 		BooleanBinding bb = new BooleanBinding() {
 			{
-				super.bind(nameTextField.textProperty(), surnameTextField.textProperty(),
-						emailTextField.textProperty(), birthdateTextField.textProperty(),
-						usernameTextField.textProperty(), passwordPasswordField.textProperty());
+				super.bind(nameTextField.textProperty(), surnameTextField.textProperty(), emailTextField.textProperty(),
+						birthdateTextField.textProperty(), usernameTextField.textProperty(),
+						passwordPasswordField.textProperty());
 			}
 
 			@Override
@@ -245,7 +248,7 @@ public class SignupController {
 			System.out.println("new user has been made");
 			infoBox("Sign up has been successful !", null, "Successful sign up");
 
-			ms.send();
+			// ms.send();
 			signUpNewMemberButton.getScene().getWindow().hide();
 
 			// RIP moj mrtvy button
@@ -313,6 +316,5 @@ public class SignupController {
 		alert.initOwner(owner);
 		alert.show();
 	}
-
 
 }
