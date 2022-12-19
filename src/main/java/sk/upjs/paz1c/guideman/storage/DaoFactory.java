@@ -56,7 +56,7 @@ public enum DaoFactory {
 			dataSource.setPassword("guideman2022");
 			if (testing) {
 				dataSource.setUrl("jdbc:mysql://localhost/guideman_test?serverTimezone=Europe/Bratislava");
-			} else {
+			} else { 
 				dataSource.setUrl("jdbc:mysql://localhost/guideman?serverTimezone=Europe/Bratislava");
 			}
 			jdbcTemplate = new JdbcTemplate(dataSource);

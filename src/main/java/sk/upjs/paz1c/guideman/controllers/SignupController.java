@@ -40,6 +40,7 @@ public class SignupController {
 	private String nameOfFile;
 	private byte[] bytes = null; // obrazok v bytoch
 	private boolean guidemanInstead;
+	private MailSender ms;
 
 	@FXML
 	private TextField nameTextField;
@@ -70,11 +71,13 @@ public class SignupController {
 
 	@FXML
 	private Label selectedFileLabel;
+	
+	public static String emailReceiver;
 
 	public SignupController() {
 		userModel = new UserFxModel();
 		userDao = DaoFactory.INSTANCE.getUserDao();
-
+		ms = new MailSender();
 	}
 
 	public SignupController(User user) {
@@ -86,9 +89,9 @@ public class SignupController {
 		guidemanInstead = true;
 		BooleanBinding bb = new BooleanBinding() {
 			{
-				super.bind(nameTextField.textProperty(), surnameTextField.textProperty(), emailTextField.textProperty(),
-						birthdateTextField.textProperty(), usernameTextField.textProperty(),
-						passwordPasswordField.textProperty());
+				super.bind(nameTextField.textProperty(), surnameTextField.textProperty(),
+						emailTextField.textProperty(), birthdateTextField.textProperty(),
+						usernameTextField.textProperty(), passwordPasswordField.textProperty());
 			}
 
 			@Override
@@ -145,6 +148,7 @@ public class SignupController {
 		String name = nameTextField.getText();
 		String surname = surnameTextField.getText();
 		String email = emailTextField.getText();
+		emailReceiver = email;
 		String tel_number = telNumberTextField.getText();
 
 		// parse tento birthdate
@@ -240,6 +244,8 @@ public class SignupController {
 		if (sizeBe4 + 1 == sizeAfter) {
 			System.out.println("new user has been made");
 			infoBox("Sign up has been successful !", null, "Successful sign up");
+
+			ms.send();
 			signUpNewMemberButton.getScene().getWindow().hide();
 
 			// RIP moj mrtvy button
@@ -307,5 +313,6 @@ public class SignupController {
 		alert.initOwner(owner);
 		alert.show();
 	}
+
 
 }

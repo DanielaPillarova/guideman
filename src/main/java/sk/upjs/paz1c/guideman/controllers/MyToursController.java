@@ -2,15 +2,11 @@ package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import sk.upjs.paz1c.guideman.models.TourFxModel;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Event;
 import sk.upjs.paz1c.guideman.storage.EventDao;
@@ -120,7 +115,6 @@ public class MyToursController {
 			return;
 		}
 		ShowTour.INSTANCE.setLoggedEvent(e1);
-//		System.out.println(e1);
 
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("writingRating.fxml"));
@@ -148,9 +142,6 @@ public class MyToursController {
 			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "Please select row from list !");
 			return;
 		}
-//		ShowTour.INSTANCE.setLoggedEvent(e1);
-//		System.out.println(e1);
-//		showAlert(Alert.AlertType.INFORMATION, owner, "Question!", "Are you sure  !");
 		if (eventDao.deleteFromUHE(e1.getId()) == true) {
 			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "You have been signed off !");
 			int idx = toursListView.getSelectionModel().getSelectedIndex();
@@ -183,8 +174,6 @@ public class MyToursController {
 		Tour t1 = tourDao.getById(e1.getTourId());
 		ShowTour.INSTANCE.setLoggedEvent(e1);
 		ShowTour.INSTANCE.setLoggedTour(t1);
-//		System.out.println(t1);
-//		System.out.println(e1);
 
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(ShowTourController.class.getResource("showTour2.fxml"));

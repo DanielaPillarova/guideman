@@ -1,9 +1,7 @@
 package sk.upjs.paz1c.guideman.controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -117,24 +115,10 @@ public class FilterController {
 
 	@FXML
 	void saveAndFilterButtonAction(ActionEvent event) {
-//		System.out.println("###### logged");
-//		System.out.println(Filter.INSTANCE.getCountry());
-//		System.out.println(Filter.INSTANCE.getMonth());
-//		System.out.println(Filter.INSTANCE.getGuideman());
-//		System.out.println(Filter.INSTANCE.getPrice());
-//		System.out.println("####");
-
 		String country = filterByCountryComboBox.getSelectionModel().getSelectedItem();
 		String month = filterByMonthComboBox.getSelectionModel().getSelectedItem();
 		String guideman = filterByGuidemanComboBox.getSelectionModel().getSelectedItem();
 		String price = priceLabel.getText();
-
-//		System.out.println("###### from selection model");
-//		System.out.println(country);
-//		System.out.println(month);
-//		System.out.println(guideman);
-//		System.out.println(price);
-//		System.out.println("####");
 
 		String countryLogged = Filter.INSTANCE.getCountry();
 		String monthLogged = Filter.INSTANCE.getMonth();
@@ -231,13 +215,6 @@ public class FilterController {
 			}
 		}
 
-//		System.out.println("###### new");
-//		System.out.println(countryNew);
-//		System.out.println(monthNew);
-//		System.out.println(guidemanNew);
-//		System.out.println(priceNew);
-//		System.out.println("####");
-
 		if (countryNew.equals(countryLogged) && monthNew.equals(monthLogged) && guidemanNew.equals(guidemanLogged)
 				&& priceNew.equals(priceLogged)) {
 			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "No change has been made !");
@@ -248,11 +225,6 @@ public class FilterController {
 			Filter.INSTANCE.setGuideman(guidemanNew);
 			Filter.INSTANCE.setPrice(priceNew);
 			Filter.INSTANCE.setNewFilters(true);
-			
-//			System.out.println("COUNTRY NEW : " + countryNew);
-//			System.out.println("MONTH NEW : " + monthNew);
-//			System.out.println("GUIDEMAN NEW : " + guidemanNew);
-//			System.out.println("PRICE NEW : " + priceNew);
 			
 			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Filter have been saved successfully !");
 		}
