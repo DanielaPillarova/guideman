@@ -1,12 +1,10 @@
 package sk.upjs.paz1c.guideman.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -18,7 +16,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,8 +23,6 @@ import javafx.stage.Window;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
 import sk.upjs.paz1c.guideman.storage.Event;
 import sk.upjs.paz1c.guideman.storage.EventDao;
-import sk.upjs.paz1c.guideman.storage.Location;
-import sk.upjs.paz1c.guideman.storage.LocationDao;
 import sk.upjs.paz1c.guideman.storage.Tour;
 import sk.upjs.paz1c.guideman.storage.TourDao;
 import sk.upjs.paz1c.guideman.storage.User;
@@ -88,6 +83,29 @@ public class SearchTourController {
 		tourDao = DaoFactory.INSTANCE.getTourDao();
 		userDao = DaoFactory.INSTANCE.getUserDao();
 		loggedUserId = LoggedUser.INSTANCE.getLoggedUser().getId();
+		
+		countryLabel.setText("All");
+		monthLabel.setText("All");
+		guidemanLabel.setText("All");
+		priceLabel.setText("100");
+		country = "All";
+		month = "All";
+		guideman = "All";
+		price = "100";
+		
+		List<String> displayed = new ArrayList<>();
+		if (eventDao.getAll().size() > 0) {
+			List<Event> eventsAfterCheck = new ArrayList<>();
+			eventsAfterCheck = check(eventDao.getAll());
+			for (Event e : eventsAfterCheck) {
+				prepareTourAndEventForListView(displayed, e);
+			}
+		} else {
+			displayed.add("No tours found");
+			filteredToursListView.setMouseTransparent(true);
+			showTourButton.setDisable(true);
+		}
+		filteredToursListView.setItems(FXCollections.observableArrayList(displayed));
 	}
 
 	@FXML
@@ -170,46 +188,50 @@ public class SearchTourController {
 		return 0;
 	}
 
-	private List<Event> checkIfIAmGuideman(List<Event> notCheckEvents) {
+	private List<Event> check(List<Event> notCheckEvents) {
 		List<Event> allEvents = new ArrayList<>();
 		for (Event event : notCheckEvents) {
-			Tour tour = tourDao.getById(event.getTourId());
-			if (!Objects.equals(tour.getGuidemanId(), loggedUserId)) {
-				allEvents.add(event);
-//				List<User> tourists = userDao.getAllTourists(event.getId());
-//				for (User u : tourists) {
-//					if (u.getId() != loggedUserId) {
-//						allEvents.add(event);
-//					}
-//				}
-
-			}
-		}
-		return allEvents;
-	}
-
-	private List<Event> checkIfIAmAlreadySigned(List<Event> notCheckEvents) {
-		List<Event> allEvents = new ArrayList<>();
-		for (Event event : notCheckEvents) {
-			List<User> tourists = userDao.getAllTourists(event.getId());
-			for (User u : tourists) {
-				if (!Objects.equals(u.getId(), loggedUserId)) {
-					allEvents.add(event);
+			String[] dtE = event.getDateOfTour().toString().split("T");
+			LocalDate dateEvent = LocalDate.parse(dtE[0]);
+			LocalDate dateNow = LocalDate.now();
+//			System.out.println(dateEvent);
+//			System.out.println(dateNow);
+			if (dateEvent.isAfter(dateNow)) {
+				//
+				Tour tour = tourDao.getById(event.getTourId());
+//				System.out.println("TOUR : " + tour);
+				if (!Objects.equals(tour.getGuidemanId(), loggedUserId)) {
+//					System.out.println("EVENT : " + event);
+					List<User> tourists = userDao.getAllTourists(event.getId());
+					boolean signed = false;
+					for (User u : tourists) {
+//						System.out.println("USER : " + u);
+//						System.out.println("USER ID : " + u.getId());
+//						System.out.println("LOGGED USER ID : " + loggedUserId);
+						if (Objects.equals(u.getId(), loggedUserId)) {
+							signed = true;
+						}
+					}
+					if (!signed) {
+						allEvents.add(event);
+//						System.out.println("### EVENT ADDED : " + event);
+					}
 				}
 			}
+
 		}
 		return allEvents;
 	}
 
 	private void fillListView() {
-		System.out.println("#### SME VO fill list view");
+//		System.out.println("#### SME VO fill list view");
 
-		Set<String> displayedTours = new HashSet<>();
+		List<String> displayed = new ArrayList<>();
 		List<Event> temp = new ArrayList<>();
 
 		// country
-		System.out.println("COUNTRY : " + country);
-		System.out.println("ALL EVENTS : " + eventDao.getAll());
+//		System.out.println("COUNTRY : " + country);
+//		System.out.println("ALL EVENTS : " + eventDao.getAll());
 
 		if (country.equals("ALL")) {
 			if (eventDao.getAll().size() > 0) {
@@ -217,23 +239,18 @@ public class SearchTourController {
 			}
 		} else {
 			List<Event> eventsByCountry = eventDao.getAllEventsByCountry(country);
-			if (eventsByCountry.size() > 0) {
-				temp = eventsByCountry;
-			}
+			temp = eventsByCountry;
 		}
 
 		// month
 		List<Event> eventsByMonth = new ArrayList<>();
 		if (!month.equals("ALL")) {
 			eventsByMonth = eventDao.getAllByMonth(parseMonthToInt(month));
-			if (temp.size() > 0 && eventsByMonth.size() > 0) {
-				System.out.println("TEMP : " + temp);
-				System.out.println("EVENTS BY MONTH : " + eventsByMonth);
-				var alex = temp.retainAll(eventsByMonth);
-				
-				System.out.println(alex);
-				System.out.println("TEMP : " + temp);
-
+			if (temp.size() > 0) {
+//				System.out.println("TEMP : " + temp);
+//				System.out.println("EVENTS BY MONTH : " + eventsByMonth);
+				temp.retainAll(eventsByMonth);
+//				System.out.println("TEMP AFTER COUNTRY : " + temp);
 			}
 		}
 
@@ -242,9 +259,8 @@ public class SearchTourController {
 		if (!guideman.equals("ALL")) {
 			String[] nAs = guideman.split(" ");
 			eventsByGuideman = eventDao.getAllEventsByGuideman(nAs[0], nAs[1]);
-			if (temp.size() > 0 && eventsByGuideman.size() > 0) {
+			if (temp.size() > 0) {
 				temp.retainAll(eventsByGuideman);
-
 			}
 		}
 
@@ -252,47 +268,47 @@ public class SearchTourController {
 		List<Event> eventsByPrice = new ArrayList<>();
 		eventsByPrice = eventDao.getAllEventsWithPriceLowerThan(Integer.parseInt(price));
 		if (temp.size() > 0) {
-			System.out.println("TEMP : " + temp);
-			System.out.println("EVENTS BY PRICE : " + eventsByPrice);
+//			System.out.println("TEMP : " + temp);
+//			System.out.println("EVENTS BY PRICE : " + eventsByPrice);
 			temp.retainAll(eventsByPrice);
 		}
 
 		///////
 
 		if (temp.size() > 0) {
-			System.out.println("***** FINAL TEMP : " + temp);
-			List<Event> eventsAfterCheck1 = new ArrayList<>();
-			List<Event> eventsAfterCheck2 = new ArrayList<>();
+//			System.out.println("***** FINAL TEMP : " + temp);
+			List<Event> eventsAfterCheck = new ArrayList<>();
+			eventsAfterCheck = check(temp);
 
-			eventsAfterCheck1 = checkIfIAmAlreadySigned(temp);
-			System.out.println("CHECK 1 : " + eventsAfterCheck1);
-			eventsAfterCheck2 = checkIfIAmGuideman(eventsAfterCheck1);
-			System.out.println("CHECK 2 : " + eventsAfterCheck2);
-
-			for (Event e : eventsAfterCheck2) {
-				Tour t = tourDao.getById(e.getTourId());
-				String[] dt = e.getDateOfTour().toString().split("T");
-				String[] date = dt[0].split("-");
-				String time = dt[1];
-				StringBuilder sbDate = new StringBuilder();
-				sbDate.append(date[2]);
-				sbDate.append(".");
-				sbDate.append(date[1]);
-				sbDate.append(".");
-				sbDate.append(date[0]);
-				String s = "Title : " + t.getTitle() + ",        date of tour : " + sbDate + ",        time of tour : "
-						+ time + ",        price : " + e.getPrice() + ",        event id : " + e.getId();
-				displayedTours.add(s);
-				filteredToursListView.setMouseTransparent(false);
-				showTourButton.setDisable(false);
+			for (Event e : eventsAfterCheck) {
+				prepareTourAndEventForListView(displayed, e);
 			}
 		} else {
-			displayedTours.add("No tours found");
+			displayed.add("No tours found");
 			filteredToursListView.setMouseTransparent(true);
 			showTourButton.setDisable(true);
 		}
 
-		filteredToursListView.setItems(FXCollections.observableArrayList(displayedTours));
+		filteredToursListView.setItems(FXCollections.observableArrayList(displayed));
+
+	}
+
+	private void prepareTourAndEventForListView(List<String> displayed, Event e) {
+		Tour t = tourDao.getById(e.getTourId());
+		String[] dt = e.getDateOfTour().toString().split("T");
+		String[] date = dt[0].split("-");
+		String time = dt[1];
+		StringBuilder sbDate = new StringBuilder();
+		sbDate.append(date[2]);
+		sbDate.append(".");
+		sbDate.append(date[1]);
+		sbDate.append(".");
+		sbDate.append(date[0]);
+		String s = "Title : " + t.getTitle() + ",        date of tour : " + sbDate + ",        time of tour : " + time
+				+ ",        price : " + e.getPrice() + ",        event id : " + e.getId();
+		displayed.add(s);
+		filteredToursListView.setMouseTransparent(false);
+		showTourButton.setDisable(false);
 
 	}
 

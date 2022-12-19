@@ -151,12 +151,12 @@ public class MyToursController {
 //		ShowTour.INSTANCE.setLoggedEvent(e1);
 //		System.out.println(e1);
 //		showAlert(Alert.AlertType.INFORMATION, owner, "Question!", "Are you sure  !");
-		if (eventDao.deleteFromUHE(e1.getId())) {
+		if (eventDao.deleteFromUHE(e1.getId()) == true) {
 			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "You have been signed off !");
 			int idx = toursListView.getSelectionModel().getSelectedIndex();
 			toursListView.getItems().remove(idx);
 		} else {
-			showAlert(Alert.AlertType.ERROR, owner, "Error !", "Tour has been not been deleted !");
+			showAlert(Alert.AlertType.ERROR, owner, "Error !", "Tour has not been deleted !");
 
 		}
 
