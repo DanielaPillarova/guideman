@@ -60,9 +60,13 @@ public class MysqlEventDao implements EventDao {
 		});
 	}
 
+	// otestovat
 	@Override
-	public List<Integer> getRatings(Long eventId) {
-		String sql = "SELECT rating FROM user_has_event WHERE event_id = " + eventId + " AND rating IS NOT NULL";
+	public List<Integer> getRatings(Long tourId) {
+		String sql = "SELECT uhe.rating FROM user_has_event uhe "
+				+ "JOIN event e ON uhe.event_id = e.id "
+				+ "JOIN tour t ON e.tour_id = t.id "
+				+ "WHERE t.id = " + tourId + " AND uhe.rating IS NOT NULL";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Integer>>() {
 
 			@Override
@@ -79,9 +83,13 @@ public class MysqlEventDao implements EventDao {
 		});
 	}
 
+	// otestovat
 	@Override
-	public List<String> getReviews(Long eventId) {
-		String sql = "SELECT review FROM user_has_event WHERE event_id = " + eventId + " AND review IS NOT NULL";
+	public List<String> getReviews(Long tourId) {
+		String sql = "SELECT uhe.review FROM user_has_event uhe "
+				+ "JOIN event e ON uhe.event_id = e.id "
+				+ "JOIN tour t ON e.tour_id = t.id "
+				+ "WHERE t.id = " + tourId + " AND uhe.review IS NOT NULL";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<String>>() {
 
 			@Override

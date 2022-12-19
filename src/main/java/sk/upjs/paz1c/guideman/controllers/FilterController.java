@@ -54,6 +54,8 @@ public class FilterController {
 		fillGuidemanComboBox();
 		filterByGuidemanComboBox.getSelectionModel().selectFirst();
 
+		filterByPriceSlider.setValue(100);
+		priceLabel.setText("100");
 		filterByPriceSlider.valueProperty()
 				.addListener((ObservableValue<? extends Number> num, Number oldVal, Number newVal) -> {
 					Integer roundedNewVal = (int) Math.round(Double.valueOf(newVal.toString()));

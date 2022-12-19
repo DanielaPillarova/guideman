@@ -157,10 +157,11 @@ public class ShowTourController {
 				} else {
 					showAlert(Alert.AlertType.WARNING, owner, "Warning !", "You are already signed to this tour !");
 				}
-			} else {
-				showAlert(Alert.AlertType.WARNING, owner, "Warning !",
-						"You cannot sign for this tour,\nLimit of tourists has exceeded !");
-			}
+			} 
+//			else {
+//				showAlert(Alert.AlertType.WARNING, owner, "Warning !",
+//						"You cannot sign for this tour,\nLimit of tourists has exceeded !");
+//			}
 
 		}
 	}
@@ -204,6 +205,9 @@ public class ShowTourController {
 		// bioTextArea.set
 		// TODO
 		List<User> tourists = DaoFactory.INSTANCE.getUserDao().getAllTourists(loggedEvent.getId());
+		if (tourists.size() == loggedTour.getMaxSlots()) {
+			letsGoButton.setDisable(true);
+		}
 		numberOfFreePlacesFillLabel
 				.setText(String.valueOf(tourists.size()) + "/" + String.valueOf(loggedTour.getMaxSlots()));
 		LocalDateTime datetime = LocalDateTime.parse(loggedEvent.getDateOfTour().toString());
@@ -232,8 +236,9 @@ public class ShowTourController {
 			imageImageView.setImage(image);
 			centerImage();
 		}
-
-		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getId());
+		
+		 // tuuuu
+		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getTourId());
 		System.out.println(listOfRatings + " list ratingov");
 		Double averageRating = (double) 0;
 		if (listOfRatings.size() > 0) {

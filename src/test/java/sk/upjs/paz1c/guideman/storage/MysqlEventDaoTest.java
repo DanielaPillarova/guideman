@@ -41,6 +41,19 @@ class MysqlEventDaoTest {
 		eventDao.delete(savedEvent.getId());
 	}
 
+	void getRatingTest() {
+
+	}
+
+	void getReviewTest() {
+
+	}
+	
+	void getAllTest() {
+		
+	}
+
+	// otestovat spravne
 	@Test
 	void getRatingsTest() {
 		int size = eventDao.getRatings(1l).size();

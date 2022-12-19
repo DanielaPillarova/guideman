@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import sk.upjs.paz1c.guideman.storage.DaoFactory;
+import sk.upjs.paz1c.guideman.storage.Event;
 import sk.upjs.paz1c.guideman.storage.EventDao;
 
 public class ShowReviewsController {
@@ -22,8 +23,9 @@ public class ShowReviewsController {
 	@FXML
 	void initialize() {
 
-		Long idEvent = ShowTour.INSTANCE.getLoggedEvent().getId();
-		List<String> listReviews = eventDao.getReviews(idEvent);
+		Event e = ShowTour.INSTANCE.getLoggedEvent();
+		// tuuu
+		List<String> listReviews = eventDao.getReviews(e.getTourId());
 
 		reviewsListView.setItems(FXCollections.observableArrayList(listReviews));
 		reviewsListView.setMouseTransparent(true);

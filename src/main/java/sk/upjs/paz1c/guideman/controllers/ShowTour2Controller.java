@@ -196,7 +196,8 @@ public class ShowTour2Controller {
 			centerImage();
 		}
 
-		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getId());
+		// tuuu
+		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getTourId());
 		System.out.println(listOfRatings + " list ratingov");
 		Double averageRating = (double) 0;
 		if (listOfRatings.size() > 0) {
