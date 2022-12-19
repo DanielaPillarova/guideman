@@ -168,7 +168,7 @@ public class CreateTourController {
 	void createButtonAction(ActionEvent event) throws SerialException, SQLException, IOException {
 
 		if (defaultTour == true) {
-			filePath = "src/main/resources/sk/upjs/paz1c/guideman/defaultTour.jpg";
+			filePath = "src/main/resources/sk/upjs/paz1c/guideman/defaultphotoTour.jpg";
 			System.out.println("default PHOTO ----------------------");
 			bytes = Files.readAllBytes(Paths.get(filePath));
 		}
@@ -379,7 +379,7 @@ public class CreateTourController {
 
 			return;
 		} catch (DateTimeParseException e) {
-			infoBox("Wrong date format", null, "Warning");
+			infoBox("Wrong date or time format", null, "Warning");
 			if (savedEvent != null) {
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
