@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="false" prefHeight="650.0" prefWidth="900.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="myProfileButton" mnemonicParsing="false" onAction="#myProfileButtonAction" prefHeight="50.0" prefWidth="225.0" style="-fx-background-color: yellowgreen;" text="My Profile">
          <font>
@@ -25,7 +25,7 @@
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>
-      <Button fx:id="logOutButton" layoutX="770.0" layoutY="580.0" mnemonicParsing="false" onAction="#logOutButtonAction" style="-fx-background-color: yellowgreen;" text="Log out">
+      <Button fx:id="logOutButton" layoutX="768.0" layoutY="581.0" mnemonicParsing="false" onAction="#logOutButtonAction" style="-fx-background-color: yellowgreen;" text="Log out">
          <font>
             <Font name="Helvetica" size="20.0" />
          </font></Button>
@@ -73,11 +73,7 @@
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <Button fx:id="editAndSaveButton" layoutX="582.0" layoutY="582.0" mnemonicParsing="false" onAction="#editAndSaveButtonAction" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: yellowgreen;" text="Edit and save">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
-      <Button fx:id="showFavouriteGuidemansButton" layoutX="268.0" layoutY="582.0" mnemonicParsing="false" onAction="#showFavouriteGuidemansButtonAction" prefHeight="39.0" prefWidth="280.0" style="-fx-background-color: khaki;" text="Show favourite Guidemans">
+      <Button fx:id="editAndSaveButton" layoutX="582.0" layoutY="581.0" mnemonicParsing="false" onAction="#editAndSaveButtonAction" prefHeight="38.0" prefWidth="150.0" style="-fx-background-color: yellowgreen;" text="Edit and save">
          <font>
             <Font size="18.0" />
          </font></Button>
