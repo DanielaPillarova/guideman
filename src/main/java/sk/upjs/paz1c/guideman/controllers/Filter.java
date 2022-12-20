@@ -11,6 +11,7 @@ public enum Filter {
 	private boolean newFilters;
 
 	public String getCountry() {
+		System.out.println(country);
 		return country;
 	}
 

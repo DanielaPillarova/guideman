@@ -127,107 +127,75 @@ public class FilterController {
 		String guidemanLogged = Filter.INSTANCE.getGuideman();
 		String priceLogged = Filter.INSTANCE.getPrice();
 
-		String countryNew = "";
-		String monthNew = "";
-		String guidemanNew = "";
-		String priceNew = "";
+//		String countryNew = "";
+//		String monthNew = "";
+//		String guidemanNew = "";
+//		String priceNew = "";
 
-		if (countryLogged.equals("null")) {
-			if (country != null) {
-				countryNew = country;
+		boolean countryEquals = false;
+		boolean monthEquals = false;
+		boolean guidemanEquals = false;
+		boolean priceEquals = false;
+
+		if (countryLogged == null) {
+			// countryNew = country;
+		} else {
+			if (countryLogged.equals(country)) {
+				countryEquals = true;
+			} else {
+				countryLogged = country;
 			}
-			if (country == null) {
-				countryNew = "null";
-			}
+
 		}
-		if (!countryLogged.equals("null")) {
-			if (country != null) {
-				if (countryLogged.equals(country)) {
-					System.out.println("SAME COUNTRY JE TRUE");
-					countryNew = country;
-				}
-			}
-			if (country == null) {
-				countryNew = "null";
-			}
-		}
+
 		/////////////
 
-		if (monthLogged.equals("null")) {
-			if (month != null) {
-				monthNew = month;
+		if (monthLogged == null) {
+			// monthNew = month;
+		} else {
+			if (monthLogged.equals(month)) {
+				monthEquals = true;
+			} else {
+				monthLogged = month;
 			}
-			if (month == null) {
-				monthNew = "null";
-			}
+
 		}
-		if (!monthLogged.equals("null")) {
-			if (month != null) {
-				if (monthLogged.equals(month)) {
-					System.out.println("SAME MONTH JE TRUE");
-					monthNew = month;
-				}
-			}
-			if (month == null) {
-				monthNew = "null";
-			}
-		}
+
 		////////////
 
-		if (guidemanLogged.equals("null")) {
-			if (guideman != null) {
-				guidemanNew = guideman;
+		if (guidemanLogged == null) {
+			// guidemanNew = guideman;
+		} else {
+			if (guidemanLogged.equals(guideman)) {
+				guidemanEquals = true;
+			} else {
+				guidemanLogged = guideman;
 			}
-			if (guideman == null) {
-				guidemanNew = "null";
-			}
-		}
-		if (!guidemanLogged.equals("null")) {
-			if (guideman != null) {
-				if (guidemanLogged.equals(guideman)) {
-					System.out.println("SAME GUIDEMAN JE TRUE");
-					guidemanNew = guideman;
-				}
-			}
-			if (guideman == null) {
-				guidemanNew = "null";
-			}
+
 		}
 		//////////////
 
-		if (priceLogged.equals("0")) {
-			if (price != null) {
-				priceNew = price;
-			}
-			if (price.equals("0")) {
-				priceNew = "0";
-			}
-		}
-		if (!priceLogged.equals("0")) {
-			if (price != null) {
-				if (priceLogged.equals(price)) {
-					System.out.println("SAME PRICE JE TRUE");
-					priceNew = price;
-				}
+		if (priceLogged == null) {
+			// priceNew = price;
+		} else {
+			if (priceLogged.equals(price)) {
+				priceEquals = true;
+			} else {
+				priceLogged = price;
 			}
 
-			if (price.equals("0")) {
-				priceNew = "0";
-
-			}
 		}
 
-		if (countryNew.equals(countryLogged) && monthNew.equals(monthLogged) && guidemanNew.equals(guidemanLogged)
-				&& priceNew.equals(priceLogged)) {
+		if (countryEquals && monthEquals && guidemanEquals && priceEquals) {
 			showAlert(Alert.AlertType.WARNING, owner, "Warning !", "No change has been made !");
 			System.out.println("ALERT - NO CHANGE HAS BEEN MADE");
 		} else {
-			Filter.INSTANCE.setCountry(countryNew);
-			Filter.INSTANCE.setMonth(monthNew);
-			Filter.INSTANCE.setGuideman(guidemanNew);
-			Filter.INSTANCE.setPrice(priceNew);
+			Filter.INSTANCE.setCountry(countryLogged);
+			Filter.INSTANCE.setMonth(monthLogged);
+			Filter.INSTANCE.setGuideman(guidemanLogged);
+			Filter.INSTANCE.setPrice(priceLogged);
 			Filter.INSTANCE.setNewFilters(true);
-			
+
 			showAlert(Alert.AlertType.INFORMATION, owner, "Success !", "Filter have been saved successfully !");
 		}
 	}
