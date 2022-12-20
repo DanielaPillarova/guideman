@@ -164,33 +164,6 @@ LOCK TABLES `user_has_event` WRITE;
 /*!40000 ALTER TABLE `user_has_event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_has_event` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `user_has_user`
---
-
-DROP TABLE IF EXISTS `user_has_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_has_user` (
-  `user_id` int NOT NULL,
-  `favourite_guideman_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`favourite_guideman_id`),
-  KEY `fk_user_has_user_user2_idx` (`favourite_guideman_id`),
-  KEY `fk_user_has_user_user1_idx` (`user_id`),
-  CONSTRAINT `fk_user_has_user_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `fk_user_has_user_user2` FOREIGN KEY (`favourite_guideman_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_slovak_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_has_user`
---
-
-LOCK TABLES `user_has_user` WRITE;
-/*!40000 ALTER TABLE `user_has_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_has_user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -201,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-10 17:16:17
+-- Dump completed on 2022-12-20 13:48:45
