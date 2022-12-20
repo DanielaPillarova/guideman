@@ -256,14 +256,23 @@ public class SearchTourController {
 		}
 
 		///////
+		System.out.println("TEMP BEFORE CHECK : " + temp);
 
 		if (temp.size() > 0) {
 			List<Event> eventsAfterCheck = new ArrayList<>();
 			eventsAfterCheck = check(temp);
+			System.out.println("TEMP AFTER CHECK : " + eventsAfterCheck);
 
-			for (Event e : eventsAfterCheck) {
-				prepareTourAndEventForListView(displayed, e);
+			if (eventsAfterCheck.size() > 0) {
+				for (Event e : eventsAfterCheck) {
+					prepareTourAndEventForListView(displayed, e);
+				}
+			} else {
+				displayed.add("No tours found");
+				filteredToursListView.setMouseTransparent(true);
+				showTourButton.setDisable(true);
 			}
+			
 		} else {
 			displayed.add("No tours found");
 			filteredToursListView.setMouseTransparent(true);
