@@ -181,10 +181,10 @@ public class ShowTour2Controller {
 		countryFillLabel.setText(location.getCountry());
 		cityFillLabel.setText(location.getCity());
 		streetFillLabel.setText(location.getStreet());
-		if (location.getStreet_number() != null) {
+		if (location.getStreet_number() != 0 && location.getStreet_number() != null) {
 			streetNumberFillLabel.setText(location.getStreet_number().toString());
 		} else {
-			streetNumberFillLabel.setText("N");
+			streetNumberFillLabel.setText("");
 		}
 
 		Blob toursBlob = loggedTour.getImage();

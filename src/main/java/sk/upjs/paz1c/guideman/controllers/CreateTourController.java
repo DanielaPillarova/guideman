@@ -208,6 +208,8 @@ public class CreateTourController {
 				infoBox("Warning !", null, "Wrong format, check your street number");
 				return;
 			}
+		} else {
+			streetNumber = 0;
 		}
 		Location location = new Location(country, city, street, streetNumber);
 		// este upravit ked uz taka existuje
@@ -228,8 +230,7 @@ public class CreateTourController {
 			Integer locationStreetNumber = eachLocation.getStreet_number();
 
 			if (locationCountry.equals(location.getCountry()) && locationCity.equals(location.getCity())
-					&& locationStreet.equals(location.getStreet())
-					&& locationStreetNumber == location.getStreet_number()) {
+					&& locationStreet.equals(location.getStreet()) && locationStreetNumber == streetNumber) {
 				System.out.println("su rovnake");
 				locationFromDB = eachLocation;
 				sameLocation = true;
