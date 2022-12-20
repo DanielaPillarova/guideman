@@ -108,7 +108,9 @@ public class FilterController {
 		List<String> nameAndSurname = new ArrayList<>();
 		nameAndSurname.add("ALL");
 		for (User u : guidemans) {
-			nameAndSurname.add(u.getName() + " " + u.getSurname());
+			if (u.getId() != LoggedUser.INSTANCE.getLoggedUser().getId()) {
+				nameAndSurname.add(u.getName() + " " + u.getSurname());
+			}
 		}
 		filterByGuidemanComboBox.getSelectionModel().selectFirst();
 		filterByGuidemanComboBox.setItems(FXCollections.observableArrayList(nameAndSurname));

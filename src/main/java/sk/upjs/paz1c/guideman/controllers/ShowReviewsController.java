@@ -24,8 +24,12 @@ public class ShowReviewsController {
 	void initialize() {
 
 		Event e = ShowTour.INSTANCE.getLoggedEvent();
-		// tuuu
+
 		List<String> listReviews = eventDao.getReviews(e.getTourId());
+
+		if (listReviews.isEmpty()) {
+			listReviews.add("No reviews");
+		}
 
 		reviewsListView.setItems(FXCollections.observableArrayList(listReviews));
 		reviewsListView.setMouseTransparent(true);

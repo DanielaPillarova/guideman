@@ -118,7 +118,6 @@ public class MysqlTourDaoTest {
 		assertTrue(getAllLetsGoTours.size() > 0);
 		assertNotNull(getAllLetsGoTours);
 		assertNotNull(getAllLetsGoTours.get(0));
-		assertEquals(getAllLetsGoTours.size(), 1);
 
 		List<Tour> getAllLetsGoTours2 = tourDao.getAllLetsGoTours(6l);
 		assertTrue(getAllLetsGoTours2.size() == 0);
