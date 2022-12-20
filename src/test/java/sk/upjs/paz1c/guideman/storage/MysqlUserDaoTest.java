@@ -3,6 +3,8 @@ package sk.upjs.paz1c.guideman.storage;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +36,7 @@ class MysqlUserDaoTest {
 		user.setLogin("test.testing");
 		user.setPassword("testtesting");
 		user.setImage(null);
-		size = userDao.getAll().size(); // pocet userov pred pridanim noveho
+		size = userDao.getAll().size();
 		savedUser = userDao.save(user);
 	}
 
@@ -57,22 +59,57 @@ class MysqlUserDaoTest {
 		User fromDB = userDao.getById(savedUser.getId());
 		assertEquals(savedUser.getId(), fromDB.getId());
 		assertThrows(EntityNotFoundException.class, () -> userDao.getById(-1L));
-
 	}
 
 	@Test
 	void getAllTouristsTest() {
-		// treba prerobit
-		assertEquals(userDao.getAllTourists(1).size(), 3);
+		List<User> tourists1 = userDao.getAllTourists(2l);
+		assertEquals(tourists1.size(), 1);
+		assertNotNull(tourists1);
+		List<User> tourists2 = userDao.getAllTourists(10l);
+		assertTrue(tourists2.isEmpty());
+
 	}
 
 	@Test
-	void getAllFavouriteGuidemansTest() {
-		// treba prerobit
-		assertEquals(userDao.getAllFavouriteGuidemans(1).size(), 2);
-		assertEquals(userDao.getAllFavouriteGuidemans(2).size(), 1);
+	void getAllGuidemansTest() {
+		List<User> guidemans = userDao.getAllGuidemans();
+		assertEquals(guidemans.size(), 3);
+		assertNotNull(guidemans);
+		assertTrue(guidemans.size() > 0);
+		
 	}
-
+	
+	@Test
+	void saveUserEventTest() {
+		assertThrows(NullPointerException.class, () -> userDao.saveUserEvent(null, null));
+		
+		int sizeBefore = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		Event event = new Event();
+		event.setDateOfTour(LocalDateTime.parse("2023-02-03T10:00:00"));
+		event.setDuration(LocalTime.parse("04:00:00"));
+		event.setPrice(30.0);
+		event.setTourId(1l);
+		Event savedEvent2 = eventDao.save(event);
+		userDao.saveUserEvent(savedUser.getId(), savedEvent2.getId());
+		int sizeAfter = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		assertEquals(sizeBefore + 1, sizeAfter);
+		eventDao.deleteFromUHE(savedEvent2.getId());
+		int sizeAfterDelete = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		assertEquals(sizeBefore, sizeAfterDelete);
+		eventDao.delete(savedEvent2.getId());
+		
+	}
+	
+	@Test
+	void getUserByUsernameTest() {
+		assertThrows(EntityNotFoundException.class, () -> userDao.getUserByUsername(null));
+		assertThrows(EntityNotFoundException.class, () -> userDao.getUserByUsername("abc"));
+		User u = userDao.getUserByUsername("alex");
+		assertEquals(u.getLogin(), "alex");
+		assertNotNull(u);
+	}
+	
 	@Test
 	void insertTest() {
 		assertThrows(NullPointerException.class, () -> userDao.save(null), "Cannot save null");
@@ -84,15 +121,9 @@ class MysqlUserDaoTest {
 		assertNotNull(savedUser.getId());
 		assertEquals(savedUser.getName(), saved2.getName());
 
-		// DuplicitKeyException
 		assertThrows(NullPointerException.class, () -> userDao.save(new User("testTesting", "password")),
 				"This username is already used");
 
-		// blob sa bude nejako nacitavat ako poly bytov, cez nejaky File.InputStream
-		// alebo take srandy
-		// blob image treba nejako otestovat, vlastne ako to bude vyzerat, aj ten
-		// LocalDate ako to bude clovek tukat do db
-		// treba otestovat aj ze heslo je zahashovane?
 		assertThrows(NullPointerException.class,
 				() -> userDao
 						.save(new User(null, "surname", "email", "telnumber", LocalDate.parse("2022-02-02"), null)),
@@ -149,30 +180,54 @@ class MysqlUserDaoTest {
 
 	@Test
 	void saveAndDeleteRatingTest() {
-		int ratingSizeBefore = eventDao.getRatings(16l).size();
-		userDao.saveRating(3l, 16l, 5);
-		int ratingSizeAfter = eventDao.getRatings(16l).size();
-		// treba prerobit
-		assertEquals(ratingSizeBefore + 1, ratingSizeAfter);
-		userDao.deleteRating(3l, 16l);
-		int ratingSizeAfterDelete = eventDao.getRatings(16l).size();
-		assertEquals(ratingSizeAfterDelete, ratingSizeBefore);
+		assertThrows(NullPointerException.class, () -> userDao.saveRating(null, null, 0));
+		assertThrows(NullPointerException.class, () -> userDao.deleteRating(null, null));
 
-		userDao.saveRating(2l, 16l, 6);
-		int badRatingSize = eventDao.getRatings(16l).size();
-		assertEquals(ratingSizeBefore, badRatingSize);
+		int sizeBefore = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		Event event = new Event();
+		event.setDateOfTour(LocalDateTime.parse("2023-02-03T10:00:00"));
+		event.setDuration(LocalTime.parse("04:00:00"));
+		event.setPrice(30.0);
+		event.setTourId(1l);
+		Event savedEvent2 = eventDao.save(event);
+		userDao.saveUserEvent(savedUser.getId(), savedEvent2.getId());
+		int ratingSizeBefore = eventDao.getRatings(savedEvent2.getTourId()).size();
+		userDao.saveRating(savedUser.getId(), savedEvent2.getId(), 5);
+		int ratingSizeAfter = eventDao.getRatings(savedEvent2.getTourId()).size();
+		assertEquals(ratingSizeBefore + 1, ratingSizeAfter);
+		userDao.deleteRating(savedUser.getId(), savedEvent2.getId());
+		int ratingSizeAfterDelete = eventDao.getRatings(savedEvent2.getTourId()).size();
+		assertEquals(ratingSizeAfterDelete, ratingSizeBefore);
+		eventDao.deleteFromUHE(savedEvent2.getId());
+		int sizeAfterDelete = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		assertEquals(sizeBefore, sizeAfterDelete);
+		eventDao.delete(savedEvent2.getId());
 	}
 
 	@Test
 	void saveAndDeleteReviewsTest() {
-		int reviewsSizeBefore = eventDao.getReviews(16l).size();
-		userDao.saveReview(3l, 16l, "dajaky review");
-		int reviewsSizeAfter = eventDao.getReviews(16l).size();
-		// treba prerobit
-		assertEquals(reviewsSizeBefore + 1, reviewsSizeAfter);
-		userDao.deleteReview(3l, 16l);
-		int reviewSizeAfterDelete = eventDao.getReviews(16l).size();
-		assertEquals(reviewsSizeBefore, reviewSizeAfterDelete);
+		assertThrows(NullPointerException.class, () -> userDao.saveReview(null, null, "bla"));
+		assertThrows(NullPointerException.class, () -> userDao.deleteReview(null, null));
+		
+		int sizeBefore = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		Event event = new Event();
+		event.setDateOfTour(LocalDateTime.parse("2023-02-03T10:00:00"));
+		event.setDuration(LocalTime.parse("04:00:00"));
+		event.setPrice(30.0);
+		event.setTourId(1l);
+		Event savedEvent2 = eventDao.save(event);
+		userDao.saveUserEvent(savedUser.getId(), savedEvent2.getId());
+		int reviewSizeBefore = eventDao.getReviews(savedEvent2.getTourId()).size();
+		userDao.saveReview(savedUser.getId(), savedEvent2.getId(), "nice");
+		int reviewSizeAfter = eventDao.getReviews(savedEvent2.getTourId()).size();
+		assertEquals(reviewSizeBefore + 1, reviewSizeAfter);
+		userDao.deleteReview(savedUser.getId(), savedEvent2.getId());
+		int reviewSizeAfterDelete = eventDao.getReviews(savedEvent2.getTourId()).size();
+		assertEquals(reviewSizeAfterDelete, reviewSizeBefore);
+		eventDao.deleteFromUHE(savedEvent2.getId());
+		int sizeAfterDelete = eventDao.getAllLetsGoEvents(savedUser.getId()).size();
+		assertEquals(sizeBefore, sizeAfterDelete);
+		eventDao.delete(savedEvent2.getId());
 
 	}
 
