@@ -168,7 +168,7 @@ public class CreateTourController {
 	void createButtonAction(ActionEvent event) throws SerialException, SQLException, IOException {
 
 		if (defaultTour == true) {
-			filePath = "src/main/resources/sk/upjs/paz1c/guideman/defaultphotoTour.jpg";
+			filePath = "src/main/resources/sk/upjs/paz1c/guideman/defaultphotoTourResized.jpg";
 			System.out.println("default PHOTO ----------------------");
 			bytes = Files.readAllBytes(Paths.get(filePath));
 		}
@@ -563,6 +563,38 @@ public class CreateTourController {
 						}
 
 					}
+				} else {
+					titleTextField.setDisable(false);
+					bioTextArea.setDisable(false);
+					numberOfPeopleTextField.setDisable(false);
+					selectImageButton.setDisable(false);
+					countryTextField.setDisable(false);
+					cityTextField.setDisable(false);
+					streetTextField.setDisable(false);
+					streetNumberTextField.setDisable(false);
+
+					titleTextField.setText("");
+					bioTextArea.setText("");
+					numberOfPeopleTextField.setText(""); // int
+					countryTextField.setText("");
+					cityTextField.setText("");
+					streetTextField.setText("");
+					streetNumberTextField.setText(""); // int
+					dateAndTimeOfTourTextField.setText("");
+					durationTextField.setText("");
+					priceTextField.setText("");
+
+					bytes = null;
+					noSelectedImageLabel.setText("No selected file");
+
+					titleTextField.setStyle(null);
+					bioTextArea.lookup(".content").setStyle("-fx-background-color: white;");
+					bioTextArea.setStyle("-fx-background-color: #d0d0d0;");
+					numberOfPeopleTextField.setStyle(null);
+					countryTextField.setStyle(null);
+					cityTextField.setStyle(null);
+					streetTextField.setStyle(null);
+					streetNumberTextField.setStyle(null);
 				}
 			}
 		});
