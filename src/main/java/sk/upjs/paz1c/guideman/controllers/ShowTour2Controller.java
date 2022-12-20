@@ -35,8 +35,6 @@ public class ShowTour2Controller {
 	private LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
 	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
 
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
 	@FXML
 	private Label bioLabel;
 
@@ -163,9 +161,6 @@ public class ShowTour2Controller {
 		bioTextArea.setText(loggedTour.getBio());
 		bioTextArea.setEditable(false);
 
-		// bio text aby bolo vidno
-		// bioTextArea.set
-		// TODO
 		List<User> tourits = DaoFactory.INSTANCE.getUserDao().getAllTourists(loggedEvent.getId());
 		numberOfFreePlacesFillLabel
 				.setText(String.valueOf(tourits.size()) + "/" + String.valueOf(loggedTour.getMaxSlots()));
@@ -196,7 +191,6 @@ public class ShowTour2Controller {
 			centerImage();
 		}
 
-		// tuuu
 		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getTourId());
 		System.out.println(listOfRatings + " list ratingov");
 		Double averageRating = (double) 0;
