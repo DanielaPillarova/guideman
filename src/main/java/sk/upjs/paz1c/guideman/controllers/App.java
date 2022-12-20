@@ -15,8 +15,7 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		// String iconImagePath =
-		// "C:\\Users\\RomanRapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\arthas2.jpg";
+
 		WelcomeController controller = new WelcomeController();
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("logInSignUp.fxml"));
 		loader.setController(controller);
@@ -24,8 +23,7 @@ public class App extends Application {
 		Scene scene = new Scene(parent);
 		stage.setScene(scene);
 		stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
-		stage.setTitle("Become or find Guideman");
-		// stage.getIcons().add(new Image(iconImagePath));
+		stage.setTitle("Find or Become Guideman");
 		stage.show();
 	}
 }
