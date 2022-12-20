@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,46 +22,47 @@ public class MysqlTourDao implements TourDao {
 	}
 
 	@Override
-	public List<Tour> getAll() throws NullPointerException {
+	public List<Tour> getAll() {
 		return jdbcTemplate.query("SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour",
 				new TourRowMapper());
 	}
-	
+
 	// otestovat
 	@Override
-	public Tour getById(Long tourId) throws EntityNotFoundException{
-		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour "
-				+ "WHERE id = ?";
+	public Tour getById(Long tourId) throws NoSuchElementException {
+		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = ?";
 		try {
 			return jdbcTemplate.queryForObject(sql, new TourRowMapper(), tourId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Tour with id " + tourId + " not found");
+			throw new NoSuchElementException("Tour with id " + tourId + " not found");
 		}
 	}
-	
 
+	// EntityNotFound
 	@Override
-	public List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException {
+	public List<Tour> getAllToursByGuideman(Long guidemanId) throws NullPointerException {
+		if (guidemanId == null) {
+			throw new NullPointerException("Guideman with id " + guidemanId + " is null");
+		}
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE user_id = "
 				+ guidemanId;
-		try {
-			return jdbcTemplate.query(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("User with id " + guidemanId + " not found");
-		}
+
+		return jdbcTemplate.query(sql, new TourRowMapper());
+
 	}
 
 	@Override
-	public List<Tour> getAllToursByLocation(Long locationId) throws EntityNotFoundException {
+	public List<Tour> getAllToursByLocation(Long locationId) throws NullPointerException {
+		if (locationId == null) {
+			throw new NullPointerException("Location with id " + locationId + " is null");
+		}
 		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE location_id = "
 				+ locationId;
-		try {
-			return jdbcTemplate.query(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Location with id " + locationId + " not found");
-		}
+
+		return jdbcTemplate.query(sql, new TourRowMapper());
+
 	}
-	
+
 //	@Override
 //	public Tour getById(long id) throws EntityNotFoundException {
 //		String sql = "SELECT id, title, bio, max_slots, location_id, user_id, image FROM tour " + "WHERE id = " + id;
@@ -71,71 +73,66 @@ public class MysqlTourDao implements TourDao {
 //		}
 //	}
 //	
-	
+
 	// otestovat
 	@Override
-	public List<Tour> getAllLetsGoTours(Long userId) throws EntityNotFoundException{
-		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
-				+ "JOIN event e ON e.tour_id = t.id "
-				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
-				+ "WHERE uhe.user_id = " + userId 
-				+ " ORDER BY t.id";
-		try {
-			return jdbcTemplate.query(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("User with id " + userId + " not found");
+	public List<Tour> getAllLetsGoTours(Long userId) throws NullPointerException {
+		if (userId == null) {
+			throw new NullPointerException("User with id " + userId + " is null");
 		}
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id " + "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " ORDER BY t.id";
+
+		return jdbcTemplate.query(sql, new TourRowMapper());
+
 	}
-	
+
 	// mozu sa v liste opakovat pretoze jedna tour moze mat viac eventov
 	// a my potom budeme chciet vediet vypisat vsetky toury aj s eventami
 	// az v aplikacii sa bude priradzovat tour z listu ku eventu z listu
 	@Override
-	public List<Tour> getAllToursFromPast(Long userId) throws EntityNotFoundException{
-		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
-				+ "JOIN event e ON e.tour_id = t.id "
-				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
-				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour < CURRENT_DATE() "
-				+ "ORDER BY t.id";
-		try {
-			return jdbcTemplate.query(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("User with id " + userId + " not found");
+	public List<Tour> getAllToursFromPast(Long userId) throws NullPointerException {
+		if (userId == null) {
+			throw new NullPointerException("User with id " + userId + " is null");
 		}
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id " + "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour < CURRENT_DATE() " + "ORDER BY t.id";
+
+		return jdbcTemplate.query(sql, new TourRowMapper());
+
 	}
-	
+
 	// mozu sa v liste opakovat pretoze jedna tour moze mat viac eventov
 	// a my potom budeme chciet vediet vypisat vsetky toury aj s eventami
 	// az v aplikacii sa bude priradzovat tour z listu ku eventu z listu
-	
+
 	// zobrazuje aj tours ktore sa uskutocnia dnes
 	@Override
-	public List<Tour> getAllToursFromFuture(Long userId) throws EntityNotFoundException{
-		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
-				+ "JOIN event e ON e.tour_id = t.id "
-				+ "JOIN user_has_event uhe ON e.id = uhe.event_id "
-				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour > CURRENT_DATE() "
-				+ "ORDER BY t.id";
-		try {
-			return jdbcTemplate.query(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("User with id " + userId + " not found");
+	public List<Tour> getAllToursFromFuture(Long userId) throws NullPointerException {
+		if (userId == null) {
+			throw new NullPointerException("User with id " + userId + " is null");
 		}
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "JOIN event e ON e.tour_id = t.id " + "JOIN user_has_event uhe ON e.id = uhe.event_id "
+				+ "WHERE uhe.user_id = " + userId + " AND e.date_of_tour > CURRENT_DATE() " + "ORDER BY t.id";
+
+		return jdbcTemplate.query(sql, new TourRowMapper());
+
 	}
-	
+
 	@Override
-	public List<Tour> getAllToursWhereIAmGuideman(Long userId) throws EntityNotFoundException{
-		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
-				+ "LEFT JOIN event e ON e.tour_id = t.id "
-				+ "WHERE t.user_id = " + userId
-				+ " ORDER BY t.id";
-		try {
-			return jdbcTemplate.query(sql, new TourRowMapper());
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("User with id " + userId + " not found");
+	public List<Tour> getAllToursWhereIAmGuideman(Long userId) throws NullPointerException {
+		if (userId == null) {
+			throw new NullPointerException("User with id " + userId + " is null");
 		}
+		String sql = "SELECT t.id, t.title, t.bio, t.max_slots, t.location_id, t.user_id, t.image FROM tour t "
+				+ "LEFT JOIN event e ON e.tour_id = t.id " + "WHERE t.user_id = " + userId + " ORDER BY t.id";
+
+		return jdbcTemplate.query(sql, new TourRowMapper());
+
 	}
-	
 
 	@Override
 	public Tour save(Tour tour) throws NullPointerException, EntityNotFoundException {
@@ -185,7 +182,6 @@ public class MysqlTourDao implements TourDao {
 			throw new EntityNotFoundException("Tour with id " + tour.getId() + " not found");
 		}
 	}
-	
 
 //	@Override
 //	public boolean delete(long tourId) {
@@ -216,7 +212,7 @@ public class MysqlTourDao implements TourDao {
 		}
 		return changed == 1;
 	}
-	
+
 	private class TourRowMapper implements RowMapper<Tour> {
 
 		@Override

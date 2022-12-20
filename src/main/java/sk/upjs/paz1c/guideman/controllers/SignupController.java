@@ -154,7 +154,6 @@ public class SignupController {
 		emailReceiver = email;
 		String tel_number = telNumberTextField.getText();
 
-		// parse tento birthdate
 		String birthdate = birthdateTextField.getText();
 		String username = usernameTextField.getText();
 		String password = passwordPasswordField.getText();
@@ -209,7 +208,6 @@ public class SignupController {
 
 		// guideman logo
 		if (guidemanInstead == true) {
-//			filePath = "src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\controllers\\G.png";
 			filePath = "src/main/resources/sk/upjs/paz1c/guideman/G.png";
 
 			bytes = Files.readAllBytes(Paths.get(filePath));
@@ -266,9 +264,6 @@ public class SignupController {
 		if (event.getSource() == selectImageButton) {
 
 			JFileChooser fileChooser = new JFileChooser();
-			// System.setProperty("apple.awt.fileDialogForDirectories", "true");
-			// Danke mac nejde
-			// System.getProperty("os.name")
 			// https://community.oracle.com/tech/developers/discussion/2508757/jfilechooser-problem-on-mac-os
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png");

@@ -101,9 +101,6 @@ public class MyProfileController {
 		if (event.getSource() == changeImageButton) {
 
 			JFileChooser fileChooser = new JFileChooser();
-			// System.setProperty("apple.awt.fileDialogForDirectories", "true");
-			// Danke mac nejde
-			// System.getProperty("os.name")
 			// https://community.oracle.com/tech/developers/discussion/2508757/jfilechooser-problem-on-mac-os
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png");
@@ -229,7 +226,7 @@ public class MyProfileController {
 		// telcislo treba poriesit null alebo ""
 		System.out.println(changedPhone);
 		if (changedPhone == null) {
-
+			System.out.println("changedPhone = null");
 		} else {
 			if (changedPhone.equals("")) {
 				if (loggedUser.getTelNumber() != null) {
@@ -305,11 +302,8 @@ public class MyProfileController {
 			System.out.println(loggedUser + " stary");
 			LoggedUser.INSTANCE.setLoggedUser(user);
 
-			// loggedUser = user;
-
 			loggedUser = LoggedUser.INSTANCE.getLoggedUser();
 			System.out.println(loggedUser + " novy");
-			// System.out.println(LoggedUser.INSTANCE.getLoggedUser().toString());
 		} else {
 			infoBox("No change has been made !", null, "Warning");
 		}
@@ -380,11 +374,6 @@ public class MyProfileController {
 		String newDate = pole[2] + "." + pole[1] + "." + pole[0];
 		dateOfBirthTextField.setText(newDate);
 
-		// ak image neni null, zobrazi image... ak image je null zobrazi G.png
-//		if (loggedUser.getImage() != null) {
-//			imageImageView.setImage(loggedUser.getImage());
-//		}
-
 		Blob usersBlob = loggedUser.getImage();
 
 		if (usersBlob != null) {
@@ -394,23 +383,6 @@ public class MyProfileController {
 			imageImageView.setImage(image);
 			centerImage();
 			System.out.println(image + " image");
-		} else {
-			// treba poriesit obrazok
-
-//			System.out.println("bez obrazka dam default");
-//			BufferedImage image = ImageIO.read(new File(
-//					"C:\\Users\\Roman Rapco\\git\\guideman\\src\\main\\resources\\sk\\upjs\\paz1c\\guideman\\G-light.png"));
-//			ByteArrayOutputStream outStreamObj = new ByteArrayOutputStream();
-//			ImageIO.write(image, "jpg", outStreamObj);
-//
-//			byte[] byteArray = outStreamObj.toByteArray();
-//
-//			Blob blobisko = new SerialBlob(byteArray);
-//			InputStream in = blobisko.getBinaryStream();
-//			Image defaultImage = new Image(in);
-//			imageImageView.setImage(defaultImage);
-//			centerImage();
-
 		}
 	}
 

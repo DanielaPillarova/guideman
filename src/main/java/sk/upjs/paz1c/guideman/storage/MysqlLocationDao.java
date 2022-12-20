@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,10 +22,15 @@ public class MysqlLocationDao implements LocationDao {
 	}
 
 	@Override
-	public List<Location> getAllByCountry(String searchedCountry) {
+	public List<Location> getAllByCountry(String searchedCountry) throws NullPointerException {
 		String sql = "SELECT id, country, city, street, street_number FROM location WHERE country like " + "'"
 				+ searchedCountry + "'";
+		if (searchedCountry == null) {
+			throw new NullPointerException("Country with id " + searchedCountry + " not found");
+		}
+
 		return jdbcTemplate.query(sql, new LocationRowMapper());
+
 	}
 
 	@Override
@@ -40,7 +46,7 @@ public class MysqlLocationDao implements LocationDao {
 		try {
 			return jdbcTemplate.queryForObject(sql, new LocationRowMapper());
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException("Location with id " + id + " not found");
+			throw new NoSuchElementException("Location with id " + id + " not found");
 		}
 	}
 
@@ -98,15 +104,18 @@ public class MysqlLocationDao implements LocationDao {
 //		int changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
 //		return changed == 1;
 //	}
-	
+
 	@Override
-	public boolean delete(Long locationId) throws EntityNotFoundException {
+	public boolean delete(Long locationId) throws NullPointerException, EntityNotFoundException {
+		if (locationId == null) {
+			throw new NullPointerException("Location with id " + locationId + " not found");
+		}
 		int changed = 0;
-		try {
-			changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
-		} catch (DataAccessException e) {
+		changed = jdbcTemplate.update("DELETE FROM location WHERE id = " + locationId);
+		if (changed == 0) {
 			throw new EntityNotFoundException("Location with id " + locationId + " not in DB");
 		}
+
 		return changed == 1;
 	}
 

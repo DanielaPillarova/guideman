@@ -2,7 +2,9 @@ package sk.upjs.paz1c.guideman.storage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,9 @@ class MysqlLocationDaoTest {
 	private LocationDao locationDao;
 	private Location location;
 	private Location savedLocation;
+	private Location saved1Location;
+	private Location saved2Location;
+	private Location saved3Location;
 	private int size;
 
 	public MysqlLocationDaoTest() {
@@ -40,44 +45,28 @@ class MysqlLocationDaoTest {
 	}
 
 	@Test
-	void testGetAll() {
-		List<Location> locations = locationDao.getAll();
-		assertTrue(locations.size() > 0);
-		assertNotNull(locations.get(0).getId());
-		assertNotNull(locations.get(0).getCountry());
-		assertNotNull(locations.get(0).getCity());
-		assertNotNull(locations.get(0).getStreet());
-		assertNotNull(locations.get(0).getStreet_number());
-	}
-
-	@Test
 	void testGetById() {
 		Location fromDB = locationDao.getById(savedLocation.getId());
 		assertEquals(savedLocation.getId(), fromDB.getId());
-		assertThrows(EntityNotFoundException.class, new Executable() {
+		assertThrows(NoSuchElementException.class, new Executable() {
 
 			@Override
 			public void execute() throws Throwable {
 				locationDao.getById(-1L);
 			}
 		});
+		// assertThrows(NoSuchElementException.class, () -> locationDao.getById(-1));
 	}
 
 	// TODO insert, update a delete
 
 	@Test
-	void insertTest() throws NullPointerException {
+	void insertTest() {
 		assertThrows(NullPointerException.class, () -> locationDao.save(null), "Cannot save null");
 
 		Location newLocation = locationDao.getById(savedLocation.getId());
 		assertEquals(size, locationDao.getAll().size());
 		assertEquals(savedLocation.getCountry(), newLocation.getCountry());
-
-		// ???
-//		assertThrows(NullPointerException.class,
-//				() -> locationDao.save(new Location("California", "Prakovce", "Hlavna", (long) 1)),
-//				"Location has already been created");
-		// ???
 
 		assertThrows(NullPointerException.class, () -> locationDao.save(new Location(null, "City", "Street", (int) 2)),
 				"Country cannot be null");
@@ -93,6 +82,7 @@ class MysqlLocationDaoTest {
 	void updateTest() {
 		Location updated = new Location(savedLocation.getId(), "Changed Country", "city", "street", (int) 1);
 		int sizeUpdate = locationDao.getAll().size();
+		locationDao.save(updated);
 		assertEquals(sizeUpdate, locationDao.getAll().size());
 		Location fromDB = locationDao.getById(updated.getId());
 		assertEquals(updated.getId(), fromDB.getId());
@@ -108,47 +98,78 @@ class MysqlLocationDaoTest {
 		locationToDelete.setStreet("Delete Street");
 		locationToDelete.setStreet_number((int) 1);
 
+		// without id, id == null
+		Location nullLocation = new Location();
+		nullLocation.setCountry("Delete Country");
+		nullLocation.setCity("Delete City");
+		nullLocation.setStreet("Delete Street");
+		nullLocation.setStreet_number((int) 1);
+
 		Location saved = locationDao.save(locationToDelete);
 		int sizeDelete = locationDao.getAll().size();
+		assertEquals(sizeDelete, locationDao.getAll().size());
 		locationDao.delete(saved.getId());
 		assertEquals(sizeDelete - 1, locationDao.getAll().size());
+
+		assertThrows(EntityNotFoundException.class, () -> locationDao.delete(saved.getId()));
+		assertThrows(NullPointerException.class, () -> locationDao.delete(null));
+
+	}
+
+	@Test
+	void testGetAll() {
+		List<Location> locations = locationDao.getAll();
+		assertTrue(locations.size() > 0);
+		assertNotNull(locations);
+		assertNotNull(locations.get(0));
 	}
 
 	@Test
 	void getAllByCountryTest() {
 		Location location1 = new Location();
-		location1.setId((long) 100);
 		location1.setCountry("Random");
 		location1.setCity("Košice");
 		location1.setStreet("Hlavná");
 		location1.setStreet_number((int) 1);
 
 		Location location2 = new Location();
-		location2.setId((long) 101);
 		location2.setCountry("Random");
 		location2.setCity("Budapeš");
 		location2.setStreet("Main street");
 		location2.setStreet_number((int) 1);
 
 		Location location3 = new Location();
-		location3.setId((long) 102);
-		location3.setCountry("Random");
+		location3.setCountry("NotRandom");
 		location3.setCity("Bratislava");
 		location3.setStreet("Rudolfovo námestie");
 		location3.setStreet_number((int) 1);
 
-		int test = 0;
-		test = test - size;
-		test = test + locationDao.getAll().size();
+		int sizeBeforeSave = locationDao.getAll().size();
 
-		// test
+		System.out.println(location1);
+		System.out.println(location2);
+		System.out.println(location3);
 
-		assertEquals(test, locationDao.getAllByCountry("Random").size());
-		assertNotEquals(test, locationDao.getAllByCountry("Amerika").size());
+		saved1Location = locationDao.save(location1);
+		saved2Location = locationDao.save(location2);
+		saved3Location = locationDao.save(location3);
 
-		locationDao.delete(location1.getId());
-		locationDao.delete(location2.getId());
-		locationDao.delete(location3.getId());
+		int sizeAfterSave = locationDao.getAll().size();
+
+		assertEquals(sizeBeforeSave + 3, sizeAfterSave);
+
+		assertEquals(2, locationDao.getAllByCountry("Random").size());
+		assertEquals(1, locationDao.getAllByCountry("Amerika").size());
+
+		locationDao.delete(saved1Location.getId());
+		locationDao.delete(saved2Location.getId());
+		locationDao.delete(saved3Location.getId());
+
+		assertNotEquals(sizeAfterSave, locationDao.getAll().size());
+		assertEquals(sizeAfterSave - 3, locationDao.getAll().size());
+
+		assertThrows(NullPointerException.class, () -> locationDao.getAllByCountry(null));
+
 	}
 
 }

@@ -76,12 +76,7 @@ public class LoginController {
 
 		logInButton.disableProperty().bind(bb);
 
-//		logInButton.disableProperty().bind(Bindings.isEmpty(usernameTextField.textProperty())
-//				.and(Bindings.isEmpty(passwordPasswordField.textProperty())));
-
 	}
-
-	// button na LOGIN ked uz sa prihlasujes
 
 	@FXML
 	void logInButtonClick(ActionEvent event) throws SQLException {
@@ -130,21 +125,17 @@ public class LoginController {
 		} else {
 			infoBox("Log in Successful !", null, "Successful log in");
 
-			hideWindow = true;
+			usernameTextField.getScene().getWindow().hide();
+			button.getScene().getWindow().hide();
+			// treba zavriet hlavne okno
 
-			if (hideWindow) {
-//				((Node) (event.getSource())).getScene().getWindow().hide();
-				usernameTextField.getScene().getWindow().hide();
-				button.getScene().getWindow().hide();
-				// treba zavriet hlavne okno
-			}
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(MyProfileController.class.getResource("myProfile2.fxml"));
 				Stage stage = new Stage();
 				fxmlLoader.setController(controller);
 				Scene scene = new Scene(fxmlLoader.load());
 				stage.setTitle("Guideman");
-				stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png")); 
+				stage.getIcons().add(new Image("sk/upjs/paz1c/guideman/controllers/G-logo light.png"));
 				stage.setScene(scene);
 //		            stage.getIcons().add(new Image("sk/upjs/favicon.png")); // danko tak ma icon
 				stage.show();

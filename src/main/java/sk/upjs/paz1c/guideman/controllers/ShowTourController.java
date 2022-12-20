@@ -45,8 +45,6 @@ public class ShowTourController {
 	private Tour loggedTour = ShowTour.INSTANCE.getLoggedTour();
 	private Event loggedEvent = ShowTour.INSTANCE.getLoggedEvent();
 
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
 	@FXML
 	private Button createTourButton;
 
@@ -164,10 +162,6 @@ public class ShowTourController {
 					showAlert(Alert.AlertType.WARNING, owner, "Warning !", "You are already signed to this tour !");
 				}
 			}
-//			else {
-//				showAlert(Alert.AlertType.WARNING, owner, "Warning !",
-//						"You cannot sign for this tour,\nLimit of tourists has exceeded !");
-//			}
 
 		}
 	}
@@ -207,9 +201,6 @@ public class ShowTourController {
 		bioTextArea.setText(loggedTour.getBio());
 		bioTextArea.setEditable(false);
 
-		// bio text aby bolo vidno
-		// bioTextArea.set
-		// TODO
 		List<User> tourists = DaoFactory.INSTANCE.getUserDao().getAllTourists(loggedEvent.getId());
 		if (tourists.size() == loggedTour.getMaxSlots()) {
 			letsGoButton.setDisable(true);
@@ -243,7 +234,6 @@ public class ShowTourController {
 			centerImage();
 		}
 
-		// tuuuu
 		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getTourId());
 		System.out.println(listOfRatings + " list ratingov");
 		Double averageRating = (double) 0;
@@ -254,7 +244,6 @@ public class ShowTourController {
 		} else {
 			ratingFillLabel.setText("No ratings yet");
 		}
-		// treba kolko ich je prihlasenych
 
 		averageRating = round(averageRating / (double) listOfRatings.size(), 2);
 		ratingFillLabel.setText(averageRating.toString() + "/5");

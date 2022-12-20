@@ -11,7 +11,7 @@ public interface LocationDao {
 
 	Location save(Location location) throws NullPointerException, EntityNotFoundException;
 
-	boolean delete(Long locationId) throws EntityNotFoundException;
+	boolean delete(Long locationId) throws NullPointerException, NoSuchElementException;
 
 	List<Location> getAllByCountry(String country) throws NullPointerException;
 }

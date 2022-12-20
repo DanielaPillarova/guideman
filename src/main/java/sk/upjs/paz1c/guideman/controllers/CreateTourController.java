@@ -60,21 +60,16 @@ public class CreateTourController {
 	private Tour savedTour;
 	private Window owner;
 	private Blob imageFromDB = null;
-
-	private boolean defaultTour = false;
-
+	private boolean defaultTourImage = false;
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
 	private UserDao userDao = DaoFactory.INSTANCE.getUserDao();
 	private TourDao tourDao = DaoFactory.INSTANCE.getTourDao();
 	private LocationDao locationDao = DaoFactory.INSTANCE.getLocationDao();
 	private EventDao eventDao = DaoFactory.INSTANCE.getEventDao();
-
 	private TourFxModel tourModel;
 	private ObservableList<Tour> comboBoxModel;
 	private Tour tourToFill = null;
 	private List<String> titles = null;
-
 	private Long idLoggedUser = LoggedUser.INSTANCE.getLoggedUser().getId();
 	private List<Tour> toursTemp;
 
@@ -167,7 +162,7 @@ public class CreateTourController {
 	@FXML
 	void createButtonAction(ActionEvent event) throws SerialException, SQLException, IOException {
 
-		if (defaultTour == true) {
+		if (defaultTourImage == true) {
 			filePath = "src/main/resources/sk/upjs/paz1c/guideman/defaultphotoTourResized.jpg";
 			System.out.println("default PHOTO ----------------------");
 			bytes = Files.readAllBytes(Paths.get(filePath));
@@ -212,15 +207,17 @@ public class CreateTourController {
 			streetNumber = 0;
 		}
 		Location location = new Location(country, city, street, streetNumber);
-		// este upravit ked uz taka existuje
 
 		// ulozime location najprv potom tour a tak event
 
 		boolean sameLocation = false;
+		// ak uz existuje rovnaka location, neulozime ju
+		boolean sameTour = false;
+		// ak uz existuje rovnaka tour, neulozime ju
 
+		// location
 		List<Location> locations = locationDao.getAll();
 
-		// chcem tu z databazy ak vytvaram nejaku ktora uz je v databaze
 		Location locationFromDB = null;
 
 		for (Location eachLocation : locations) {
@@ -239,7 +236,7 @@ public class CreateTourController {
 		}
 
 		try {
-			// location
+
 			Long idLocation;
 			if (sameLocation == false) {
 				savedLocation = locationDao.save(location);
@@ -250,6 +247,8 @@ public class CreateTourController {
 				System.out.println(savedLocation + " = saved location");
 				idLocation = locationFromDB.getId();
 			}
+			// location
+
 			// tour
 			if (bio == "") {
 				bio = "No bio";
@@ -259,9 +258,6 @@ public class CreateTourController {
 			User user = userDao.getById(LoggedUser.INSTANCE.getLoggedUser().getId());
 			Tour tour = new Tour(title, bio, maxPeople, idLocation, user.getId(), blobisko);
 
-			// TODO
-			// aby sa nevytvarala nova tour
-			boolean sameTour = false;
 			List<Tour> toursFromDB = tourDao.getAll();
 			System.out.println(toursFromDB + " TOURS V DB");
 			for (Tour tour2 : toursFromDB) {
@@ -277,7 +273,8 @@ public class CreateTourController {
 				savedTour = tourDao.save(tour);
 				System.out.println("DAVAM SAVE TOUR LEBO neexistuje");
 			}
-			//
+			// tour
+
 			// event
 			LocalDateTime dateAndTimeOfTour = LocalDateTime.parse(dateAndTimeOfTourString, formatter);
 			LocalDateTime now = LocalDateTime.now();
@@ -290,55 +287,22 @@ public class CreateTourController {
 			Event newEvent = new Event(dateAndTimeOfTour, duration, price, savedTour.getId());
 
 			savedEvent = eventDao.save(newEvent);
-			//
-			// infoBox("Tour has been successfuly created", null, "Congratulations");
+			// event
 
 			System.out.println(tour);
 			System.out.println(tour.getMaxSlots() + " max sloty");
 			showAlert(Alert.AlertType.CONFIRMATION, owner, "Success", "Tour has been successfully created !");
 
-			// Menu.INSTANCE.openCreateTour(createButton);
-
+			// prida sa title z novovytvorenej tour
 			titles.add(titleTextField.getText());
+			// a prida sa aj to listu
 			toursTemp.add(tour);
-			// trz
 
 			// reset vsetkeho
-			System.out.println("vymazat vsetko :) ");
-			titleTextField.setDisable(false);
-			bioTextArea.setDisable(false);
-			numberOfPeopleTextField.setDisable(false);
-			selectImageButton.setDisable(false);
-			countryTextField.setDisable(false);
-			cityTextField.setDisable(false);
-			streetTextField.setDisable(false);
-			streetNumberTextField.setDisable(false);
 
-			titleTextField.setText("");
-			bioTextArea.setText("");
-			numberOfPeopleTextField.setText(""); // int
-			countryTextField.setText("");
-			cityTextField.setText("");
-			streetTextField.setText("");
-			streetNumberTextField.setText(""); // int
-			dateAndTimeOfTourTextField.setText("");
-			durationTextField.setText("");
-			priceTextField.setText("");
-
-			bytes = null;
-			noSelectedImageLabel.setText("No selected file");
-
-			titleTextField.setStyle(null);
-			bioTextArea.lookup(".content").setStyle("-fx-background-color: white;");
-			bioTextArea.setStyle("-fx-background-color: #d0d0d0;");
-			numberOfPeopleTextField.setStyle(null);
-			countryTextField.setStyle(null);
-			cityTextField.setStyle(null);
-			streetTextField.setStyle(null);
-			streetNumberTextField.setStyle(null);
-
-			chooseTourComboBox.getSelectionModel().selectFirst();
-			chooseTourComboBox.setItems(FXCollections.observableArrayList(titles));
+			resetButtons();
+			resetTextFields();
+			resetEverythingElse();
 
 			// reset konci
 
@@ -349,7 +313,7 @@ public class CreateTourController {
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
 			}
-			if (savedTour != null) {
+			if (savedTour != null && sameTour == false) {
 				e.printStackTrace();
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
@@ -368,7 +332,7 @@ public class CreateTourController {
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
 			}
-			if (savedTour != null) {
+			if (savedTour != null && sameTour == false) {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
@@ -385,7 +349,7 @@ public class CreateTourController {
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
 			}
-			if (savedTour != null) {
+			if (savedTour != null && sameTour == false) {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
@@ -402,7 +366,7 @@ public class CreateTourController {
 				eventDao.delete(savedEvent.getId());
 				savedEvent = null;
 			}
-			if (savedTour != null) {
+			if (savedTour != null && sameTour == false) {
 				tourDao.delete(savedTour.getId());
 				savedTour = null;
 			}
@@ -416,18 +380,58 @@ public class CreateTourController {
 
 	}
 
+	public void resetButtons() {
+		System.out.println("vymazat vsetko :) ");
+		titleTextField.setDisable(false);
+		bioTextArea.setDisable(false);
+		numberOfPeopleTextField.setDisable(false);
+		selectImageButton.setDisable(false);
+		countryTextField.setDisable(false);
+		cityTextField.setDisable(false);
+		streetTextField.setDisable(false);
+		streetNumberTextField.setDisable(false);
+
+	}
+
+	public void resetTextFields() {
+		titleTextField.setText("");
+		bioTextArea.setText("");
+		numberOfPeopleTextField.setText(""); // int
+		countryTextField.setText("");
+		cityTextField.setText("");
+		streetTextField.setText("");
+		streetNumberTextField.setText(""); // int
+		dateAndTimeOfTourTextField.setText("");
+		durationTextField.setText("");
+		priceTextField.setText("");
+	}
+
+	public void resetEverythingElse() {
+		bytes = null;
+		noSelectedImageLabel.setText("No selected file");
+
+		titleTextField.setStyle(null);
+		bioTextArea.lookup(".content").setStyle("-fx-background-color: white;");
+		bioTextArea.setStyle("-fx-background-color: #d0d0d0;");
+		numberOfPeopleTextField.setStyle(null);
+		countryTextField.setStyle(null);
+		cityTextField.setStyle(null);
+		streetTextField.setStyle(null);
+		streetNumberTextField.setStyle(null);
+
+		chooseTourComboBox.getSelectionModel().selectFirst();
+		chooseTourComboBox.setItems(FXCollections.observableArrayList(titles));
+	}
+
 	@FXML
 	void selectImageButtonAction(ActionEvent event) throws IOException {
-		defaultTour = true;
+		defaultTourImage = true;
 		bytes = null;
 		noSelectedImageLabel.setText("No selected file");
 
 		if (event.getSource() == selectImageButton) {
 
 			JFileChooser fileChooser = new JFileChooser();
-			// System.setProperty("apple.awt.fileDialogForDirectories", "true");
-			// Danke mac nejde
-			// System.getProperty("os.name")
 			// https://community.oracle.com/tech/developers/discussion/2508757/jfilechooser-problem-on-mac-os
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.image", "jpg", "png");
@@ -436,7 +440,7 @@ public class CreateTourController {
 			int response = fileChooser.showSaveDialog(null); // select file to open
 
 			if (response == JFileChooser.APPROVE_OPTION) {
-				defaultTour = false;
+				defaultTourImage = false;
 				selectedFile = new File(fileChooser.getSelectedFile().getAbsolutePath()); // File , jeho cesta
 				filePath = selectedFile.getAbsolutePath(); // string
 				if (filePath.endsWith(".jpg") || filePath.endsWith(".JPG") || filePath.endsWith(".PNG")
@@ -446,18 +450,14 @@ public class CreateTourController {
 					nameOfFile = selectedFile.getName();
 					noSelectedImageLabel.setText(nameOfFile);
 				} else {
-					defaultTour = true;
+					defaultTourImage = true;
 					infoBox("Please Select Image File", null, "Warning !");
 				}
 			}
 		}
 	}
 
-	@FXML
-	void initialize() {
-		defaultTour = true;
-		bioTextArea.setWrapText(true);
-
+	public void binding() {
 		BooleanBinding bb = new BooleanBinding() {
 			{
 				super.bind(titleTextField.textProperty(), numberOfPeopleTextField.textProperty(),
@@ -476,15 +476,18 @@ public class CreateTourController {
 		};
 
 		createButton.disableProperty().bind(bb);
+	}
 
-		// comboBox
-		// ObservableList<Tour> comboBoxTours =
-		// tourModel.getToursWhereIAmGuidemanModel();
-		// comboBoxModel =
-		// FXCollections.observableArrayList(tourDao.getAllToursWhereIAmGuideman(idLoggedUser));
+	@FXML
+	void initialize() {
+		defaultTourImage = true;
+		bioTextArea.setWrapText(true);
+
+		binding();
 
 		toursTemp = tourDao.getAllToursByGuideman(idLoggedUser);
 		titles = new ArrayList<>();
+		// v combo boxe na zaciatku je choose existing tour
 		titles.add("Choose existing tour");
 		for (Tour tour : toursTemp) {
 			titles.add(tour.getTitle());
@@ -493,6 +496,7 @@ public class CreateTourController {
 		chooseTourComboBox.getSelectionModel().selectFirst();
 		chooseTourComboBox.setItems(FXCollections.observableArrayList(titles));
 
+		// listener na combobox
 		chooseTourComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 
 			String chosen = chooseTourComboBox.getValue();
@@ -512,94 +516,103 @@ public class CreateTourController {
 
 					System.out.println(tourToFill + " vybraty tour");
 					if (tourToFill != null) {
-						selectImageButton.setDisable(true);
-
-						String chosenTitle = tourToFill.getTitle();
-						titleTextField.setText(chosenTitle);
-						titleTextField.setDisable(true);
-						titleTextField.setStyle("-fx-background-color: #f2f2f2;");
-
-						String chosenBio = tourToFill.getBio();
-						if (!chosenBio.equals("No bio")) {
-							bioTextArea.setText(chosenBio);
-						} else {
-							bioTextArea.setText("");
-						}
-						bioTextArea.setDisable(true);
-
-						bioTextArea.lookup(".content").setStyle("-fx-background-color: #f2f2f2;");
-						bioTextArea.setStyle("-fx-background-color: #f2f2f2;");
-
-						String chosenMaxSlots = tourToFill.getMaxSlots().toString();
-						numberOfPeopleTextField.setText(chosenMaxSlots);
-						numberOfPeopleTextField.setDisable(true);
-						numberOfPeopleTextField.setStyle("-fx-background-color: #f2f2f2;");
-
-						Location locationToFill = locationDao.getById(tourToFill.getLocationId());
-
-						String chosenCountry = locationToFill.getCountry();
-						countryTextField.setText(chosenCountry);
-						countryTextField.setDisable(true);
-						countryTextField.setStyle("-fx-background-color: #f2f2f2;");
-
-						String chosenCity = locationToFill.getCity();
-						cityTextField.setText(chosenCity);
-						cityTextField.setDisable(true);
-						cityTextField.setStyle("-fx-background-color: #f2f2f2;");
-
-						String chosenStreet = locationToFill.getStreet();
-						streetTextField.setText(chosenStreet);
-						streetTextField.setDisable(true);
-						streetTextField.setStyle("-fx-background-color: #f2f2f2;");
-
-						String chosenStreetNumber = locationToFill.getStreet_number().toString();
-						streetNumberTextField.setText(chosenStreetNumber);
-						streetNumberTextField.setDisable(true);
-						streetNumberTextField.setStyle("-fx-background-color: #f2f2f2;");
-
-						// image
-						imageFromDB = tourToFill.getImage();
-						if (imageFromDB != null) {
-							noSelectedImageLabel.setText("Selected image");
-						}
-
+						chosedTour();
 					}
 				} else {
-					titleTextField.setDisable(false);
-					bioTextArea.setDisable(false);
-					numberOfPeopleTextField.setDisable(false);
-					selectImageButton.setDisable(false);
-					countryTextField.setDisable(false);
-					cityTextField.setDisable(false);
-					streetTextField.setDisable(false);
-					streetNumberTextField.setDisable(false);
+					// setujem podla choosed tour
+					clearedChooseTour();
 
-					titleTextField.setText("");
-					bioTextArea.setText("");
-					numberOfPeopleTextField.setText(""); // int
-					countryTextField.setText("");
-					cityTextField.setText("");
-					streetTextField.setText("");
-					streetNumberTextField.setText(""); // int
-					dateAndTimeOfTourTextField.setText("");
-					durationTextField.setText("");
-					priceTextField.setText("");
-
-					bytes = null;
-					noSelectedImageLabel.setText("No selected file");
-
-					titleTextField.setStyle(null);
-					bioTextArea.lookup(".content").setStyle("-fx-background-color: white;");
-					bioTextArea.setStyle("-fx-background-color: #d0d0d0;");
-					numberOfPeopleTextField.setStyle(null);
-					countryTextField.setStyle(null);
-					cityTextField.setStyle(null);
-					streetTextField.setStyle(null);
-					streetNumberTextField.setStyle(null);
 				}
 			}
 		});
 
+	}
+
+	public void clearedChooseTour() {
+		titleTextField.setDisable(false);
+		bioTextArea.setDisable(false);
+		numberOfPeopleTextField.setDisable(false);
+		selectImageButton.setDisable(false);
+		countryTextField.setDisable(false);
+		cityTextField.setDisable(false);
+		streetTextField.setDisable(false);
+		streetNumberTextField.setDisable(false);
+
+		titleTextField.setText("");
+		bioTextArea.setText("");
+		numberOfPeopleTextField.setText(""); // int
+		countryTextField.setText("");
+		cityTextField.setText("");
+		streetTextField.setText("");
+		streetNumberTextField.setText(""); // int
+		dateAndTimeOfTourTextField.setText("");
+		durationTextField.setText("");
+		priceTextField.setText("");
+
+		bytes = null;
+		noSelectedImageLabel.setText("No selected file");
+
+		titleTextField.setStyle(null);
+		bioTextArea.lookup(".content").setStyle("-fx-background-color: white;");
+		bioTextArea.setStyle("-fx-background-color: #d0d0d0;");
+		numberOfPeopleTextField.setStyle(null);
+		countryTextField.setStyle(null);
+		cityTextField.setStyle(null);
+		streetTextField.setStyle(null);
+		streetNumberTextField.setStyle(null);
+	}
+
+	public void chosedTour() {
+		selectImageButton.setDisable(true);
+
+		String chosenTitle = tourToFill.getTitle();
+		titleTextField.setText(chosenTitle);
+		titleTextField.setDisable(true);
+		titleTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+		String chosenBio = tourToFill.getBio();
+		if (!chosenBio.equals("No bio")) {
+			bioTextArea.setText(chosenBio);
+		} else {
+			bioTextArea.setText("");
+		}
+		bioTextArea.setDisable(true);
+
+		bioTextArea.lookup(".content").setStyle("-fx-background-color: #f2f2f2;");
+		bioTextArea.setStyle("-fx-background-color: #f2f2f2;");
+
+		String chosenMaxSlots = tourToFill.getMaxSlots().toString();
+		numberOfPeopleTextField.setText(chosenMaxSlots);
+		numberOfPeopleTextField.setDisable(true);
+		numberOfPeopleTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+		Location locationToFill = locationDao.getById(tourToFill.getLocationId());
+
+		String chosenCountry = locationToFill.getCountry();
+		countryTextField.setText(chosenCountry);
+		countryTextField.setDisable(true);
+		countryTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+		String chosenCity = locationToFill.getCity();
+		cityTextField.setText(chosenCity);
+		cityTextField.setDisable(true);
+		cityTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+		String chosenStreet = locationToFill.getStreet();
+		streetTextField.setText(chosenStreet);
+		streetTextField.setDisable(true);
+		streetTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+		String chosenStreetNumber = locationToFill.getStreet_number().toString();
+		streetNumberTextField.setText(chosenStreetNumber);
+		streetNumberTextField.setDisable(true);
+		streetNumberTextField.setStyle("-fx-background-color: #f2f2f2;");
+
+		// image
+		imageFromDB = tourToFill.getImage();
+		if (imageFromDB != null) {
+			noSelectedImageLabel.setText("Selected image");
+		}
 	}
 
 	public static void infoBox(String infoMessage, String headerText, String title) {

@@ -1,29 +1,28 @@
 package sk.upjs.paz1c.guideman.storage;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface TourDao {
 
-	// Tour getById(long id) throws EntityNotFoundException;
+	List<Tour> getAllToursByGuideman(Long guidemanId) throws NoSuchElementException;
 
-	List<Tour> getAllToursByGuideman(Long guidemanId) throws EntityNotFoundException;
+	List<Tour> getAll();
 
-	List<Tour> getAll() throws NullPointerException;
+	Tour getById(Long tourId) throws NoSuchElementException;
 
 	Tour save(Tour tour) throws NullPointerException, EntityNotFoundException;
 
-	boolean delete(long tourId) throws EntityNotFoundException;
+	boolean delete(long tourId) throws NullPointerException, EntityNotFoundException;
 
-	List<Tour> getAllToursByLocation(Long locationId) throws EntityNotFoundException;
+	List<Tour> getAllToursByLocation(Long locationId) throws NoSuchElementException;
 
-	List<Tour> getAllToursFromPast(Long userId) throws EntityNotFoundException;
+	List<Tour> getAllToursFromPast(Long userId) throws NoSuchElementException;
 
-	List<Tour> getAllToursFromFuture(Long userId) throws EntityNotFoundException;
+	List<Tour> getAllToursFromFuture(Long userId) throws NoSuchElementException;
 
-	List<Tour> getAllToursWhereIAmGuideman(Long userId) throws EntityNotFoundException;
+	List<Tour> getAllToursWhereIAmGuideman(Long userId) throws NoSuchElementException;
 
-	List<Tour> getAllLetsGoTours(Long userId) throws EntityNotFoundException;
-
-	Tour getById(Long tourId) throws EntityNotFoundException;
+	List<Tour> getAllLetsGoTours(Long userId) throws NoSuchElementException;
 
 }
