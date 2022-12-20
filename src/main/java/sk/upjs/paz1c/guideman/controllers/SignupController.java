@@ -260,8 +260,6 @@ public class SignupController {
 
 	@FXML
 	void selectImageButtonClick(ActionEvent event) throws IOException {
-		// sranie sa fr fr
-
 		bytes = null;
 		selectedFileLabel.setText("No selected file");
 
