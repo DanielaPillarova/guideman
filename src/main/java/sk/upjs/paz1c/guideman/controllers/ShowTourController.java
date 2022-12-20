@@ -155,13 +155,15 @@ public class ShowTourController {
 					showAlert(Alert.AlertType.CONFIRMATION, owner, "Confirmation !",
 							"You have successfully signed for this tour !");
 					String temp = numberOfFreePlacesFillLabel.getText();
-					numberOfFreePlacesFillLabel
-					.setText(String.valueOf(tourists.size() + 1) + "/" + String.valueOf(loggedTour.getMaxSlots()));
-					
+					numberOfFreePlacesFillLabel.setText(
+							String.valueOf(tourists.size() + 1) + "/" + String.valueOf(loggedTour.getMaxSlots()));
+
+					letsGoButton.setDisable(true);
+
 				} else {
 					showAlert(Alert.AlertType.WARNING, owner, "Warning !", "You are already signed to this tour !");
 				}
-			} 
+			}
 //			else {
 //				showAlert(Alert.AlertType.WARNING, owner, "Warning !",
 //						"You cannot sign for this tour,\nLimit of tourists has exceeded !");
@@ -240,8 +242,8 @@ public class ShowTourController {
 			imageImageView.setImage(image);
 			centerImage();
 		}
-		
-		 // tuuuu
+
+		// tuuuu
 		List<Integer> listOfRatings = eventDao.getRatings(loggedEvent.getTourId());
 		System.out.println(listOfRatings + " list ratingov");
 		Double averageRating = (double) 0;
