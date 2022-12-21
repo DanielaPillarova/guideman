@@ -39,11 +39,6 @@ public interface EventDao {
 
 	boolean delete(Long eventId) throws EntityNotFoundException;
 
-
-
-
-
-
 	boolean deleteFromUHE(Long eventId) throws EntityNotFoundException;
 
 	

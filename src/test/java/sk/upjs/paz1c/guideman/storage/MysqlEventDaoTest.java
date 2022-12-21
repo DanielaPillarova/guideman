@@ -136,8 +136,7 @@ class MysqlEventDaoTest {
 
 	@Test
 	void getAllByTourTest() {
-		assertThrows(NullPointerException.class, () -> eventDao.getAllByTour(null),
-				"Tour id cannot be null");
+		assertThrows(NullPointerException.class, () -> eventDao.getAllByTour(null), "Tour id cannot be null");
 		List<Event> events1 = eventDao.getAllByTour(1l);
 		assertEquals(events1.size(), 3);
 		List<Event> events2 = eventDao.getAllByTour(10l);
@@ -162,7 +161,7 @@ class MysqlEventDaoTest {
 		List<Event> events2 = eventDao.getAllLetsGoEvents(10l);
 		assertTrue(events2.isEmpty());
 	}
-	
+
 	@Test
 	void getAllEventsFromPastTest() {
 		assertThrows(NullPointerException.class, () -> eventDao.getAllEventsFromPast(null), "User id cannot be null");
@@ -183,7 +182,8 @@ class MysqlEventDaoTest {
 
 	@Test
 	void getAllEventsWhereIAmGuidemanTest() {
-		assertThrows(NullPointerException.class, () -> eventDao.getAllEventsWhereIAmGuideman(null), "User id cannot be null");
+		assertThrows(NullPointerException.class, () -> eventDao.getAllEventsWhereIAmGuideman(null),
+				"User id cannot be null");
 		List<Event> events1 = eventDao.getAllEventsWhereIAmGuideman(1l);
 		assertEquals(events1.size(), 1);
 		List<Event> events2 = eventDao.getAllEventsFromFuture(10l);
@@ -224,20 +224,6 @@ class MysqlEventDaoTest {
 		assertThrows(NoSuchElementException.class, () -> eventDao.save(
 				new Event(-1l, LocalDateTime.parse("2000-02-02T19:00:00"), LocalTime.parse("08:00:00"), 100.00, 1l)));
 	}
-
-//	@Test
-//	void deleteFromUHE() {
-//		Event event = new Event();
-//		event.setDateOfTour(LocalDateTime.parse("2023-02-03T10:00:00"));
-//		event.setDuration(LocalTime.parse("04:00:00"));
-//		event.setPrice(30.0);
-//		event.setTourId(1l); // exploring london
-//		Event savedEvent2 = eventDao.save(event);
-//		boolean changed = eventDao.deleteFromUHE(savedEvent2.getId());
-//		assertTrue(changed == true);
-//		eventDao.delete(savedEvent2.getId());
-//				
-//	}
 
 	@Test
 	void deleteTest() {

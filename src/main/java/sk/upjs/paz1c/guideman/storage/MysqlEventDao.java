@@ -329,13 +329,9 @@ public class MysqlEventDao implements EventDao {
 
 	@Override
 	public boolean delete(Long eventId) throws EntityNotFoundException {
-//		String sqlUhe = "DELETE FROM user_has_event uhe WHERE uhe.event_id = " + eventId;
 		String sqlE = "DELETE FROM event WHERE event.id = " + eventId;
-
-//		int changedUhe;
 		int changedE;
 		try {
-//			changedUhe = jdbcTemplate.update(sqlUhe);
 			changedE = jdbcTemplate.update(sqlE);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityNotFoundException("Event with id: " + eventId + " not found in DB");
